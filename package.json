@@ -4,6 +4,7 @@
   "description": "ZenTrails game web version",
   "private": true,
   "scripts": {
+    "eslint": "eslint src/js/**/*.js --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/161250197/ZenTrailsWeb/issues"
   },
-  "homepage": "https://github.com/161250197/ZenTrailsWeb#readme"
+  "homepage": "https://github.com/161250197/ZenTrailsWeb#readme",
+  "devDependencies": {
+    "eslint": "^7.25.0"
+  }
 }
