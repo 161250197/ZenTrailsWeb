@@ -1,0 +1,19 @@
+{
+  "name": "zentrailsweb",
+  "version": "1.0.0",
+  "description": "ZenTrails game web version",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/161250197/ZenTrailsWeb.git"
+  },
+  "author": "zlic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/161250197/ZenTrailsWeb/issues"
+  },
+  "homepage": "https://github.com/161250197/ZenTrailsWeb#readme"
+}
