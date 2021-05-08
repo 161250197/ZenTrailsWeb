@@ -14,7 +14,7 @@ let upCanvasElement;
 
 /**
  * 获取上层画布节点
- * @returns {HTMLElement}
+ * @returns {HTMLCanvasElement}
  */
 let getUpCanvasElement = function () {
     upCanvasElement = document.getElementById('up-canvas');
@@ -28,7 +28,7 @@ let downCanvasElement;
 
 /**
  * 获取下层画布节点
- * @returns {HTMLElement}
+ * @returns {HTMLCanvasElement}
  */
 let getDownCanvasElement = function () {
     downCanvasElement = document.getElementById('down-canvas');

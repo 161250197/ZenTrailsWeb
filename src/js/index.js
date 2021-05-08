@@ -4,6 +4,8 @@ import '../style/style.less';
 import { init } from './util/init';
 import { getCoverElement, getDownCanvasElement, getUpCanvasElement } from './util/canvas-manager';
 import { drawCircle, concatDot, setCanvas, startPath, closePath, clearCanvas } from './util/draw-helper';
+import { angleToRadian } from './util/math';
+import { addDot, closePrevPath, getPathArr } from './util/path-manager';
 
 init();
 
@@ -18,71 +20,8 @@ init();
         return { x: clientX, y: clientY };
     }
 
-    const pathArr = [];
-    let path;
-    let lastDot;
-
     const upCanvas = getUpCanvasElement();
     const downCanvas = getDownCanvasElement();
-
-    /**
-     * 角度转弧度
-     * @param {Number} angle 角度
-     * @return {Number} 弧度
-     */
-    function angleToRadian (angle) {
-        return angle * Math.PI / 180;
-    }
-
-    /**
-     * 弧度转角度
-     * @param {Number} radian 弧度
-     * @return {Number} 角度
-     */
-    function radianToAngle (radian) {
-        return radian * 180 / Math.PI;
-    }
-
-    function addDot ({ x, y }) {
-        if (path === undefined)
-        {
-            const dot = { x, y };
-            path = [dot];
-            requestAnimationFrame(() => {
-                setCanvas(downCanvas);
-                startPath(dot);
-                setCanvas(upCanvas);
-                drawCircle(dot);
-            });
-            lastDot = dot;
-            return;
-        }
-
-        const dot = { x, y, lastX: x, lastY: y };
-        const xDistance = x - lastDot.x;
-        const yDistance = y - lastDot.y;
-        dot.radius = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
-        dot.angleVelocity = 10;
-        dot.isAntiClockwise = Math.random() > 0.5;
-        let radian = Math.atan(yDistance / xDistance);
-        if (xDistance < 0)
-        {
-            radian += Math.PI;
-        }
-        dot.angle = radianToAngle(radian);
-        requestAnimationFrame(() => {
-            setCanvas(downCanvas);
-            concatDot(dot);
-            setCanvas(upCanvas);
-            drawCircle(dot);
-            if (dot.isAntiClockwise)
-            {
-                drawCircle(dot, 5);
-            }
-        });
-        path.push(dot);
-        lastDot = dot;
-    }
 
     let isPlaying = false;
     let updateCartoonHandle;
@@ -105,6 +44,7 @@ init();
         const duration = time - lastTime;
         setCanvas(upCanvas);
         clearCanvas();
+        const pathArr = getPathArr();
         pathArr.forEach(drawCartoonPath.bind(this, duration));
         setUpdateCartoonHandle(time);
     }
@@ -164,25 +104,20 @@ init();
         switch (e.button)
         {
             case 0:
-                addDot(getXY(e));
+                addDot(getXY(e), downCanvas, upCanvas);
                 break;
             case 1:
                 isPlaying ? stopCartoon() : startCartoon();
                 break;
             case 2:
-                if (path !== undefined)
-                {
-                    pathArr.push(path);
-                    path = undefined;
-                    closePath();
-                }
+                closePrevPath();
         }
     };
     cover.addEventListener('mousedown', onCoverMouseDown);
 
     /**
- * @param {MouseEvent} e 
- */
+     * @param {MouseEvent} e 
+     */
     function onCentextMenu (e) {
         e.preventDefault();
         e.stopPropagation();
