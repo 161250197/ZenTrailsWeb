@@ -131,6 +131,12 @@ init();
             }
             lastDot = dot;
         }
+        startPath(path[0]);
+        for (let i = 1; i < dotCount; i++)
+        {
+            concatDot(path[i]);
+        }
+        closePath();
         setCanvas(downCanvas);
         for (let i = 1; i < dotCount; i++)
         {
@@ -151,8 +157,8 @@ init();
     }
 
     /**
- * @param {MouseEvent} e 
- */
+     * @param {MouseEvent} e 
+     */
     let onCoverMouseDown = function (e) {
         e.preventDefault();
         switch (e.button)
