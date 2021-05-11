@@ -6,8 +6,6 @@
   "scripts": {
     "build": "webpack --progress --mode=production",
     "serve": "webpack serve --progress --mode=development",
-    "serve-p": "webpack serve --progress --mode=production",
-    "eslint": "eslint src/js/**/*.js",
     "prepare": "husky install"
   },
   "lint-staged": {
