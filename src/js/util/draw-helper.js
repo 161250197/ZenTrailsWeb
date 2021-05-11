@@ -11,9 +11,24 @@ function setCanvas (canvas) {
 }
 
 /**
+ * 重置颜色
+ */
+function resetColor () {
+    setColor('black');
+}
+
+/**
+ * 设置颜色
+ * @param {String} color 
+ */
+function setColor (color) {
+    ctx.strokeStyle = color;
+}
+
+/**
  * 绘制圆形
  * @param {{x: Number, y: Number}}} param0 圆心
- * @param {Number} radius 半径
+ * @param {?Number} radius 半径
  */
 function drawCircle ({ x, y }, radius = 10) {
     ctx.beginPath();
@@ -57,6 +72,8 @@ function clearCanvas () {
 }
 
 export {
+    resetColor,
+    setColor,
     setCanvas,
     drawCircle,
     startPath,

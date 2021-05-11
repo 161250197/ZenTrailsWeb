@@ -3,7 +3,7 @@
 import '../style/style.less';
 import { init } from './util/init';
 import { getCoverElement, getDownCanvasElement, getUpCanvasElement } from './util/canvas-manager';
-import { drawCircle, concatDot, setCanvas, startPath, closePath, clearCanvas } from './util/draw-helper';
+import { drawCircle, concatDot, setCanvas, startPath, closePath, clearCanvas, setColor, resetColor } from './util/draw-helper';
 import { angleToRadian } from './util/math';
 import { addDot, closePrevPath, getPathArr } from './util/path-manager';
 
@@ -51,12 +51,14 @@ init();
 
     function drawCartoonPath (duration, path) {
         let lastDot = path[0];
+        resetColor();
         drawCircle(lastDot);
         const dotCount = path.length;
         for (let i = 1; i < dotCount; i++)
         {
             const dot = path[i];
-            const { angle, radius, angleVelocity } = dot;
+            const { angle, radius, angleVelocity, color } = dot;
+            setColor(color);
             const angleChange = angleVelocity * duration / 100;
             const newAngle = angle + (dot.isAntiClockwise ? -angleChange : angleChange);
             const newX = lastDot.x + Math.cos(angleToRadian(newAngle)) * radius;
@@ -71,6 +73,7 @@ init();
             }
             lastDot = dot;
         }
+        resetColor();
         startPath(path[0]);
         for (let i = 1; i < dotCount; i++)
         {
@@ -81,7 +84,8 @@ init();
         for (let i = 1; i < dotCount; i++)
         {
             const dot = path[i];
-            const { x, y, lastX, lastY } = dot;
+            const { x, y, lastX, lastY, color } = dot;
+            setColor(color);
             startPath({ x: lastX, y: lastY });
             concatDot(dot);
             closePath();

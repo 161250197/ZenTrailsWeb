@@ -1,5 +1,6 @@
 // 路径管理
 
+import { setTargetDot } from './dot-setting';
 import { closePath, concatDot, drawCircle, setCanvas, startPath } from './draw-helper';
 import { radianToAngle, randomBoolean } from './math';
 
@@ -29,6 +30,7 @@ class FollowDot {
             radian += Math.PI;
         }
         this.angle = radianToAngle(radian);
+        this.color = '#000000';
     }
 }
 
@@ -67,6 +69,8 @@ function addFollowDot (location, downCanvas, upCanvas) {
     });
     path.push(dot);
     lastDot = dot;
+
+    setTargetDot(dot);
 }
 
 /**
