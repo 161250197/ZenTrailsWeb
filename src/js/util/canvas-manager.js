@@ -66,23 +66,8 @@ function setCanvasSize ({ width, height }) {
     });
 }
 
-let cover;
-
-/**
- * 获取遮罩节点
- * @returns {HTMLElement}
- */
-let getCoverElement = function () {
-    cover = document.getElementById('cover');
-    getCoverElement = function () {
-        return cover;
-    };
-    return cover;
-};
-
 export {
     initCanvasSize,
     getDownCanvasElement,
-    getUpCanvasElement,
-    getCoverElement
+    getUpCanvasElement
 };
