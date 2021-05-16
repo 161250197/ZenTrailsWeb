@@ -1,12 +1,13 @@
 // 路径管理
 
+import { getDownCanvasElement, getUpCanvasElement } from './canvas-manager';
 import { setTargetDot } from './dot-setting';
 import { closePath, concatDot, drawCircle, setCanvas, startPath } from './draw-helper';
 import { radianToAngle, randomBoolean } from './math';
 
-let pathArr = [];
-let path;
-let lastDot;
+let __pathArr = [];
+let __path;
+let __lastDot;
 
 class FirstDot {
     constructor ({ x, y }) {
@@ -36,27 +37,28 @@ class FollowDot {
 
 /**
  * @param {{x: Number, y: Number}} location 
- * @param {HTMLCanvasElement} downCanvas 
- * @param {HTMLCanvasElement} upCanvas 
  */
-let addDot = addFirstDot;
-
-function addFirstDot (location, downCanvas, upCanvas) {
+function addFirstDot (location) {
+    const upCanvas = getUpCanvasElement();
+    const downCanvas = getDownCanvasElement();
     const dot = new FirstDot(location);
-    path = [dot];
+    __path = [dot];
     requestAnimationFrame(() => {
         setCanvas(downCanvas);
         startPath(dot);
         setCanvas(upCanvas);
         drawCircle(dot);
     });
-    lastDot = dot;
-
-    addDot = addFollowDot;
+    __lastDot = dot;
 }
 
-function addFollowDot (location, downCanvas, upCanvas) {
-    const dot = new FollowDot({ ...location, lastDot });
+/**
+ * @param {{x: Number, y: Number}} location 
+ */
+function addFollowDot (location) {
+    const upCanvas = getUpCanvasElement();
+    const downCanvas = getDownCanvasElement();
+    const dot = new FollowDot({ ...location, lastDot: __lastDot });
     requestAnimationFrame(() => {
         setCanvas(downCanvas);
         concatDot(dot);
@@ -67,8 +69,8 @@ function addFollowDot (location, downCanvas, upCanvas) {
             drawCircle(dot, 5);
         }
     });
-    path.push(dot);
-    lastDot = dot;
+    __path.push(dot);
+    __lastDot = dot;
 
     setTargetDot(dot);
 }
@@ -77,25 +79,33 @@ function addFollowDot (location, downCanvas, upCanvas) {
  * @returns {Array<FirstDot|FollowDot>}
  */
 function getPathArr () {
-    return pathArr;
+    return __pathArr;
 }
 
 /**
  * 关闭当前路径
  */
 function closePrevPath () {
-    if (path !== undefined)
+    if (__path !== undefined)
     {
-        pathArr.push(path);
-        path = undefined;
+        __pathArr.push(__path);
+        __path = undefined;
         closePath();
-
-        addDot = addFirstDot;
     }
 }
 
+/**
+ * 获取路径是否已经开启
+ * @returns {Boolean}
+ */
+function pathStarted () {
+    return __path !== undefined;
+}
+
 export {
-    addDot,
+    addFirstDot,
+    addFollowDot,
     getPathArr,
-    closePrevPath
+    closePrevPath,
+    pathStarted
 };

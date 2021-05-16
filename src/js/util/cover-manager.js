@@ -1,31 +1,39 @@
 // 遮罩管理
 
-import { getDownCanvasElement, getUpCanvasElement } from './canvas-manager';
 import { isPlayingCartoon, startCartoon, stopCartoon } from './cartoon-manager';
-import { addDot, closePrevPath } from './path-manager';
+import { addFirstDot, addFollowDot, closePrevPath, pathStarted } from './path-manager';
 
 /**
  * 获取遮罩节点
  * @returns {HTMLElement}
  */
 let getCoverElement = function () {
-    const cover = document.getElementById('cover');
+    const __cover = document.getElementById('cover');
     getCoverElement = function () {
-        return cover;
+        return __cover;
     };
-    return cover;
+    return __cover;
 };
 
 /**
- * 初始化遮罩管理
+ * 遮罩初始化
  */
-function initCoverManager () {
+function coverPreventDefault () {
     const cover = getCoverElement();
     cover.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         e.stopPropagation();
     });
+    cover.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+}
 
+/**
+ * 遮罩初始化
+ */
+function addCoverHandler () {
     function getXY (e) {
         const { clientX, clientY } =
             e.touches && e.touches[0] ?
@@ -34,15 +42,13 @@ function initCoverManager () {
         return { x: clientX, y: clientY };
     }
 
-    const upCanvas = getUpCanvasElement();
-    const downCanvas = getDownCanvasElement();
+    const cover = getCoverElement();
 
     cover.addEventListener('mousedown', (e) => {
-        e.preventDefault();
         switch (e.button)
         {
             case 0:
-                addDot(getXY(e), downCanvas, upCanvas);
+                pathStarted() ? addFollowDot(getXY(e)) : addFirstDot(getXY(e));
                 break;
             case 1:
                 isPlayingCartoon() ? stopCartoon() : startCartoon();
@@ -51,6 +57,14 @@ function initCoverManager () {
                 closePrevPath();
         }
     });
+}
+
+/**
+ * 初始化遮罩管理
+ */
+function initCoverManager () {
+    coverPreventDefault();
+    addCoverHandler();
 }
 
 export {
