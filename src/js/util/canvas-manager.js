@@ -1,11 +1,11 @@
 // 画布管理
 
 let getCanvasWrapperElement = function () {
-    const canvasWrapperElement = document.getElementById('canvas-wrapper');
+    const __canvasWrapperElement = document.getElementById('canvas-wrapper');
     getCanvasWrapperElement = function () {
-        return canvasWrapperElement;
+        return __canvasWrapperElement;
     };
-    return canvasWrapperElement;
+    return __canvasWrapperElement;
 };
 
 /**
@@ -13,11 +13,11 @@ let getCanvasWrapperElement = function () {
  * @returns {HTMLCanvasElement}
  */
 let getUpCanvasElement = function () {
-    const upCanvasElement = document.getElementById('up-canvas');
+    const __upCanvasElement = document.getElementById('up-canvas');
     getUpCanvasElement = function () {
-        return upCanvasElement;
+        return __upCanvasElement;
     };
-    return upCanvasElement;
+    return __upCanvasElement;
 };
 
 /**
@@ -25,11 +25,11 @@ let getUpCanvasElement = function () {
  * @returns {HTMLCanvasElement}
  */
 let getDownCanvasElement = function () {
-    const downCanvasElement = document.getElementById('down-canvas');
+    const __downCanvasElement = document.getElementById('down-canvas');
     getDownCanvasElement = function () {
-        return downCanvasElement;
+        return __downCanvasElement;
     };
-    return downCanvasElement;
+    return __downCanvasElement;
 };
 
 function updateCanvasSize () {

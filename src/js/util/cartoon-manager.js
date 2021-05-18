@@ -1,9 +1,8 @@
 // 动画管理
 
-import { getDownCanvasElement, getUpCanvasElement } from './canvas-manager';
-import { setCanvas, setColor, clearCanvas, closePath, concatDot, resetColor, drawCircle, startPath } from './draw-helper';
 import { getPathArr } from './path-manager';
 import { angleToRadian } from './math';
+import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from './draw-helper';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -17,26 +16,23 @@ function setUpdateCartoonHandle (time) {
 function updateCartoon () {
     const time = Date.now();
     const duration = time - __lastTime;
-    const upCanvas = getUpCanvasElement();
-    setCanvas(upCanvas);
-    clearCanvas();
+    getUpCanvasDrawHelper().clearCanvas();
     const pathArr = getPathArr();
     pathArr.forEach(drawCartoonPath.bind(this, duration));
     setUpdateCartoonHandle(time);
 }
 
 function drawCartoonPath (duration, path) {
-    const downCanvas = getDownCanvasElement();
-    const upCanvas = getUpCanvasElement();
+    const upCanvasDrawHelper = getUpCanvasDrawHelper();
     let lastDot = path[0];
-    resetColor();
-    drawCircle(lastDot);
+    upCanvasDrawHelper.resetColor();
+    upCanvasDrawHelper.drawCircle(lastDot);
     const dotCount = path.length;
     for (let i = 1; i < dotCount; i++)
     {
         const dot = path[i];
         const { angle, radius, angleVelocity, color } = dot;
-        setColor(color);
+        upCanvasDrawHelper.setColor(color);
         const angleChange = angleVelocity * duration / 100;
         const newAngle = angle + (dot.isAntiClockwise ? -angleChange : angleChange);
         const newX = lastDot.x + Math.cos(angleToRadian(newAngle)) * radius;
@@ -44,42 +40,40 @@ function drawCartoonPath (duration, path) {
         dot.angle = newAngle;
         dot.x = newX;
         dot.y = newY;
-        drawCircle(dot);
+        upCanvasDrawHelper.drawCircle(dot);
         if (dot.isAntiClockwise)
         {
-            drawCircle(dot, 5);
+            upCanvasDrawHelper.drawCircle(dot, 5);
         }
         lastDot = dot;
     }
-    resetColor();
-    startPath(path[0]);
+    upCanvasDrawHelper.resetColor();
+    upCanvasDrawHelper.startPath(path[0]);
     for (let i = 1; i < dotCount; i++)
     {
-        concatDot(path[i]);
+        upCanvasDrawHelper.concatDot(path[i]);
     }
-    closePath();
-    setCanvas(downCanvas);
+    upCanvasDrawHelper.closePath();
+
+    const downCanvasDrawHelper = getDownCanvasDrawHelper();
     for (let i = 1; i < dotCount; i++)
     {
         const dot = path[i];
         const { x, y, lastX, lastY, color } = dot;
-        setColor(color);
-        startPath({ x: lastX, y: lastY });
-        concatDot(dot);
-        closePath();
+        downCanvasDrawHelper.setColor(color);
+        downCanvasDrawHelper.startPath({ x: lastX, y: lastY });
+        downCanvasDrawHelper.concatDot(dot);
+        downCanvasDrawHelper.closePath();
         dot.lastX = x;
         dot.lastY = y;
     }
-    setCanvas(upCanvas);
 }
 
 /**
  * 开始动画
  */
 function startCartoon () {
-    const downCanvas = getDownCanvasElement();
-    setCanvas(downCanvas);
-    clearCanvas();
+    getDownCanvasDrawHelper().clearCanvas();
     __isPlayingCartoon = true;
     setUpdateCartoonHandle(Date.now());
 }

@@ -1,8 +1,7 @@
 // 路径管理
 
-import { getDownCanvasElement, getUpCanvasElement } from './canvas-manager';
 import { setTargetDot } from './dot-setting';
-import { closePath, concatDot, drawCircle, setCanvas, startPath } from './draw-helper';
+import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from './draw-helper';
 import { radianToAngle, randomBoolean } from './math';
 
 let __pathArr = [];
@@ -39,15 +38,12 @@ class FollowDot {
  * @param {{x: Number, y: Number}} location 
  */
 function addFirstDot (location) {
-    const upCanvas = getUpCanvasElement();
-    const downCanvas = getDownCanvasElement();
+    // TODO 绘制效果优化
     const dot = new FirstDot(location);
     __path = [dot];
     requestAnimationFrame(() => {
-        setCanvas(downCanvas);
-        startPath(dot);
-        setCanvas(upCanvas);
-        drawCircle(dot);
+        getDownCanvasDrawHelper().startPath(dot);
+        getUpCanvasDrawHelper().drawCircle(dot);
     });
     __lastDot = dot;
 }
@@ -56,17 +52,14 @@ function addFirstDot (location) {
  * @param {{x: Number, y: Number}} location 
  */
 function addFollowDot (location) {
-    const upCanvas = getUpCanvasElement();
-    const downCanvas = getDownCanvasElement();
+    // TODO 绘制效果优化
     const dot = new FollowDot({ ...location, lastDot: __lastDot });
     requestAnimationFrame(() => {
-        setCanvas(downCanvas);
-        concatDot(dot);
-        setCanvas(upCanvas);
-        drawCircle(dot);
+        getDownCanvasDrawHelper().concatDot(dot);
+        getUpCanvasDrawHelper().drawCircle(dot);
         if (dot.isAntiClockwise)
         {
-            drawCircle(dot, 5);
+            getUpCanvasDrawHelper().drawCircle(dot, 5);
         }
     });
     __path.push(dot);
@@ -90,7 +83,7 @@ function closePrevPath () {
     {
         __pathArr.push(__path);
         __path = undefined;
-        closePath();
+        getDownCanvasDrawHelper().closePath();
     }
 }
 
