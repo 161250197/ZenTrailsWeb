@@ -21,8 +21,19 @@ function updateCartoon () {
     const duration = time - __lastTime;
     getUpCanvasDrawHelper().clearCanvas();
     const pathArr = getPathArr();
-    pathArr.forEach(drawCartoonPath.bind(this, duration));
+    pathArr.forEach(path => drawCartoonPath(duration, path));
     setUpdateCartoonHandle(time);
+}
+
+function updateDot (duration, lastDot, dot) {
+    const { angle, radius, angleVelocity } = dot;
+    const angleChange = angleVelocity * duration / 100;
+    const newAngle = angle + (dot.isAntiClockwise ? -angleChange : angleChange);
+    const newX = lastDot.x + Math.cos(angleToRadian(newAngle)) * radius;
+    const newY = lastDot.y + Math.sin(angleToRadian(newAngle)) * radius;
+    dot.angle = newAngle;
+    dot.x = newX;
+    dot.y = newY;
 }
 
 /**
@@ -44,20 +55,15 @@ function drawCartoonPath (duration, path) {
             newLastDots = newLastDots.concat(lastDot.followDots);
             for (const dot of lastDot.followDots)
             {
-                const { angle, radius, angleVelocity, color } = dot;
+                const { x, y, color, isAntiClockwise } = dot;
+                const oldPosition = { x, y };
+                updateDot(duration, lastDot, dot);
                 upCanvasDrawHelper.setColor(color);
-                const angleChange = angleVelocity * duration / 100;
-                const newAngle = angle + (dot.isAntiClockwise ? -angleChange : angleChange);
-                const newX = lastDot.x + Math.cos(angleToRadian(newAngle)) * radius;
-                const newY = lastDot.y + Math.sin(angleToRadian(newAngle)) * radius;
-                const newPosition = { x: newX, y: newY };
-                upCanvasDrawHelper.drawLine(lastDot, newPosition);
-                downCanvasDrawHelper.drawLine(dot, newPosition);
-                dot.angle = newAngle;
-                dot.x = newX;
-                dot.y = newY;
+                upCanvasDrawHelper.drawLine(lastDot, dot);
+                downCanvasDrawHelper.setColor(color);
+                downCanvasDrawHelper.drawLine(oldPosition, dot);
                 upCanvasDrawHelper.drawCircle(dot);
-                if (dot.isAntiClockwise)
+                if (isAntiClockwise)
                 {
                     upCanvasDrawHelper.drawCircle(dot, 5);
                 }
