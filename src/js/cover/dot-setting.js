@@ -1,11 +1,13 @@
 // 点的设置
 
+import { getCanvasWrapperSize } from '../canvas/element';
 import { getTargetDot } from '../path';
 import {
     createSingletonFunc,
     setElementEventUsed,
     hideElement,
-    showElement
+    showElement,
+    setElementStyle
 } from '../util/base';
 
 /**
@@ -76,11 +78,26 @@ function initDotSetting () {
     });
 }
 
+function getDotSettingPosition ({ x, y }) {
+    const { width, height } = getCanvasWrapperSize();
+    const left = x + 250 > width ? x - 225 : x + 25;
+    const top = y + 250 > height ? y - 225 : y + 25;
+    return { left, top };
+}
+
 function showDotSetting (targetDot) {
-    showElement(getSettingWrapperElement());
     getColorSettingElement().value = targetDot.color;
     getDirectionSettingElement().innerText = targetDot.isAntiClockwise ? '逆时针' : '顺时针';
     getVelocitySettingElement().value = targetDot.angleVelocity;
+    const settingWrapperElement = getSettingWrapperElement();
+    const { left, top } = getDotSettingPosition(targetDot);
+    setElementStyle(settingWrapperElement,
+        [
+            `left: ${ left }px`,
+            `top: ${ top }px`
+        ]
+    );
+    showElement(settingWrapperElement);
 }
 
 function hideDotSetting () {
