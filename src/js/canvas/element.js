@@ -1,6 +1,10 @@
 // 画布-节点
 
-import { createSingletonFunc, preventDefaultStopPropagation } from '../util/base';
+import {
+    createSingletonFunc,
+    preventDefaultStopPropagation,
+    setElementStyle
+} from '../util/base';
 
 let getCanvasWrapperElement = createSingletonFunc(
     function () {
@@ -31,17 +35,33 @@ let getDownCanvasElement = createSingletonFunc(
     func => getDownCanvasElement = func
 );
 
-function updateCanvasSize () {
+/**
+ * 获取画布尺寸
+ * @returns {{width: number, height: number}}
+ */
+function getCanvasWrapperSize () {
     const canvasWrapper = getCanvasWrapperElement();
     const { offsetWidth, offsetHeight } = canvasWrapper;
+    return {
+        width: offsetWidth,
+        height: offsetHeight
+    };
+}
+
+function updateCanvasSize () {
+    const { width, height } = getCanvasWrapperSize();
     [
         getDownCanvasElement(),
         getUpCanvasElement()
     ].forEach(canvas => {
-        canvas.width = offsetWidth;
-        canvas.height = offsetHeight;
-        const widthHeightStyle = `width: ${ offsetWidth }px; height: ${ offsetHeight }px;`;
-        canvas.setAttribute('style', widthHeightStyle);
+        canvas.width = width;
+        canvas.height = height;
+        setElementStyle(canvas,
+            [
+                `width: ${ width }px`,
+                `height: ${ height }px`
+            ]
+        );
     });
 }
 
@@ -61,5 +81,6 @@ function initCanvasElement () {
 export {
     initCanvasElement,
     getDownCanvasElement,
-    getUpCanvasElement
+    getUpCanvasElement,
+    getCanvasWrapperSize
 };

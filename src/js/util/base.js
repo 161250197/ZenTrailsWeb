@@ -71,11 +71,27 @@ function showElement (element) {
     element.classList.remove(HIDE);
 }
 
+/**
+ * 设置节点样式
+ * @param {HTMLElement} element 
+ * @param {String|Array<String>} style 
+ */
+function setElementStyle (element, style) {
+    const styleSeparater = '; ';
+    const styleStr =
+        style instanceof Array ?
+            style.join(styleSeparater) :
+            style;
+
+    element.setAttribute('style', styleStr);
+}
+
 export {
     preventDefaultStopPropagation,
     setElementEventUsed,
     isEventUsed,
     createSingletonFunc,
     hideElement,
-    showElement
+    showElement,
+    setElementStyle
 };
