@@ -4,26 +4,45 @@ import { setTargetDot } from '../cover/dot-setting';
 import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
 import { radianToAngle, randomBoolean } from '../util/math';
 
+/** @type {Array<Path>} */
 let __pathArr = [];
+/** @type {Path} */
 let __path;
-let __lastDot;
+/** @type {Dot} */
+let __target;
 
-class FirstDot {
-    constructor ({ x, y }) {
-        this.x = x;
-        this.y = y;
+class Path {
+    constructor (position) {
+        this.firstDot = new FirstDot(position);
     }
 }
 
-class FollowDot {
-    constructor ({ x, y, lastDot, angleVelocity = 10, isAntiClockwise = randomBoolean() }) {
+class Dot {
+    constructor ({ x, y }) {
         this.x = x;
         this.y = y;
-        const xDistance = x - lastDot.x;
-        const yDistance = y - lastDot.y;
+        this.followDots = [];
+    }
+    appendDot (location) {
+        const __followDot = new FollowDot(location, this);
+        this.followDots.push(__followDot);
+        return __followDot;
+    }
+}
+class FirstDot extends Dot {
+    constructor (position) {
+        super(position);
+    }
+}
+
+class FollowDot extends Dot {
+    constructor (position, lastDot) {
+        super(position);
+        const xDistance = this.x - lastDot.x;
+        const yDistance = this.y - lastDot.y;
         this.radius = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
-        this.angleVelocity = angleVelocity;
-        this.isAntiClockwise = isAntiClockwise;
+        this.angleVelocity = 10;
+        this.isAntiClockwise = randomBoolean();
         let radian = Math.atan(yDistance / xDistance);
         if (xDistance < 0)
         {
@@ -35,37 +54,34 @@ class FollowDot {
 }
 
 /**
- * @param {{x: Number, y: Number}} location 
+ * 开启新路径
+ * @param {{x: number, y: number}} location 
  */
-function addFirstDot (location) {
+function startPath (location) {
     // TODO 绘制效果优化
-    const dot = new FirstDot(location);
-    __path = [dot];
+    __path = new Path(location);
+    __target = __path.firstDot;
     requestAnimationFrame(() => {
-        getDownCanvasDrawHelper().startPath(dot);
-        getUpCanvasDrawHelper().drawCircle(dot);
+        getDownCanvasDrawHelper().startPath(__target);
+        getUpCanvasDrawHelper().drawCircle(__target);
     });
-    __lastDot = dot;
 }
 
 /**
- * @param {{x: Number, y: Number}} location 
+ * @param {{x: number, y: number}} location 
  */
 function addFollowDot (location) {
     // TODO 绘制效果优化
-    const dot = new FollowDot({ ...location, lastDot: __lastDot });
+    __target = __target.appendDot(location);
+    setTargetDot(__target);
     requestAnimationFrame(() => {
-        getDownCanvasDrawHelper().concatDot(dot);
-        getUpCanvasDrawHelper().drawCircle(dot);
-        if (dot.isAntiClockwise)
+        getDownCanvasDrawHelper().concatDot(location);
+        getUpCanvasDrawHelper().drawCircle(location);
+        if (__target.isAntiClockwise)
         {
-            getUpCanvasDrawHelper().drawCircle(dot, 5);
+            getUpCanvasDrawHelper().drawCircle(location, 5);
         }
     });
-    __path.push(dot);
-    __lastDot = dot;
-
-    setTargetDot(dot);
 }
 
 /**
@@ -83,6 +99,7 @@ function closePresentPath () {
     {
         __pathArr.push(__path);
         __path = undefined;
+        __target = undefined;
         getDownCanvasDrawHelper().closePath();
     }
 }
@@ -97,18 +114,28 @@ function pathStarted () {
 
 /**
  * 选择点
- * @param {{x: Number, y: Number}} position  
+ * @param {{x: number, y: number}} position  
  */
 function selectDot (position) {
     // TODO 逻辑实现
     console.log('selectDot', position);
 }
 
+/**
+ * 获取选择的目标点
+ * @returns {Dot}
+ */
+function getTargetDot () {
+    return __target;
+}
+
 export {
-    addFirstDot,
+    Path,
+    startPath,
     addFollowDot,
     getPathArr,
     closePresentPath,
     pathStarted,
-    selectDot
+    selectDot,
+    getTargetDot
 };

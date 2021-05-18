@@ -24,9 +24,19 @@ class CanvasDrawHelper {
         this.__ctx.strokeStyle = color;
     }
     /**
+     * 绘制线段
+     * @param {{x: number, y: number}} start 
+     * @param {{x: number, y: number}} end 
+     */
+    drawLine (start, end) {
+        this.startPath(start);
+        this.concatDot(end);
+        this.closePath();
+    }
+    /**
      * 绘制圆形
-     * @param {{x: Number, y: Number}}} param0 圆心
-     * @param {?Number} radius 半径
+     * @param {{x: number, y: number}} param0 圆心
+     * @param {?number} radius 半径
      */
     drawCircle ({ x, y }, radius = 10) {
         this.__ctx.beginPath();
@@ -36,7 +46,7 @@ class CanvasDrawHelper {
     }
     /**
      * 开启绘制路径
-     * @param {{x: Number, y: Number}} dot 
+     * @param {{x: number, y: number}} dot 
      */
     startPath ({ x, y }) {
         this.__ctx.beginPath();
@@ -44,7 +54,7 @@ class CanvasDrawHelper {
     }
     /**
      * 连接新的路径点
-     * @param {{x: Number, y: Number}} dot 
+     * @param {{x: number, y: number}} dot 
      */
     concatDot ({ x, y }) {
         this.__ctx.lineTo(x, y);

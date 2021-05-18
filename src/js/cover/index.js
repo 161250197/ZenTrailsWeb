@@ -1,6 +1,6 @@
 // 遮罩管理
 
-import { addFirstDot, addFollowDot, closePresentPath, pathStarted, selectDot } from '../path';
+import { startPath, addFollowDot, closePresentPath, pathStarted, selectDot } from '../path';
 import { preventDefaultStopPropagation, isEventUsed } from '../util/base';
 
 /**
@@ -18,7 +18,7 @@ let getCoverElement = function () {
 /**
  * 获取点击或触摸事件的位置
  * @param {MouseEvent|TouchEvent} e 
- * @returns {x: Number, y: Number}
+ * @returns {x: number, y: number}
  */
 function getPosition (e) {
     const { clientX, clientY } =
@@ -51,7 +51,7 @@ function onCoverClick (e) {
 
 /**
  * 遮罩左键点击响应
- * @param {{x: Number, y: Number}} position 
+ * @param {{x: number, y: number}} position 
  */
 function onCoverLeftClickHandler (position) {
     if (pathStarted())
@@ -93,7 +93,7 @@ function onCoverDblClick (e) {
     {
         clearTimeout(__onCoverLeftClickHandlerTimeoutId);
         const position = getPosition(e);
-        addFirstDot(position);
+        startPath(position);
     }
 }
 

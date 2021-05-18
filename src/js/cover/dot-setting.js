@@ -80,6 +80,7 @@ function initDotSetting () {
 }
 
 function setTargetDot (targetDot) {
+    // TODO 统一管理
     __targetDot = targetDot;
     const colorSettingElement = getColorSettingElement();
     colorSettingElement.value = __targetDot.color;
