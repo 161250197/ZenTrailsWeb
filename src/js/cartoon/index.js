@@ -1,8 +1,8 @@
 // 动画管理
 
-import { getPathArr } from './path-manager';
-import { angleToRadian } from './math';
-import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from './draw-helper';
+import { getPathArr } from '../path';
+import { angleToRadian } from '../util/math';
+import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;

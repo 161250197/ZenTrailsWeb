@@ -1,6 +1,6 @@
 // 绘制辅助
 
-import { getDownCanvasElement, getUpCanvasElement } from './canvas-manager';
+import { getDownCanvasElement, getUpCanvasElement } from './element';
 
 class CanvasDrawHelper {
     /**

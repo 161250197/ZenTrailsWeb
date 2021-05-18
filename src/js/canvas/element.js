@@ -1,4 +1,4 @@
-// 画布管理
+// 画布-节点
 
 let getCanvasWrapperElement = function () {
     const __canvasWrapperElement = document.getElementById('canvas-wrapper');
@@ -35,20 +35,13 @@ let getDownCanvasElement = function () {
 function updateCanvasSize () {
     const canvasWrapper = getCanvasWrapperElement();
     const { offsetWidth, offsetHeight } = canvasWrapper;
-    setCanvasSize({
-        width: offsetWidth,
-        height: offsetHeight
-    });
-}
-
-function setCanvasSize ({ width, height }) {
     [
         getDownCanvasElement(),
         getUpCanvasElement()
     ].forEach(canvas => {
-        canvas.width = width;
-        canvas.height = height;
-        const widthHeightStyle = `width: ${ width }px; height: ${ height }px;`;
+        canvas.width = offsetWidth;
+        canvas.height = offsetHeight;
+        const widthHeightStyle = `width: ${ offsetWidth }px; height: ${ offsetHeight }px;`;
         canvas.setAttribute('style', widthHeightStyle);
     });
 }
@@ -56,12 +49,12 @@ function setCanvasSize ({ width, height }) {
 /**
  * 初始化画布管理
  */
-function initCanvasManager () {
+function initCanvasElement () {
     setTimeout(updateCanvasSize);
 }
 
 export {
-    initCanvasManager,
+    initCanvasElement,
     getDownCanvasElement,
     getUpCanvasElement
 };

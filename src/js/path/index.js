@@ -1,8 +1,8 @@
 // 路径管理
 
-import { setTargetDot } from './dot-setting';
-import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from './draw-helper';
-import { radianToAngle, randomBoolean } from './math';
+import { setTargetDot } from '../cover/dot-setting';
+import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
+import { radianToAngle, randomBoolean } from '../util/math';
 
 let __pathArr = [];
 let __path;

@@ -1,7 +1,7 @@
 // 遮罩管理
 
-import { isPlayingCartoon } from './cartoon-manager';
-import { addFirstDot, addFollowDot, closePrevPath, pathStarted } from './path-manager';
+import { isPlayingCartoon } from '../cartoon';
+import { addFirstDot, addFollowDot, closePrevPath, pathStarted } from '../path';
 
 /**
  * 获取遮罩节点
