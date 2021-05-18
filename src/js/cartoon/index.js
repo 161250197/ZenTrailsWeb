@@ -1,9 +1,10 @@
 // 动画管理
 
-import { getPathArr } from '../path';
+import { closePresentPath, getPathArr } from '../path';
 import { angleToRadian } from '../util/math';
 import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
 import { preventDefaultStopPropagation, setElementEventUsed } from '../util/base';
+import { getCoverElement } from '../cover';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -71,19 +72,22 @@ function drawCartoonPath (duration, path) {
 }
 
 function startCartoon () {
-    showElement(getPauseBtnElement());
-    hideElement(getStartBtnElement());
+    closePresentPath();
+    hideElement(getCoverElement());
     getDownCanvasDrawHelper().clearCanvas();
     __isPlayingCartoon = true;
     const time = Date.now();
     setUpdateCartoonHandle(time);
 }
 
-function stopCartoon () {
-    showElement(getStartBtnElement());
-    hideElement(getPauseBtnElement());
-    __isPlayingCartoon = false;
-    cancelAnimationFrame(__updateCartoonHandle);
+function stopCartoon ({ key }) {
+    const isEscapeKey = key === 'Escape';
+    if (isEscapeKey)
+    {
+        showElement(getCoverElement());
+        __isPlayingCartoon = false;
+        cancelAnimationFrame(__updateCartoonHandle);
+    }
 }
 
 /**
@@ -100,14 +104,6 @@ let getStartBtnElement = function () {
         return __startBtnElement;
     };
     return __startBtnElement;
-};
-
-let getPauseBtnElement = function () {
-    const __pauseBtnElement = document.getElementById('pause-btn');
-    getPauseBtnElement = function () {
-        return __pauseBtnElement;
-    };
-    return __pauseBtnElement;
 };
 
 const HIDE = 'hide';
@@ -135,10 +131,7 @@ function initCartoonManager () {
     startBtnElement.addEventListener('click', preventDefaultStopPropagation);
     startBtnElement.addEventListener('click', startCartoon);
 
-    const pauseBtnElement = getPauseBtnElement();
-    setElementEventUsed(pauseBtnElement);
-    pauseBtnElement.addEventListener('click', preventDefaultStopPropagation);
-    pauseBtnElement.addEventListener('click', stopCartoon);
+    document.addEventListener('keydown', stopCartoon);
 }
 
 export {

@@ -1,6 +1,5 @@
 // 遮罩管理
 
-import { isPlayingCartoon } from '../cartoon';
 import { addFirstDot, addFollowDot, closePresentPath, pathStarted, selectDot } from '../path';
 import { preventDefaultStopPropagation, isEventUsed } from '../util/base';
 
@@ -36,7 +35,7 @@ let __onCoverLeftClickHandlerTimeoutId;
  * @param {MouseEvent} e 
  */
 function onCoverClick (e) {
-    if (isPlayingCartoon() || isEventUsed(e))
+    if (isEventUsed(e))
     {
         return;
     }
@@ -69,7 +68,7 @@ function onCoverLeftClickHandler (position) {
  * @param {MouseEvent} e 
  */
 function onCoverAuxClick (e) {
-    if (isPlayingCartoon() || isEventUsed(e))
+    if (isEventUsed(e))
     {
         return;
     }
@@ -85,7 +84,7 @@ function onCoverAuxClick (e) {
  * @param {MouseEvent} e 
  */
 function onCoverDblClick (e) {
-    if (isPlayingCartoon() || isEventUsed(e))
+    if (isEventUsed(e))
     {
         return;
     }

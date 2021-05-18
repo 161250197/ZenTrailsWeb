@@ -1,5 +1,7 @@
 // 画布-节点
 
+import { preventDefaultStopPropagation } from '../util/base';
+
 let getCanvasWrapperElement = function () {
     const __canvasWrapperElement = document.getElementById('canvas-wrapper');
     getCanvasWrapperElement = function () {
@@ -51,6 +53,12 @@ function updateCanvasSize () {
  */
 function initCanvasElement () {
     setTimeout(updateCanvasSize);
+    [
+        getDownCanvasElement(),
+        getUpCanvasElement()
+    ].forEach(canvas => {
+        canvas.addEventListener('contextmenu', preventDefaultStopPropagation);
+    });
 }
 
 export {
