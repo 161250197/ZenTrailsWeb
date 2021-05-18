@@ -1,7 +1,18 @@
 // 遮罩管理
 
-import { startPath, addFollowDot, closePresentPath, pathStarted, selectDot } from '../path';
-import { preventDefaultStopPropagation, isEventUsed, createSingletonFunc } from '../util/base';
+import {
+    startPath,
+    addFollowDot,
+    closePresentPath,
+    pathStarted,
+    selectDot
+} from '../path';
+import {
+    preventDefaultStopPropagation,
+    isEventUsed,
+    createSingletonFunc
+} from '../util/base';
+import { hideDotSetting } from './dot-setting';
 
 /**
  * 获取遮罩节点
@@ -74,6 +85,7 @@ function onCoverAuxClick (e) {
     const isRightBtnClick = e.button === 2;
     if (isRightBtnClick)
     {
+        hideDotSetting();
         closePresentPath();
     }
 }

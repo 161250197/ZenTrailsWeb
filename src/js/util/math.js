@@ -25,8 +25,24 @@ function randomBoolean () {
     return Math.random() > 0.5;
 }
 
+/**
+ * @param {{x: number, y: number}} param0 点
+ * @param {{x: number, y: number}} circleCenter 圆心
+ * @param {number} radius 圆的半径
+ * @param {?number} extra 拓展的可响应区域
+ */
+function isInCircle ({ x, y }, circleCenter, radius, extra = 0) {
+    radius = radius + extra;
+    const distanceX = x - circleCenter.x;
+    const distanceY = y - circleCenter.y;
+    const distanceSquare = distanceX * distanceX + distanceY * distanceY;
+    const radiusSquare = radius * radius;
+    return radiusSquare >= distanceSquare;
+}
+
 export {
     angleToRadian,
     radianToAngle,
-    randomBoolean
+    randomBoolean,
+    isInCircle
 };

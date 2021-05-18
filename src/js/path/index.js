@@ -1,8 +1,15 @@
 // 路径管理
 
-import { setTargetDot } from '../cover/dot-setting';
-import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
-import { radianToAngle, randomBoolean } from '../util/math';
+import {
+    getDownCanvasDrawHelper,
+    getUpCanvasDrawHelper
+} from '../canvas/draw-helper';
+import { showDotSetting } from '../cover/dot-setting';
+import {
+    radianToAngle,
+    randomBoolean,
+    isInCircle
+} from '../util/math';
 
 /** @type {Array<Path>} */
 let __pathArr = [];
@@ -14,6 +21,31 @@ let __target;
 class Path {
     constructor (position) {
         this.firstDot = new FirstDot(position);
+    }
+    selectDot (position) {
+        const selectedDots = [];
+        if (isInCircle(position, this.firstDot, 10))
+        {
+            selectedDots.push(this.firstDot);
+        }
+        let dots = [this.firstDot];
+        while (dots.length)
+        {
+            let newDots = [];
+            for (const dot of dots)
+            {
+                newDots = newDots.concat(dot.followDots);
+            }
+            dots = newDots;
+            for (const dot of dots)
+            {
+                if (isInCircle(position, dot, 10))
+                {
+                    selectedDots.push(dot);
+                }
+            }
+        }
+        return selectedDots;
     }
 }
 
@@ -73,7 +105,6 @@ function startPath (location) {
 function addFollowDot (location) {
     // TODO 绘制效果优化
     __target = __target.appendDot(location);
-    setTargetDot(__target);
     requestAnimationFrame(() => {
         getDownCanvasDrawHelper().concatDot(location);
         getUpCanvasDrawHelper().drawCircle(location);
@@ -99,9 +130,9 @@ function closePresentPath () {
     {
         __pathArr.push(__path);
         __path = undefined;
-        __target = undefined;
-        getDownCanvasDrawHelper().closePath();
     }
+    __target = undefined;
+    getDownCanvasDrawHelper().closePath();
 }
 
 /**
@@ -109,7 +140,7 @@ function closePresentPath () {
  * @returns {Boolean}
  */
 function pathStarted () {
-    return __path !== undefined;
+    return __target !== undefined;
 }
 
 /**
@@ -117,8 +148,23 @@ function pathStarted () {
  * @param {{x: number, y: number}} position  
  */
 function selectDot (position) {
-    // TODO 逻辑实现
-    console.log('selectDot', position);
+    let selectedDots = [];
+    for (const path of __pathArr)
+    {
+        selectedDots = selectedDots.concat(path.selectDot(position));
+    }
+    if (selectedDots.length)
+    {
+        // TODO 多个重叠点时的优先级处理
+        __target = selectedDots[0];
+        requestAnimationFrame(() => {
+            getDownCanvasDrawHelper().startPath(__target);
+        });
+        if (__target instanceof FollowDot)
+        {
+            showDotSetting(__target);
+        }
+    }
 }
 
 /**
