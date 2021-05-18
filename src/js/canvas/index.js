@@ -7,10 +7,12 @@ import {
 } from './draw-helper';
 
 function refreshCanvas () {
-    getDownCanvasDrawHelper().clearCanvas();
-    getUpCanvasDrawHelper().clearCanvas();
-    const pathArr = getPathArr();
-    pathArr.forEach(path => drawPath(path));
+    return requestAnimationFrame(function () {
+        getDownCanvasDrawHelper().clearCanvas();
+        getUpCanvasDrawHelper().clearCanvas();
+        const pathArr = getPathArr();
+        pathArr.forEach(path => drawPath(path));
+    });
 }
 
 function drawPath (path) {

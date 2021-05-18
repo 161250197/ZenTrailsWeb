@@ -1,9 +1,6 @@
 // 路径管理
 
-import {
-    getDownCanvasDrawHelper,
-    getUpCanvasDrawHelper
-} from '../canvas/draw-helper';
+import { refreshCanvas } from '../canvas';
 import { showDotSetting } from '../cover/dot-setting';
 import {
     radianToAngle,
@@ -12,8 +9,6 @@ import {
 
 /** @type {Array<Path>} */
 let __pathArr = [];
-/** @type {Path} */
-let __path;
 /** @type {Dot} */
 let __target;
 
@@ -116,12 +111,10 @@ class FollowDot extends Dot {
  */
 function startPath (location) {
     // TODO 绘制效果优化
-    __path = new Path(location);
-    __target = __path.firstDot;
-    requestAnimationFrame(() => {
-        getDownCanvasDrawHelper().startPath(__target);
-        getUpCanvasDrawHelper().drawCircle(__target);
-    });
+    const path = new Path(location);
+    __pathArr.push(path);
+    setTargetDot(path.firstDot);
+    refreshCanvas();
 }
 
 /**
@@ -129,15 +122,8 @@ function startPath (location) {
  */
 function addFollowDot (location) {
     // TODO 绘制效果优化
-    __target = __target.appendDot(location);
-    requestAnimationFrame(() => {
-        getDownCanvasDrawHelper().concatDot(location);
-        getUpCanvasDrawHelper().drawCircle(location);
-        if (__target.isAntiClockwise)
-        {
-            getUpCanvasDrawHelper().drawCircle(location, 5);
-        }
-    });
+    setTargetDot(__target.appendDot(location));
+    refreshCanvas();
 }
 
 /**
@@ -151,13 +137,7 @@ function getPathArr () {
  * 关闭当前路径
  */
 function closePresentPath () {
-    if (__path !== undefined)
-    {
-        __pathArr.push(__path);
-        __path = undefined;
-    }
     __target = undefined;
-    getDownCanvasDrawHelper().closePath();
 }
 
 /**
@@ -181,14 +161,8 @@ function selectDot (position) {
     if (selectedDots.length)
     {
         // TODO 多个重叠点时的优先级处理
-        __target = selectedDots[0];
-        requestAnimationFrame(() => {
-            getDownCanvasDrawHelper().startPath(__target);
-        });
-        if (__target instanceof FollowDot)
-        {
-            showDotSetting(__target);
-        }
+        setTargetDot(selectedDots[0]);
+        refreshCanvas();
     }
 }
 
@@ -198,6 +172,23 @@ function selectDot (position) {
  */
 function getTargetDot () {
     return __target;
+}
+
+/**
+ * 设置选择的目标点
+ * @param {Dot} target 
+ */
+function setTargetDot (target) {
+    if (__target !== undefined)
+    {
+        __target.isTarget = false;
+    }
+    __target = target;
+    if (__target instanceof FollowDot)
+    {
+        showDotSetting(__target);
+    }
+    __target.isTarget = true;
 }
 
 /**

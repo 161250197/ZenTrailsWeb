@@ -105,7 +105,7 @@ function stopCartoon ({ key }) {
         __isPlayingCartoon = false;
         cancelAnimationFrame(__updateCartoonHandle);
         resetPosition();
-        requestAnimationFrame(refreshCanvas);
+        refreshCanvas();
     }
 }
 
