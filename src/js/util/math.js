@@ -19,13 +19,6 @@ function radianToAngle (radian) {
 }
 
 /**
- * @returns {boolean}
- */
-function randomBoolean () {
-    return Math.random() > 0.5;
-}
-
-/**
  * @param {{x: number, y: number}} param0 点
  * @param {{x: number, y: number}} circleCenter 圆心
  * @param {number} radius 圆的半径
@@ -43,6 +36,5 @@ function isInCircle ({ x, y }, circleCenter, radius, extra = 0) {
 export {
     angleToRadian,
     radianToAngle,
-    randomBoolean,
     isInCircle
 };

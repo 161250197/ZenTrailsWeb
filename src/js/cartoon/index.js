@@ -1,9 +1,17 @@
 // 动画管理
 
-// eslint-disable-next-line no-unused-vars
-import { closePresentPath, getPathArr, Path } from '../path';
+import {
+    // eslint-disable-next-line no-unused-vars
+    Path,
+    closePresentPath,
+    getPathArr,
+    resetPosition
+} from '../path';
 import { angleToRadian } from '../util/math';
-import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
+import {
+    getDownCanvasDrawHelper,
+    getUpCanvasDrawHelper
+} from '../canvas/draw-helper';
 import {
     createSingletonFunc,
     hideElement,
@@ -52,30 +60,30 @@ function drawCartoonPath (duration, path) {
     const upCanvasDrawHelper = getUpCanvasDrawHelper();
     upCanvasDrawHelper.resetColor();
     upCanvasDrawHelper.drawCircle(path.firstDot);
-    let lastDots = [path.firstDot];
-    while (lastDots.length)
+    let dots = [path.firstDot];
+    while (dots.length)
     {
-        let newLastDots = [];
-        for (const lastDot of lastDots)
+        let newDots = [];
+        for (const dot of dots)
         {
-            newLastDots = newLastDots.concat(lastDot.followDots);
-            for (const dot of lastDot.followDots)
+            newDots = newDots.concat(dot.followDots);
+        }
+        dots = newDots;
+        for (const dot of dots)
+        {
+            const { x, y, color, isAntiClockwise, lastDot } = dot;
+            const oldPosition = { x, y };
+            updateDot(duration, lastDot, dot);
+            upCanvasDrawHelper.setColor(color);
+            upCanvasDrawHelper.drawLine(lastDot, dot);
+            upCanvasDrawHelper.drawCircle(dot);
+            downCanvasDrawHelper.setColor(color);
+            downCanvasDrawHelper.drawLine(oldPosition, dot);
+            if (isAntiClockwise)
             {
-                const { x, y, color, isAntiClockwise } = dot;
-                const oldPosition = { x, y };
-                updateDot(duration, lastDot, dot);
-                upCanvasDrawHelper.setColor(color);
-                upCanvasDrawHelper.drawLine(lastDot, dot);
-                downCanvasDrawHelper.setColor(color);
-                downCanvasDrawHelper.drawLine(oldPosition, dot);
-                upCanvasDrawHelper.drawCircle(dot);
-                if (isAntiClockwise)
-                {
-                    upCanvasDrawHelper.drawCircle(dot, 5);
-                }
+                upCanvasDrawHelper.drawCircle(dot, 5);
             }
         }
-        lastDots = newLastDots;
     }
 }
 
@@ -95,6 +103,43 @@ function stopCartoon ({ key }) {
         showElement(getCoverElement());
         __isPlayingCartoon = false;
         cancelAnimationFrame(__updateCartoonHandle);
+        resetPosition();
+        requestAnimationFrame(refreshCanvas);
+    }
+}
+
+function refreshCanvas () {
+    getDownCanvasDrawHelper().clearCanvas();
+    getUpCanvasDrawHelper().clearCanvas();
+    const pathArr = getPathArr();
+    pathArr.forEach(path => drawPath(path));
+}
+
+function drawPath (path) {
+    const downCanvasDrawHelper = getDownCanvasDrawHelper();
+    const upCanvasDrawHelper = getUpCanvasDrawHelper();
+    upCanvasDrawHelper.resetColor();
+    upCanvasDrawHelper.drawCircle(path.firstDot);
+    let dots = [path.firstDot];
+    while (dots.length)
+    {
+        let newDots = [];
+        for (const dot of dots)
+        {
+            newDots = newDots.concat(dot.followDots);
+        }
+        dots = newDots;
+        for (const dot of dots)
+        {
+            const { color, isAntiClockwise, lastDot } = dot;
+            upCanvasDrawHelper.setColor(color);
+            upCanvasDrawHelper.drawCircle(dot);
+            downCanvasDrawHelper.drawLine(lastDot, dot);
+            if (isAntiClockwise)
+            {
+                upCanvasDrawHelper.drawCircle(dot, 5);
+            }
+        }
     }
 }
 

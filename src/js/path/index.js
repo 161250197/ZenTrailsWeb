@@ -7,7 +7,6 @@ import {
 import { showDotSetting } from '../cover/dot-setting';
 import {
     radianToAngle,
-    randomBoolean,
     isInCircle
 } from '../util/math';
 
@@ -20,7 +19,7 @@ let __target;
 
 class Path {
     constructor (position) {
-        this.firstDot = new FirstDot(position);
+        this.firstDot = new FirstDot(position, this);
     }
     selectDot (position) {
         const selectedDots = [];
@@ -47,6 +46,23 @@ class Path {
         }
         return selectedDots;
     }
+    resetPosition () {
+        this.firstDot.resetPosition();
+        let dots = [this.firstDot];
+        while (dots.length)
+        {
+            let newDots = [];
+            for (const dot of dots)
+            {
+                newDots = newDots.concat(dot.followDots);
+            }
+            dots = newDots;
+            for (const dot of dots)
+            {
+                dot.resetPosition();
+            }
+        }
+    }
 }
 
 class Dot {
@@ -54,16 +70,23 @@ class Dot {
         this.x = x;
         this.y = y;
         this.followDots = [];
+        this.__position = { x, y };
     }
     appendDot (location) {
         const __followDot = new FollowDot(location, this);
         this.followDots.push(__followDot);
         return __followDot;
     }
+    resetPosition () {
+        const { x, y } = this.__position;
+        this.x = x;
+        this.y = y;
+    }
 }
 class FirstDot extends Dot {
-    constructor (position) {
+    constructor (position, path) {
         super(position);
+        this.path = path;
     }
 }
 
@@ -74,7 +97,7 @@ class FollowDot extends Dot {
         const yDistance = this.y - lastDot.y;
         this.radius = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
         this.angleVelocity = 10;
-        this.isAntiClockwise = randomBoolean();
+        this.isAntiClockwise = false;
         let radian = Math.atan(yDistance / xDistance);
         if (xDistance < 0)
         {
@@ -82,6 +105,7 @@ class FollowDot extends Dot {
         }
         this.angle = radianToAngle(radian);
         this.color = '#000000';
+        this.lastDot = lastDot;
     }
 }
 
@@ -175,6 +199,15 @@ function getTargetDot () {
     return __target;
 }
 
+/**
+ * 重置位置
+ */
+function resetPosition () {
+    __pathArr.forEach(path => {
+        path.resetPosition();
+    });
+}
+
 export {
     Path,
     startPath,
@@ -183,5 +216,6 @@ export {
     closePresentPath,
     pathStarted,
     selectDot,
-    getTargetDot
+    getTargetDot,
+    resetPosition
 };
