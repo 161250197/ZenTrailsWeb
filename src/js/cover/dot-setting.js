@@ -1,13 +1,12 @@
 // 点的设置
 
-import { getCanvasWrapperSize } from '../canvas/element';
+import { refreshCanvas } from '../canvas';
 import { getTargetDot } from '../path';
 import {
     createSingletonFunc,
     setElementEventUsed,
     hideElement,
-    showElement,
-    setElementStyle
+    showElement
 } from '../util/base';
 
 /**
@@ -62,6 +61,7 @@ function initDotSetting () {
     colorSettingElement.addEventListener('change', () => {
         const __targetDot = getTargetDot();
         __targetDot.color = colorSettingElement.value;
+        refreshCanvas();
     });
 
     const directionSettingElement = getDirectionSettingElement();
@@ -69,6 +69,7 @@ function initDotSetting () {
         const __targetDot = getTargetDot();
         __targetDot.isAntiClockwise = !__targetDot.isAntiClockwise;
         directionSettingElement.innerText = __targetDot.isAntiClockwise ? '逆时针' : '顺时针';
+        refreshCanvas();
     });
 
     const velocitySettingElement = getVelocitySettingElement();
@@ -78,25 +79,11 @@ function initDotSetting () {
     });
 }
 
-function getDotSettingPosition ({ x, y }) {
-    const { width, height } = getCanvasWrapperSize();
-    const left = x + 250 > width ? x - 225 : x + 25;
-    const top = y + 250 > height ? y - 225 : y + 25;
-    return { left, top };
-}
-
 function showDotSetting (targetDot) {
     getColorSettingElement().value = targetDot.color;
     getDirectionSettingElement().innerText = targetDot.isAntiClockwise ? '逆时针' : '顺时针';
     getVelocitySettingElement().value = targetDot.angleVelocity;
     const settingWrapperElement = getSettingWrapperElement();
-    const { left, top } = getDotSettingPosition(targetDot);
-    setElementStyle(settingWrapperElement,
-        [
-            `left: ${ left }px`,
-            `top: ${ top }px`
-        ]
-    );
     showElement(settingWrapperElement);
 }
 
