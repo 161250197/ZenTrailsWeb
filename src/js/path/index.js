@@ -47,7 +47,6 @@ class Path {
         return selectedDots;
     }
     resetPosition () {
-        this.firstDot.resetPosition();
         let dots = [this.firstDot];
         while (dots.length)
         {
@@ -70,17 +69,11 @@ class Dot {
         this.x = x;
         this.y = y;
         this.followDots = [];
-        this.__position = { x, y };
     }
     appendDot (location) {
         const __followDot = new FollowDot(location, this);
         this.followDots.push(__followDot);
         return __followDot;
-    }
-    resetPosition () {
-        const { x, y } = this.__position;
-        this.x = x;
-        this.y = y;
     }
 }
 class FirstDot extends Dot {
@@ -106,6 +99,14 @@ class FollowDot extends Dot {
         this.angle = radianToAngle(radian);
         this.color = '#000000';
         this.lastDot = lastDot;
+        this.__position = { ...position };
+        this.__angle = this.angle;
+    }
+    resetPosition () {
+        const { x, y } = this.__position;
+        this.x = x;
+        this.y = y;
+        this.angle = this.__angle;
     }
 }
 
