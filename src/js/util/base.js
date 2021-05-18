@@ -39,8 +39,25 @@ function isEventUsed (e) {
     return !!e.__eventUsed;
 }
 
+/**
+ * 创建单例模板方法
+ * @param {Function} createFunc 
+ * @param {Function} updateCallback 
+ * @returns {Function}
+ */
+function createSingletonFunc (createFunc, updateCallback) {
+    return function () {
+        const __result = createFunc();
+        updateCallback(function () {
+            return __result;
+        });
+        return __result;
+    };
+}
+
 export {
     preventDefaultStopPropagation,
     setElementEventUsed,
-    isEventUsed
+    isEventUsed,
+    createSingletonFunc
 };

@@ -4,7 +4,7 @@
 import { closePresentPath, getPathArr, Path } from '../path';
 import { angleToRadian } from '../util/math';
 import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
-import { preventDefaultStopPropagation, setElementEventUsed } from '../util/base';
+import { createSingletonFunc, preventDefaultStopPropagation, setElementEventUsed } from '../util/base';
 import { getCoverElement } from '../cover';
 
 let __isPlayingCartoon = false;
@@ -100,13 +100,12 @@ function isPlayingCartoon () {
     return __isPlayingCartoon;
 }
 
-let getStartBtnElement = function () {
-    const __startBtnElement = document.getElementById('start-btn');
-    getStartBtnElement = function () {
-        return __startBtnElement;
-    };
-    return __startBtnElement;
-};
+let getStartBtnElement = createSingletonFunc(
+    function () {
+        return document.getElementById('start-btn');
+    },
+    func => getStartBtnElement = func
+);
 
 const HIDE = 'hide';
 

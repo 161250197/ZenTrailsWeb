@@ -1,6 +1,6 @@
 // 点的设置
 
-import { setElementEventUsed } from '../util/base';
+import { createSingletonFunc, setElementEventUsed } from '../util/base';
 
 let __targetDot = {};
 
@@ -8,52 +8,45 @@ let __targetDot = {};
  * 获取设置包装节点
  * @returns {HTMLElement}
  */
-let getSettingWrapperElement = function () {
-    const settingWrapperElement = document.getElementById('setting-wrapper');
-    getSettingWrapperElement = function () {
-        return settingWrapperElement;
-    };
-    return settingWrapperElement;
-};
+let getSettingWrapperElement = createSingletonFunc(
+    function () {
+        return document.getElementById('setting-wrapper');
+    },
+    func => getSettingWrapperElement = func
+);
 
 /**
  * 获取颜色设置节点
  * @returns {HTMLElement}
  */
-let getColorSettingElement = function () {
-    const settingWrapperElement = getSettingWrapperElement();
-    const colorSettingElement = settingWrapperElement.getElementsByClassName('color')[0];
-    getColorSettingElement = function () {
-        return colorSettingElement;
-    };
-    return colorSettingElement;
-};
+let getColorSettingElement = createSingletonFunc(
+    function () {
+        return getSettingWrapperElement().getElementsByClassName('color')[0];
+    },
+    func => getColorSettingElement = func
+);
 
 /**
  * 获取方向设置节点
  * @returns {HTMLElement}
  */
-let getDirectionSettingElement = function () {
-    const settingWrapperElement = getSettingWrapperElement();
-    const directionSettingElement = settingWrapperElement.getElementsByClassName('direction')[0];
-    getDirectionSettingElement = function () {
-        return directionSettingElement;
-    };
-    return directionSettingElement;
-};
+let getDirectionSettingElement = createSingletonFunc(
+    function () {
+        return getSettingWrapperElement().getElementsByClassName('direction')[0];
+    },
+    func => getDirectionSettingElement = func
+);
 
 /**
  * 获取速度设置节点
  * @returns {HTMLElement}
  */
-let getVelocitySettingElement = function () {
-    const settingWrapperElement = getSettingWrapperElement();
-    const velocitySettingElement = settingWrapperElement.getElementsByClassName('velocity')[0];
-    getVelocitySettingElement = function () {
-        return velocitySettingElement;
-    };
-    return velocitySettingElement;
-};
+let getVelocitySettingElement = createSingletonFunc(
+    function () {
+        return getSettingWrapperElement().getElementsByClassName('velocity')[0];
+    },
+    func => getVelocitySettingElement = func
+);
 
 function initDotSetting () {
     const settingWrapperElement = getSettingWrapperElement();

@@ -1,19 +1,18 @@
 // 遮罩管理
 
 import { startPath, addFollowDot, closePresentPath, pathStarted, selectDot } from '../path';
-import { preventDefaultStopPropagation, isEventUsed } from '../util/base';
+import { preventDefaultStopPropagation, isEventUsed, createSingletonFunc } from '../util/base';
 
 /**
  * 获取遮罩节点
  * @returns {HTMLElement}
  */
-let getCoverElement = function () {
-    const __cover = document.getElementById('cover');
-    getCoverElement = function () {
-        return __cover;
-    };
-    return __cover;
-};
+let getCoverElement = createSingletonFunc(
+    function () {
+        return document.getElementById('cover');
+    },
+    func => getCoverElement = func
+);
 
 /**
  * 获取点击或触摸事件的位置

@@ -1,5 +1,6 @@
 // 绘制辅助
 
+import { createSingletonFunc } from '../util/base';
 import { getDownCanvasElement, getUpCanvasElement } from './element';
 
 class CanvasDrawHelper {
@@ -80,27 +81,23 @@ class CanvasDrawHelper {
  * 获取上层画布节点绘制工具
  * @returns {CanvasDrawHelper}
  */
-let getUpCanvasDrawHelper = function () {
-    const canvasElement = getUpCanvasElement();
-    const __canvasDrawHelper = new CanvasDrawHelper(canvasElement);
-    getUpCanvasDrawHelper = function () {
-        return __canvasDrawHelper;
-    };
-    return __canvasDrawHelper;
-};
+let getUpCanvasDrawHelper = createSingletonFunc(
+    function () {
+        return new CanvasDrawHelper(getUpCanvasElement());
+    },
+    func => getUpCanvasDrawHelper = func
+);
 
 /**
  * 获取下层画布节点绘制工具
  * @returns {CanvasDrawHelper}
  */
-let getDownCanvasDrawHelper = function () {
-    const canvasElement = getDownCanvasElement();
-    const __canvasDrawHelper = new CanvasDrawHelper(canvasElement);
-    getDownCanvasDrawHelper = function () {
-        return __canvasDrawHelper;
-    };
-    return __canvasDrawHelper;
-};
+let getDownCanvasDrawHelper = createSingletonFunc(
+    function () {
+        return new CanvasDrawHelper(getDownCanvasElement());
+    },
+    func => getDownCanvasDrawHelper = func
+);
 
 export {
     CanvasDrawHelper,

@@ -1,38 +1,35 @@
 // 画布-节点
 
-import { preventDefaultStopPropagation } from '../util/base';
+import { createSingletonFunc, preventDefaultStopPropagation } from '../util/base';
 
-let getCanvasWrapperElement = function () {
-    const __canvasWrapperElement = document.getElementById('canvas-wrapper');
-    getCanvasWrapperElement = function () {
-        return __canvasWrapperElement;
-    };
-    return __canvasWrapperElement;
-};
+let getCanvasWrapperElement = createSingletonFunc(
+    function () {
+        return document.getElementById('canvas-wrapper');
+    },
+    func => getCanvasWrapperElement = func
+);
 
 /**
  * 获取上层画布节点
  * @returns {HTMLCanvasElement}
  */
-let getUpCanvasElement = function () {
-    const __upCanvasElement = document.getElementById('up-canvas');
-    getUpCanvasElement = function () {
-        return __upCanvasElement;
-    };
-    return __upCanvasElement;
-};
+let getUpCanvasElement = createSingletonFunc(
+    function () {
+        return document.getElementById('up-canvas');
+    },
+    func => getUpCanvasElement = func
+);
 
 /**
  * 获取下层画布节点
  * @returns {HTMLCanvasElement}
  */
-let getDownCanvasElement = function () {
-    const __downCanvasElement = document.getElementById('down-canvas');
-    getDownCanvasElement = function () {
-        return __downCanvasElement;
-    };
-    return __downCanvasElement;
-};
+let getDownCanvasElement = createSingletonFunc(
+    function () {
+        return document.getElementById('down-canvas');
+    },
+    func => getDownCanvasElement = func
+);
 
 function updateCanvasSize () {
     const canvasWrapper = getCanvasWrapperElement();
