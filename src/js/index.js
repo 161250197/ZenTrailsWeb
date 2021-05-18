@@ -2,9 +2,11 @@
 
 import '../style/style.less';
 import { initCanvasManager } from './util/canvas-manager';
+import { initCartoonManager } from './util/cartoon-manager';
 import { initCoverManager } from './util/cover-manager';
 import { initDotSetting } from './util/dot-setting';
 
 initCanvasManager();
 initDotSetting();
 initCoverManager();
+initCartoonManager();

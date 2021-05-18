@@ -69,19 +69,17 @@ function drawCartoonPath (duration, path) {
     }
 }
 
-/**
- * 开始动画
- */
 function startCartoon () {
+    showElement(getPauseBtnElement());
+    hideElement(getStartBtnElement());
     getDownCanvasDrawHelper().clearCanvas();
     __isPlayingCartoon = true;
     setUpdateCartoonHandle(Date.now());
 }
 
-/**
- * 结束动画
- */
 function stopCartoon () {
+    showElement(getStartBtnElement());
+    hideElement(getPauseBtnElement());
     __isPlayingCartoon = false;
     cancelAnimationFrame(__updateCartoonHandle);
 }
@@ -94,8 +92,58 @@ function isPlayingCartoon () {
     return __isPlayingCartoon;
 }
 
+let getStartBtnElement = function () {
+    const __startBtnElement = document.getElementById('start-btn');
+    getStartBtnElement = function () {
+        return __startBtnElement;
+    };
+    return __startBtnElement;
+};
+
+let getPauseBtnElement = function () {
+    const __pauseBtnElement = document.getElementById('pause-btn');
+    getPauseBtnElement = function () {
+        return __pauseBtnElement;
+    };
+    return __pauseBtnElement;
+};
+
+const HIDE = 'hide';
+
+/**
+ * @param {HTMLElement} element 
+ */
+function hideElement (element) {
+    element.classList.add(HIDE);
+}
+
+/**
+ * @param {HTMLElement} element 
+ */
+function showElement (element) {
+    element.classList.remove(HIDE);
+}
+
+/**
+ * 初始化动画管理
+ */
+function initCartoonManager () {
+    const startBtnElement = getStartBtnElement();
+    startBtnElement.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    startBtnElement.addEventListener('click', startCartoon);
+
+    const pauseBtnElement = getPauseBtnElement();
+    pauseBtnElement.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    pauseBtnElement.addEventListener('click', stopCartoon);
+}
+
 export {
-    startCartoon,
-    stopCartoon,
+    initCartoonManager,
     isPlayingCartoon
 };

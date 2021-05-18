@@ -1,6 +1,6 @@
 // 遮罩管理
 
-import { isPlayingCartoon, startCartoon, stopCartoon } from './cartoon-manager';
+import { isPlayingCartoon } from './cartoon-manager';
 import { addFirstDot, addFollowDot, closePrevPath, pathStarted } from './path-manager';
 
 /**
@@ -45,13 +45,14 @@ function addCoverHandler () {
     const cover = getCoverElement();
 
     cover.addEventListener('mousedown', (e) => {
+        if (isPlayingCartoon())
+        {
+            return;
+        }
         switch (e.button)
         {
             case 0:
                 pathStarted() ? addFollowDot(getXY(e)) : addFirstDot(getXY(e));
-                break;
-            case 1:
-                isPlayingCartoon() ? stopCartoon() : startCartoon();
                 break;
             case 2:
                 closePrevPath();

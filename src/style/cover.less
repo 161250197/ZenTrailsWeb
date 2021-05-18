@@ -1,0 +1,40 @@
+/* 按钮样式 */
+
+#cover {
+  >.btns {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    >.btn {
+      position: absolute;
+      color: fade(grey, 80%);
+      user-select: none;
+      -webkit-user-drag: none;
+
+      >img {
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      &#start-btn,
+      &#pause-btn {
+        left: 20px;
+        bottom: 20px;
+        width: 40px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 10px;
+        box-shadow: lightgrey 0px 0px 10px 3px;
+      }
+    }
+  }
+  >#setting-wrapper {
+    position: fixed;
+  }
+}
