@@ -1,7 +1,8 @@
 // 遮罩管理
 
 import { isPlayingCartoon } from '../cartoon';
-import { addFirstDot, addFollowDot, closePrevPath, pathStarted } from '../path';
+import { addFirstDot, addFollowDot, closePresentPath, pathStarted, selectDot } from '../path';
+import { preventDefaultStopPropagation, isEventUsed } from '../util/base';
 
 /**
  * 获取遮罩节点
@@ -16,56 +17,96 @@ let getCoverElement = function () {
 };
 
 /**
- * 遮罩初始化
+ * 获取点击或触摸事件的位置
+ * @param {MouseEvent|TouchEvent} e 
+ * @returns {x: Number, y: Number}
  */
-function coverPreventDefault () {
-    const cover = getCoverElement();
-    cover.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-    });
-    cover.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-    });
+function getPosition (e) {
+    const { clientX, clientY } =
+        e.touches && e.touches[0] ?
+            e.touches[0] :
+            e;
+    return { x: clientX, y: clientY };
+}
+
+let __onCoverLeftClickHandlerTimeoutId;
+
+/**
+ * 遮罩左键点击响应
+ * @param {MouseEvent} e 
+ */
+function onCoverClick (e) {
+    if (isPlayingCartoon() || isEventUsed(e))
+    {
+        return;
+    }
+    const isLeftBtnClick = e.button === 0;
+    if (isLeftBtnClick)
+    {
+        clearTimeout(__onCoverLeftClickHandlerTimeoutId);
+        const position = getPosition(e);
+        const CLICK_TIMEOUT = 200;
+        __onCoverLeftClickHandlerTimeoutId = setTimeout(() => onCoverLeftClickHandler(position), CLICK_TIMEOUT);
+    }
 }
 
 /**
- * 遮罩初始化
+ * 遮罩左键点击响应
+ * @param {{x: Number, y: Number}} position 
  */
-function addCoverHandler () {
-    function getXY (e) {
-        const { clientX, clientY } =
-            e.touches && e.touches[0] ?
-                e.touches[0] :
-                e;
-        return { x: clientX, y: clientY };
+function onCoverLeftClickHandler (position) {
+    if (pathStarted())
+    {
+        addFollowDot(position);
+    } else
+    {
+        selectDot(position);
     }
+}
 
-    const cover = getCoverElement();
+/**
+ * 遮罩辅助点击响应
+ * @param {MouseEvent} e 
+ */
+function onCoverAuxClick (e) {
+    if (isPlayingCartoon() || isEventUsed(e))
+    {
+        return;
+    }
+    const isRightBtnClick = e.button === 2;
+    if (isRightBtnClick)
+    {
+        closePresentPath();
+    }
+}
 
-    cover.addEventListener('mousedown', (e) => {
-        if (isPlayingCartoon())
-        {
-            return;
-        }
-        switch (e.button)
-        {
-            case 0:
-                pathStarted() ? addFollowDot(getXY(e)) : addFirstDot(getXY(e));
-                break;
-            case 2:
-                closePrevPath();
-        }
-    });
+/**
+ * 遮罩双击响应
+ * @param {MouseEvent} e 
+ */
+function onCoverDblClick (e) {
+    if (isPlayingCartoon() || isEventUsed(e))
+    {
+        return;
+    }
+    const isLeftBtnClick = e.button === 0;
+    if (isLeftBtnClick)
+    {
+        clearTimeout(__onCoverLeftClickHandlerTimeoutId);
+        const position = getPosition(e);
+        addFirstDot(position);
+    }
 }
 
 /**
  * 初始化遮罩管理
  */
 function initCoverManager () {
-    coverPreventDefault();
-    addCoverHandler();
+    const cover = getCoverElement();
+    cover.addEventListener('contextmenu', preventDefaultStopPropagation);
+    cover.addEventListener('click', onCoverClick);
+    cover.addEventListener('auxclick', onCoverAuxClick);
+    cover.addEventListener('dblclick', onCoverDblClick);
 }
 
 export {

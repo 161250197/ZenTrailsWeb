@@ -1,5 +1,7 @@
 // 点的设置
 
+import { setElementEventUsed } from '../util/base';
+
 let __targetDot = {};
 
 /**
@@ -53,17 +55,9 @@ let getVelocitySettingElement = function () {
     return velocitySettingElement;
 };
 
-/**
- * @param {MouseEvent} e 
- */
-function onSettingWrapperElementMouseDown (e) {
-    e.preventDefault();
-    e.stopPropagation();
-}
-
 function initDotSetting () {
     const settingWrapperElement = getSettingWrapperElement();
-    settingWrapperElement.addEventListener('mousedown', onSettingWrapperElementMouseDown);
+    setElementEventUsed(settingWrapperElement);
 
     const colorSettingElement = getColorSettingElement();
     colorSettingElement.addEventListener('change', () => {

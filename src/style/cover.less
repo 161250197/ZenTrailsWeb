@@ -11,13 +11,6 @@
     >.btn {
       position: absolute;
       color: fade(grey, 80%);
-      user-select: none;
-      -webkit-user-drag: none;
-
-      >img {
-        user-select: none;
-        -webkit-user-drag: none;
-      }
 
       &#start-btn,
       &#pause-btn {
@@ -36,5 +29,11 @@
   }
   >#setting-wrapper {
     position: fixed;
+  }
+  .btn,
+  #setting-wrapper,
+  img {
+    user-select: none;
+    -webkit-user-drag: none;
   }
 }

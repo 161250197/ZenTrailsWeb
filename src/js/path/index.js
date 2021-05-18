@@ -78,7 +78,7 @@ function getPathArr () {
 /**
  * 关闭当前路径
  */
-function closePrevPath () {
+function closePresentPath () {
     if (__path !== undefined)
     {
         __pathArr.push(__path);
@@ -95,10 +95,20 @@ function pathStarted () {
     return __path !== undefined;
 }
 
+/**
+ * 选择点
+ * @param {{x: Number, y: Number}} position  
+ */
+function selectDot (position) {
+    // TODO 逻辑实现
+    console.log('selectDot', position);
+}
+
 export {
     addFirstDot,
     addFollowDot,
     getPathArr,
-    closePrevPath,
-    pathStarted
+    closePresentPath,
+    pathStarted,
+    selectDot
 };

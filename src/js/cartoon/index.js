@@ -3,6 +3,7 @@
 import { getPathArr } from '../path';
 import { angleToRadian } from '../util/math';
 import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
+import { preventDefaultStopPropagation, setElementEventUsed } from '../util/base';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -74,7 +75,8 @@ function startCartoon () {
     hideElement(getStartBtnElement());
     getDownCanvasDrawHelper().clearCanvas();
     __isPlayingCartoon = true;
-    setUpdateCartoonHandle(Date.now());
+    const time = Date.now();
+    setUpdateCartoonHandle(time);
 }
 
 function stopCartoon () {
@@ -129,17 +131,13 @@ function showElement (element) {
  */
 function initCartoonManager () {
     const startBtnElement = getStartBtnElement();
-    startBtnElement.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-    });
+    setElementEventUsed(startBtnElement);
+    startBtnElement.addEventListener('click', preventDefaultStopPropagation);
     startBtnElement.addEventListener('click', startCartoon);
 
     const pauseBtnElement = getPauseBtnElement();
-    pauseBtnElement.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-    });
+    setElementEventUsed(pauseBtnElement);
+    pauseBtnElement.addEventListener('click', preventDefaultStopPropagation);
     pauseBtnElement.addEventListener('click', stopCartoon);
 }
 
