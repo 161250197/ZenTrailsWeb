@@ -1,8 +1,12 @@
 // 点的设置
 
-import { createSingletonFunc, setElementEventUsed } from '../util/base';
-
-let __targetDot = {};
+import { getTargetDot } from '../path';
+import {
+    createSingletonFunc,
+    setElementEventUsed,
+    hideElement,
+    showElement
+} from '../util/base';
 
 /**
  * 获取设置包装节点
@@ -54,36 +58,37 @@ function initDotSetting () {
 
     const colorSettingElement = getColorSettingElement();
     colorSettingElement.addEventListener('change', () => {
+        const __targetDot = getTargetDot();
         __targetDot.color = colorSettingElement.value;
     });
 
     const directionSettingElement = getDirectionSettingElement();
     directionSettingElement.addEventListener('click', () => {
+        const __targetDot = getTargetDot();
         __targetDot.isAntiClockwise = !__targetDot.isAntiClockwise;
         directionSettingElement.innerText = __targetDot.isAntiClockwise ? '逆时针' : '顺时针';
     });
 
     const velocitySettingElement = getVelocitySettingElement();
-    velocitySettingElement.addEventListener('mousedown', (e) => {
-        e.stopPropagation();
-    });
     velocitySettingElement.addEventListener('input', () => {
+        const __targetDot = getTargetDot();
         __targetDot.angleVelocity = velocitySettingElement.value;
     });
 }
 
-function setTargetDot (targetDot) {
-    // TODO 统一管理
-    __targetDot = targetDot;
-    const colorSettingElement = getColorSettingElement();
-    colorSettingElement.value = __targetDot.color;
-    const directionSettingElement = getDirectionSettingElement();
-    directionSettingElement.innerText = __targetDot.isAntiClockwise ? '逆时针' : '顺时针';
-    const velocitySettingElement = getVelocitySettingElement();
-    velocitySettingElement.value = __targetDot.angleVelocity;
+function showDotSetting (targetDot) {
+    showElement(getSettingWrapperElement());
+    getColorSettingElement().value = targetDot.color;
+    getDirectionSettingElement().innerText = targetDot.isAntiClockwise ? '逆时针' : '顺时针';
+    getVelocitySettingElement().value = targetDot.angleVelocity;
+}
+
+function hideDotSetting () {
+    hideElement(getSettingWrapperElement());
 }
 
 export {
     initDotSetting,
-    setTargetDot
+    showDotSetting,
+    hideDotSetting
 };

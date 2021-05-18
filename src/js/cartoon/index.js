@@ -4,7 +4,13 @@
 import { closePresentPath, getPathArr, Path } from '../path';
 import { angleToRadian } from '../util/math';
 import { getDownCanvasDrawHelper, getUpCanvasDrawHelper } from '../canvas/draw-helper';
-import { createSingletonFunc, preventDefaultStopPropagation, setElementEventUsed } from '../util/base';
+import {
+    createSingletonFunc,
+    hideElement,
+    preventDefaultStopPropagation,
+    setElementEventUsed,
+    showElement
+} from '../util/base';
 import { getCoverElement } from '../cover';
 
 let __isPlayingCartoon = false;
@@ -106,22 +112,6 @@ let getStartBtnElement = createSingletonFunc(
     },
     func => getStartBtnElement = func
 );
-
-const HIDE = 'hide';
-
-/**
- * @param {HTMLElement} element 
- */
-function hideElement (element) {
-    element.classList.add(HIDE);
-}
-
-/**
- * @param {HTMLElement} element 
- */
-function showElement (element) {
-    element.classList.remove(HIDE);
-}
 
 /**
  * 初始化动画管理

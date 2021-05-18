@@ -55,9 +55,27 @@ function createSingletonFunc (createFunc, updateCallback) {
     };
 }
 
+const HIDE = 'hide';
+
+/**
+ * @param {HTMLElement} element 
+ */
+function hideElement (element) {
+    element.classList.add(HIDE);
+}
+
+/**
+ * @param {HTMLElement} element 
+ */
+function showElement (element) {
+    element.classList.remove(HIDE);
+}
+
 export {
     preventDefaultStopPropagation,
     setElementEventUsed,
     isEventUsed,
-    createSingletonFunc
+    createSingletonFunc,
+    hideElement,
+    showElement
 };
