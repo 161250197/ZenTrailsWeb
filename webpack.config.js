@@ -45,16 +45,8 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(png|jpg|gif)$/i,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            outputPath: 'img/',
-                            limit: 8 * 1024
-                        }
-                    }
-                ]
+                test: /\.html$/i,
+                loader: 'html-loader'
             },
             {
                 test: /\.less$/i,
