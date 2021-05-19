@@ -97,7 +97,6 @@ class Path {
      * @param {CanvasDrawHelper} drawHelper 
      */
     drawPathDots (drawHelper) {
-        drawHelper.clearCanvas();
         drawHelper.resetColor();
         const { firstDot } = this;
         drawHelper.drawCircle(firstDot);
