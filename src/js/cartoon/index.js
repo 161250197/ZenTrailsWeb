@@ -19,7 +19,6 @@ import {
     setElementEventUsed,
     showElement
 } from '../util/base';
-import { getCoverElement } from '../cover';
 import { refreshCanvas } from '../canvas';
 
 let __isPlayingCartoon = false;
@@ -90,23 +89,21 @@ function drawCartoonPath (duration, path) {
 
 function startCartoon () {
     closePresentPath();
-    hideElement(getCoverElement());
+    showElement(getPauseBtnElement());
+    hideElement(getStartBtnElement());
     getDownCanvasDrawHelper().clearCanvas();
     __isPlayingCartoon = true;
     const time = Date.now();
     setUpdateCartoonHandle(time);
 }
 
-function stopCartoon ({ key }) {
-    const isEscapeKey = key === 'Escape';
-    if (isEscapeKey)
-    {
-        showElement(getCoverElement());
-        __isPlayingCartoon = false;
-        cancelAnimationFrame(__updateCartoonHandle);
-        resetPosition();
-        refreshCanvas();
-    }
+function stopCartoon () {
+    showElement(getStartBtnElement());
+    hideElement(getPauseBtnElement());
+    __isPlayingCartoon = false;
+    cancelAnimationFrame(__updateCartoonHandle);
+    resetPosition();
+    refreshCanvas();
 }
 
 /**
@@ -124,6 +121,13 @@ let getStartBtnElement = createSingletonFunc(
     func => getStartBtnElement = func
 );
 
+let getPauseBtnElement = createSingletonFunc(
+    function () {
+        return document.getElementById('pause-btn');
+    },
+    func => getPauseBtnElement = func
+);
+
 /**
  * 初始化动画管理
  */
@@ -133,7 +137,10 @@ function initCartoonManager () {
     startBtnElement.addEventListener('click', preventDefaultStopPropagation);
     startBtnElement.addEventListener('click', startCartoon);
 
-    document.addEventListener('keydown', stopCartoon);
+    const pauseBtnElement = getPauseBtnElement();
+    setElementEventUsed(pauseBtnElement);
+    pauseBtnElement.addEventListener('click', preventDefaultStopPropagation);
+    pauseBtnElement.addEventListener('click', stopCartoon);
 }
 
 export {

@@ -2,7 +2,6 @@
 
 import {
     createSingletonFunc,
-    preventDefaultStopPropagation,
     setElementStyle
 } from '../util/base';
 
@@ -70,12 +69,6 @@ function updateCanvasSize () {
  */
 function initCanvasElement () {
     setTimeout(updateCanvasSize);
-    [
-        getDownCanvasElement(),
-        getUpCanvasElement()
-    ].forEach(canvas => {
-        canvas.addEventListener('contextmenu', preventDefaultStopPropagation);
-    });
 }
 
 export {
