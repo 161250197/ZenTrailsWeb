@@ -1,7 +1,11 @@
 // 路径管理
 
 import { refreshCanvas } from '../canvas';
-import { hideDotSetting, showFirstDotSetting, showFollowDotSetting } from '../cover/dot-setting';
+import {
+    hideDotSetting,
+    showFirstDotSetting,
+    showFollowDotSetting
+} from '../cover/dot-setting';
 import {
     radianToAngle,
     isInCircle
