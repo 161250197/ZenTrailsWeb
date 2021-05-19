@@ -9,7 +9,8 @@ import {
     showFollowDotSetting
 } from '../cover/dot-setting';
 import {
-    radianToAngle,
+    calPointDistance,
+    calPointLineAngle,
     isInCircle
 } from '../util/math';
 
@@ -124,17 +125,10 @@ class FirstDot extends Dot {
 class FollowDot extends Dot {
     constructor (position, lastDot) {
         super(position);
-        const xDistance = this.x - lastDot.x;
-        const yDistance = this.y - lastDot.y;
-        this.radius = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+        this.radius = calPointDistance(lastDot, position);
+        this.angle = calPointLineAngle(lastDot, position);
         this.angleVelocity = 10;
         this.isAntiClockwise = false;
-        let radian = Math.atan(yDistance / xDistance);
-        if (xDistance < 0)
-        {
-            radian += Math.PI;
-        }
-        this.angle = radianToAngle(radian);
         this.color = '#000000';
         this.lastDot = lastDot;
         this.__position = { ...position };

@@ -33,8 +33,62 @@ function isInCircle ({ x, y }, circleCenter, radius, extra = 0) {
     return radiusSquare >= distanceSquare;
 }
 
+/**
+ * 计算两点之间连线的弧度
+ * @param {{x: Number, y: Number}} start 
+ * @param {{x: Number, y: Number}} end 
+ * @returns {Number} 单位弧度，向右为0，逆时针
+ */
+function calPointLineRadian (start, end) {
+    const distanceX = end.x - start.x;
+    const distanceY = start.y - end.y;
+    let radian = Math.atan(distanceY / distanceX);
+    if (start.x > end.x)
+    {
+        radian += Math.PI;
+    }
+    if (radian < 0)
+    {
+        radian += Math.PI * 2;
+    }
+    return radian;
+}
+
+/**
+ * 计算两点之间连线的角度
+ * @param {{x: Number, y: Number}} start 
+ * @param {{x: Number, y: Number}} end 
+ * @returns {Number} 单位角度，向右为0，逆时针
+ */
+function calPointLineAngle (start, end) {
+    const radian = calPointLineRadian(start, end);
+    return radianToAngle(radian);
+}
+
+/**
+ * @param {{x: Number, y: Number}} start 
+ * @param {{x: Number, y: Number}} end 
+ * @returns {Number} 两点之间连线距离的距离
+ */
+function calPointDistance (start, end) {
+    return Math.sqrt(calPointDistancePowTwo(start, end));
+}
+
+/**
+ * @param {{x: Number, y: Number}} start 
+ * @param {{x: Number, y: Number}} end 
+ * @returns {Number} 两点之间连线距离的距离平方
+ */
+function calPointDistancePowTwo (start, end) {
+    const distanceX = end.x - start.x;
+    const distanceY = end.y - start.y;
+    const distanceSquare = distanceX * distanceX + distanceY * distanceY;
+    return distanceSquare;
+}
+
 export {
     angleToRadian,
-    radianToAngle,
-    isInCircle
+    calPointLineAngle,
+    isInCircle,
+    calPointDistance
 };
