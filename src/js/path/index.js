@@ -1,5 +1,7 @@
 // 路径管理
 
+// eslint-disable-next-line no-unused-vars
+import { CanvasDrawHelper } from '../canvas/draw-helper';
 import { refreshCanvas } from '../canvas';
 import {
     hideDotSetting,
@@ -60,6 +62,30 @@ class Path {
                 dot.resetPosition();
             }
         }
+    }
+    /**
+     * 动画播放时重新计算动画路径
+     * @param {number} duration 
+     */
+    calCartoonPath (duration) {
+        // TODO
+        console.log(`calCartoonPath duration:${ duration }`);
+    }
+    /**
+     * 动画播放时绘制动画路径
+     * @param {CanvasDrawHelper} drawHelper 
+     */
+    drawCartoonPath (drawHelper) {
+        // TODO
+        console.log(`drawCartoonPath drawHelper:${ drawHelper }`);
+    }
+    /**
+     * 绘制路径节点
+     * @param {CanvasDrawHelper} drawHelper 
+     */
+    drawPathDots (drawHelper) {
+        // TODO
+        console.log(`drawPathDots drawHelper:${ drawHelper }`);
     }
 }
 
@@ -245,6 +271,16 @@ function removeTargetDot () {
     setTargetDot(__target.removeDot());
 }
 
+/**
+ * 动画播放时更新路径
+ * @param {number} duration 
+ */
+function updateCartoonPath (duration) {
+    __pathArr.forEach(path => {
+        path.calCartoonPath(duration);
+    });
+}
+
 export {
     Path,
     startPath,
@@ -255,5 +291,6 @@ export {
     selectDot,
     getTargetDot,
     resetPosition,
-    removeTargetDot
+    removeTargetDot,
+    updateCartoonPath
 };
