@@ -89,7 +89,7 @@ function drawCartoonPath (duration, path) {
 
 function startCartoon () {
     closePresentPath();
-    showElement(getPauseBtnElement());
+    showElement(getResetBtnElement());
     hideElement(getStartBtnElement());
     getDownCanvasDrawHelper().clearCanvas();
     __isPlayingCartoon = true;
@@ -97,9 +97,9 @@ function startCartoon () {
     setUpdateCartoonHandle(time);
 }
 
-function stopCartoon () {
+function resetCartoon () {
     showElement(getStartBtnElement());
-    hideElement(getPauseBtnElement());
+    hideElement(getResetBtnElement());
     __isPlayingCartoon = false;
     cancelAnimationFrame(__updateCartoonHandle);
     resetPosition();
@@ -121,11 +121,11 @@ let getStartBtnElement = createSingletonFunc(
     func => getStartBtnElement = func
 );
 
-let getPauseBtnElement = createSingletonFunc(
+let getResetBtnElement = createSingletonFunc(
     function () {
-        return document.getElementById('pause-btn');
+        return document.getElementById('reset-btn');
     },
-    func => getPauseBtnElement = func
+    func => getResetBtnElement = func
 );
 
 /**
@@ -137,10 +137,10 @@ function initCartoonManager () {
     startBtnElement.addEventListener('click', preventDefaultStopPropagation);
     startBtnElement.addEventListener('click', startCartoon);
 
-    const pauseBtnElement = getPauseBtnElement();
-    setElementEventUsed(pauseBtnElement);
-    pauseBtnElement.addEventListener('click', preventDefaultStopPropagation);
-    pauseBtnElement.addEventListener('click', stopCartoon);
+    const resetBtnElement = getResetBtnElement();
+    setElementEventUsed(resetBtnElement);
+    resetBtnElement.addEventListener('click', preventDefaultStopPropagation);
+    resetBtnElement.addEventListener('click', resetCartoon);
 }
 
 export {
