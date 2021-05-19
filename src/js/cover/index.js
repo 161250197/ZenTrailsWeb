@@ -1,5 +1,6 @@
 // 遮罩管理
 
+import { isPlayingCartoon } from '../cartoon';
 import {
     startPath,
     addFollowDot,
@@ -44,7 +45,7 @@ let __onCoverLeftClickHandlerTimeoutId;
  * @param {MouseEvent} e 
  */
 function onCoverClick (e) {
-    if (isEventUsed(e))
+    if (isEventUsed(e) || isPlayingCartoon())
     {
         return;
     }
@@ -54,7 +55,7 @@ function onCoverClick (e) {
         clearTimeout(__onCoverLeftClickHandlerTimeoutId);
         const position = getPosition(e);
         const CLICK_TIMEOUT = 200;
-        __onCoverLeftClickHandlerTimeoutId = setTimeout(() => onCoverLeftClickHandler(position), CLICK_TIMEOUT);
+        __onCoverLeftClickHandlerTimeoutId = setTimeout(() => __onCoverLeftClickHandler(position), CLICK_TIMEOUT);
     }
 }
 
@@ -62,7 +63,7 @@ function onCoverClick (e) {
  * 遮罩左键点击响应
  * @param {{x: number, y: number}} position 
  */
-function onCoverLeftClickHandler (position) {
+function __onCoverLeftClickHandler (position) {
     if (pathStarted())
     {
         addFollowDot(position);
@@ -77,7 +78,7 @@ function onCoverLeftClickHandler (position) {
  * @param {MouseEvent} e 
  */
 function onCoverAuxClick (e) {
-    if (isEventUsed(e))
+    if (isEventUsed(e) || isPlayingCartoon())
     {
         return;
     }
@@ -93,7 +94,7 @@ function onCoverAuxClick (e) {
  * @param {MouseEvent} e 
  */
 function onCoverDblClick (e) {
-    if (isEventUsed(e))
+    if (isEventUsed(e) || isPlayingCartoon())
     {
         return;
     }
