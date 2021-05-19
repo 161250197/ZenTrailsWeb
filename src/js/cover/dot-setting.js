@@ -64,6 +64,28 @@ let getRemoveBtnSettingElement = createSingletonFunc(
     func => getRemoveBtnSettingElement = func
 );
 
+/**
+ * 获取首个节点的设置
+ * @returns {HTMLElement}
+ */
+let getFirstDotSettingElement = createSingletonFunc(
+    function () {
+        return getSettingWrapperElement().getElementsByClassName('first-dot-setting')[0];
+    },
+    func => getFirstDotSettingElement = func
+);
+
+/**
+ * 获取后续节点的设置
+ * @returns {HTMLElement}
+ */
+let getFollowDotSettingElement = createSingletonFunc(
+    function () {
+        return getSettingWrapperElement().getElementsByClassName('follow-dot-setting')[0];
+    },
+    func => getFollowDotSettingElement = func
+);
+
 function initDotSetting () {
     const settingWrapperElement = getSettingWrapperElement();
     setElementEventUsed(settingWrapperElement);
@@ -95,20 +117,38 @@ function initDotSetting () {
     });
 }
 
-function showDotSetting (targetDot) {
+/**
+ * 显示首个节点的设置弹窗
+ */
+function showFirstDotSetting () {
+    hideElement(getFollowDotSettingElement());
+    showElement(getFirstDotSettingElement());
+    showElement(getSettingWrapperElement());
+}
+
+/**
+ * 显示后续节点的设置弹窗
+ * @param {Dot} targetDot 
+ */
+function showFollowDotSetting (targetDot) {
     getColorSettingElement().value = targetDot.color;
     getDirectionSettingElement().innerText = targetDot.isAntiClockwise ? '逆时针' : '顺时针';
     getVelocitySettingElement().value = targetDot.angleVelocity;
-    const settingWrapperElement = getSettingWrapperElement();
-    showElement(settingWrapperElement);
+    hideElement(getFirstDotSettingElement());
+    showElement(getFollowDotSettingElement());
+    showElement(getSettingWrapperElement());
 }
 
+/**
+ * 隐藏节点设置弹窗
+ */
 function hideDotSetting () {
     hideElement(getSettingWrapperElement());
 }
 
 export {
     initDotSetting,
-    showDotSetting,
+    showFirstDotSetting,
+    showFollowDotSetting,
     hideDotSetting
 };

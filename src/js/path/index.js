@@ -1,7 +1,7 @@
 // 路径管理
 
 import { refreshCanvas } from '../canvas';
-import { hideDotSetting, showDotSetting } from '../cover/dot-setting';
+import { hideDotSetting, showFirstDotSetting, showFollowDotSetting } from '../cover/dot-setting';
 import {
     radianToAngle,
     isInCircle
@@ -78,6 +78,7 @@ class Dot {
         throw Error('removeDot 未实现');
     }
 }
+
 class FirstDot extends Dot {
     constructor (position, path) {
         super(position);
@@ -208,7 +209,13 @@ function setTargetDot (target) {
         hideDotSetting();
     } else
     {
-        showDotSetting(__target);
+        if (__target instanceof FirstDot)
+        {
+            showFirstDotSetting();
+        } else
+        {
+            showFollowDotSetting(__target);
+        }
         __target.isTarget = true;
     }
     refreshCanvas();
