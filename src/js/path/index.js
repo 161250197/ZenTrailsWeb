@@ -9,6 +9,7 @@ import {
     showFollowDotSetting
 } from '../cover/dot-setting';
 import {
+    angleToRadian,
     calPointDistance,
     calPointLineAngle,
     isInCircle
@@ -69,8 +70,18 @@ class Path {
      * @param {number} duration 
      */
     calCartoonPath (duration) {
-        // TODO
-        console.log(`calCartoonPath duration:${ duration }`);
+        let dots = this.firstDot.followDots;
+        while (dots.length)
+        {
+            let newDots = [];
+            for (const dot of dots)
+            {
+                newDots = newDots.concat(dot.followDots);
+                dot.resetDurationStates();
+                dot.calDurationPosition(duration);
+            }
+            dots = newDots;
+        }
     }
     /**
      * 动画播放时绘制动画路径
@@ -120,6 +131,9 @@ class FirstDot extends Dot {
         __pathArr.splice(index, 1);
         return undefined;
     }
+    __getDurationPosition () {
+        return this;
+    }
 }
 
 class FollowDot extends Dot {
@@ -135,6 +149,7 @@ class FollowDot extends Dot {
             ...position,
             angle: this.angle
         };
+        this.durationStates = undefined;
     }
     reset () {
         const { x, y, angle } = this.__initData;
@@ -147,6 +162,59 @@ class FollowDot extends Dot {
         const index = lastDotFollowDots.indexOf(this);
         lastDotFollowDots.splice(index, 1);
         return this.lastDot;
+    }
+    /**
+     * 清空位置数据
+     */
+    resetDurationStates () {
+        this.durationStates = {
+            durations: []
+        };
+    }
+    /**
+     * 计算位置数据
+     * @param {number} duration 
+     * @param {?{x: number, y: number}} lastPosition 
+     */
+    calDurationPosition (duration, lastPosition = this) {
+        if (this.durationStates[duration] === undefined)
+        {
+            this.durationStates.durations.push(duration);
+            const position = this.__calDurationPosition(duration);
+            this.durationStates[duration] = position;
+            if (this.__positionTooFar(position, lastPosition))
+            {
+                let halfDuration = duration / 2;
+                lastPosition = this.calDurationPosition(halfDuration, lastPosition);
+                while (this.__positionTooFar(position, lastPosition))
+                {
+                    halfDuration = (halfDuration + duration) / 2;
+                    lastPosition = this.calDurationPosition(halfDuration, lastPosition);
+                }
+            }
+        }
+        return this.durationStates[duration];
+    }
+    __calDurationPosition (duration) {
+        const { radius, angleVelocity } = this;
+        const angleChange = angleVelocity * duration / 100;
+        const angle = this.angle + (this.isAntiClockwise ? -angleChange : angleChange);
+        const lastDotPosition = this.lastDot.__getDurationPosition(duration);
+        const x = lastDotPosition.x + Math.cos(angleToRadian(angle)) * radius;
+        const y = lastDotPosition.y + Math.sin(angleToRadian(angle)) * radius;
+        return { x, y, angle };
+    }
+    /**
+     * 获取位置数据
+     * @param {number} duration 
+     * @returns {{x: number, y: number}}
+     */
+    __getDurationPosition (duration) {
+        return this.calDurationPosition(duration);
+    }
+    __positionTooFar (p1, p2) {
+        const TOO_FAR_DISTANCE = 5;
+        return Math.abs(p1.x - p2.x) > TOO_FAR_DISTANCE && Math.abs(p1.y - p2.y) > TOO_FAR_DISTANCE;
     }
 }
 
