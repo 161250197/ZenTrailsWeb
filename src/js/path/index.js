@@ -78,7 +78,8 @@ class Path {
             {
                 newDots = newDots.concat(dot.followDots);
                 dot.resetDurationStates();
-                dot.calDurationPosition(duration);
+                const durationState = dot.calDurationState(duration);
+                dot.setState(durationState);
             }
             dots = newDots;
         }
@@ -131,7 +132,7 @@ class FirstDot extends Dot {
         __pathArr.splice(index, 1);
         return undefined;
     }
-    __getDurationPosition () {
+    __getDurationState () {
         return this;
     }
 }
@@ -145,14 +146,17 @@ class FollowDot extends Dot {
         this.isAntiClockwise = false;
         this.color = '#000000';
         this.lastDot = lastDot;
-        this.__initData = {
+        this.__initialState = {
             ...position,
             angle: this.angle
         };
         this.durationStates = undefined;
     }
     reset () {
-        const { x, y, angle } = this.__initData;
+        this.setState(this.__initialState);
+    }
+    setState (state) {
+        const { x, y, angle } = state;
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -174,34 +178,34 @@ class FollowDot extends Dot {
     /**
      * 计算位置数据
      * @param {number} duration 
-     * @param {?{x: number, y: number}} lastPosition 
+     * @param {?{x: number, y: number, angle: number}} lastPosition 
      */
-    calDurationPosition (duration, lastPosition = this) {
+    calDurationState (duration, lastPosition = this) {
         if (this.durationStates[duration] === undefined)
         {
             this.durationStates.durations.push(duration);
-            const position = this.__calDurationPosition(duration);
+            const position = this.__calDurationState(duration);
             this.durationStates[duration] = position;
             if (this.__positionTooFar(position, lastPosition))
             {
                 let halfDuration = duration / 2;
-                lastPosition = this.calDurationPosition(halfDuration, lastPosition);
+                lastPosition = this.calDurationState(halfDuration, lastPosition);
                 while (this.__positionTooFar(position, lastPosition))
                 {
                     halfDuration = (halfDuration + duration) / 2;
-                    lastPosition = this.calDurationPosition(halfDuration, lastPosition);
+                    lastPosition = this.calDurationState(halfDuration, lastPosition);
                 }
             }
         }
         return this.durationStates[duration];
     }
-    __calDurationPosition (duration) {
+    __calDurationState (duration) {
         const { radius, angleVelocity } = this;
         const angleChange = angleVelocity * duration / 100;
         const angle = this.angle + (this.isAntiClockwise ? -angleChange : angleChange);
-        const lastDotPosition = this.lastDot.__getDurationPosition(duration);
-        const x = lastDotPosition.x + Math.cos(angleToRadian(angle)) * radius;
-        const y = lastDotPosition.y + Math.sin(angleToRadian(angle)) * radius;
+        const lastDotState = this.lastDot.__getDurationState(duration);
+        const x = lastDotState.x + Math.cos(angleToRadian(angle)) * radius;
+        const y = lastDotState.y + Math.sin(angleToRadian(angle)) * radius;
         return { x, y, angle };
     }
     /**
@@ -209,8 +213,8 @@ class FollowDot extends Dot {
      * @param {number} duration 
      * @returns {{x: number, y: number}}
      */
-    __getDurationPosition (duration) {
-        return this.calDurationPosition(duration);
+    __getDurationState (duration) {
+        return this.calDurationState(duration);
     }
     __positionTooFar (p1, p2) {
         const TOO_FAR_DISTANCE = 5;
