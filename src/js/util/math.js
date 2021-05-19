@@ -41,15 +41,11 @@ function isInCircle ({ x, y }, circleCenter, radius, extra = 0) {
  */
 function calPointLineRadian (start, end) {
     const distanceX = end.x - start.x;
-    const distanceY = start.y - end.y;
+    const distanceY = end.y - start.y;
     let radian = Math.atan(distanceY / distanceX);
-    if (start.x > end.x)
+    if (distanceX < 0)
     {
         radian += Math.PI;
-    }
-    if (radian < 0)
-    {
-        radian += Math.PI * 2;
     }
     return radian;
 }
