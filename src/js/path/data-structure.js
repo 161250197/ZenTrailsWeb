@@ -1,4 +1,4 @@
-// 数据结构
+// 路径数据结构
 
 // eslint-disable-next-line no-unused-vars
 import { CanvasDrawHelper } from '../canvas/draw-helper';

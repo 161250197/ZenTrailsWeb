@@ -13,7 +13,7 @@ import {
     Dot,
     FirstDot,
     Path
-} from './data';
+} from './data-structure';
 
 /** @type {Array<Path>} */
 let __pathArr = [];
