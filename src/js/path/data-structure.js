@@ -68,9 +68,7 @@ class Path {
             for (const dot of dots)
             {
                 newDots = newDots.concat(dot.followDots);
-                dot.resetDurationStates();
-                const durationState = dot.calDurationState(duration);
-                dot.setState(durationState);
+                dot.updateDurationState(duration);
             }
             dots = newDots;
         }
@@ -168,13 +166,11 @@ class FollowDot extends Dot {
             ...position,
             angle: this.angle
         };
-        this.__durationStates = undefined;
     }
     reset () {
         this.setState(this.__initialState);
     }
-    setState (state) {
-        const { x, y, angle } = state;
+    setState ({ x, y, angle }) {
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -191,63 +187,29 @@ class FollowDot extends Dot {
      */
     drawDurationPath (drawHelper) {
         drawHelper.startPath(this);
-        drawHelper.concatDot(this.__durationStates[0]);
+        drawHelper.concatDot(this.__lastState);
         drawHelper.closePath();
-    }
-    /**
-     * 重置位置数据
-     */
-    resetDurationStates () {
-        const { x, y, angle } = this;
-        this.__durationStates = {
-            0: { x, y, angle },
-            durations: [0]
-        };
-    }
-    __addDurationState (duration, state) {
-        const { durations } = this.__durationStates;
-        const durationCount = durations.length;
-        let index = 0;
-        while (index < durationCount)
-        {
-            if (durations[index] < duration)
-            {
-                break;
-            }
-            index++;
-        }
-        durations.splice(index, 0, duration);
-        this.__durationStates[duration] = state;
     }
     /**
      * 计算位置数据
      * @param {number} duration 
      */
-    calDurationState (duration) {
+    updateDurationState (duration) {
+        this.__saveLastState();
         const state = this.__calDurationState(duration);
-        this.__addDurationState(duration, state);
-        return this.__durationStates[duration];
+        this.setState(state);
+    }
+    __saveLastState () {
+        const { x, y, angle } = this;
+        this.__lastState = { x, y, angle };
     }
     __calDurationState (duration) {
-        const { radius, angleVelocity } = this;
+        const { radius, angleVelocity, lastDot } = this;
         const angleChange = angleVelocity * duration / 100;
         const angle = this.angle + (this.isAntiClockwise ? -angleChange : angleChange);
-        const lastDotState = this.lastDot.__getDurationState(duration);
-        const x = lastDotState.x + Math.cos(angleToRadian(angle)) * radius;
-        const y = lastDotState.y + Math.sin(angleToRadian(angle)) * radius;
+        const x = lastDot.x + Math.cos(angleToRadian(angle)) * radius;
+        const y = lastDot.y + Math.sin(angleToRadian(angle)) * radius;
         return { x, y, angle };
-    }
-    /**
-     * 获取位置数据
-     * @param {number} duration 
-     * @returns {{x: number, y: number}}
-     */
-    __getDurationState (duration) {
-        if (this.__durationStates[duration] === undefined)
-        {
-            return this.calDurationState(duration);
-        }
-        return this.calDurationState(duration);
     }
 }
 
