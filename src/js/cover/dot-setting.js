@@ -1,7 +1,7 @@
 // 点的设置
 
 import { refreshCanvas } from '../canvas';
-import { getTargetDot } from '../path';
+import { getTargetDot, removeTargetDot } from '../path';
 import {
     createSingletonFunc,
     setElementEventUsed,
@@ -53,6 +53,17 @@ let getVelocitySettingElement = createSingletonFunc(
     func => getVelocitySettingElement = func
 );
 
+/**
+ * 获取移除按钮节点
+ * @returns {HTMLElement}
+ */
+let getRemoveBtnSettingElement = createSingletonFunc(
+    function () {
+        return getSettingWrapperElement().getElementsByClassName('remove')[0];
+    },
+    func => getRemoveBtnSettingElement = func
+);
+
 function initDotSetting () {
     const settingWrapperElement = getSettingWrapperElement();
     setElementEventUsed(settingWrapperElement);
@@ -76,6 +87,11 @@ function initDotSetting () {
     velocitySettingElement.addEventListener('input', () => {
         const __targetDot = getTargetDot();
         __targetDot.angleVelocity = velocitySettingElement.value;
+    });
+
+    const removeBtnSettingElement = getRemoveBtnSettingElement();
+    removeBtnSettingElement.addEventListener('click', () => {
+        removeTargetDot();
     });
 }
 

@@ -1,7 +1,7 @@
 // 路径管理
 
 import { refreshCanvas } from '../canvas';
-import { showDotSetting } from '../cover/dot-setting';
+import { hideDotSetting, showDotSetting } from '../cover/dot-setting';
 import {
     radianToAngle,
     isInCircle
@@ -64,17 +64,29 @@ class Dot {
         this.x = x;
         this.y = y;
         this.followDots = [];
+        this.isTarget = false;
     }
     appendDot (location) {
         const __followDot = new FollowDot(location, this);
         this.followDots.push(__followDot);
         return __followDot;
     }
+    /**
+     * @returns {?Dot} 上个点或空
+     */
+    removeDot () {
+        throw Error('removeDot 未实现');
+    }
 }
 class FirstDot extends Dot {
     constructor (position, path) {
         super(position);
         this.path = path;
+    }
+    removeDot () {
+        const index = __pathArr.indexOf(this.path);
+        __pathArr.splice(index, 1);
+        return undefined;
     }
 }
 
@@ -102,6 +114,12 @@ class FollowDot extends Dot {
         this.x = x;
         this.y = y;
         this.angle = this.__angle;
+    }
+    removeDot () {
+        const lastDotFollowDots = this.lastDot.followDots;
+        const index = lastDotFollowDots.indexOf(this);
+        lastDotFollowDots.splice(index, 1);
+        return this.lastDot;
     }
 }
 
@@ -137,7 +155,7 @@ function getPathArr () {
  * 关闭当前路径
  */
 function closePresentPath () {
-    __target = undefined;
+    setTargetDot(undefined);
 }
 
 /**
@@ -176,19 +194,24 @@ function getTargetDot () {
 
 /**
  * 设置选择的目标点
- * @param {Dot} target 
+ * @param {?Dot} target 
  */
 function setTargetDot (target) {
     if (__target !== undefined)
     {
         __target.isTarget = false;
     }
+
     __target = target;
-    if (__target instanceof FollowDot)
+    if (__target === undefined)
+    {
+        hideDotSetting();
+    } else
     {
         showDotSetting(__target);
+        __target.isTarget = true;
     }
-    __target.isTarget = true;
+    refreshCanvas();
 }
 
 /**
@@ -200,6 +223,17 @@ function resetPosition () {
     });
 }
 
+/**
+ * 移除目标点
+ */
+function removeTargetDot () {
+    if (__target === undefined)
+    {
+        return;
+    }
+    setTargetDot(__target.removeDot());
+}
+
 export {
     Path,
     startPath,
@@ -209,5 +243,6 @@ export {
     pathStarted,
     selectDot,
     getTargetDot,
-    resetPosition
+    resetPosition,
+    removeTargetDot
 };
