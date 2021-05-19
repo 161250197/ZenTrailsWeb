@@ -48,7 +48,7 @@ class Path {
         }
         return selectedDots;
     }
-    resetPosition () {
+    reset () {
         let dots = [this.firstDot];
         while (dots.length)
         {
@@ -60,7 +60,7 @@ class Path {
             dots = newDots;
             for (const dot of dots)
             {
-                dot.resetPosition();
+                dot.reset();
             }
         }
     }
@@ -131,14 +131,16 @@ class FollowDot extends Dot {
         this.isAntiClockwise = false;
         this.color = '#000000';
         this.lastDot = lastDot;
-        this.__position = { ...position };
-        this.__angle = this.angle;
+        this.__initData = {
+            ...position,
+            angle: this.angle
+        };
     }
-    resetPosition () {
-        const { x, y } = this.__position;
+    reset () {
+        const { x, y, angle } = this.__initData;
         this.x = x;
         this.y = y;
-        this.angle = this.__angle;
+        this.angle = angle;
     }
     removeDot () {
         const lastDotFollowDots = this.lastDot.followDots;
@@ -246,11 +248,11 @@ function setTargetDot (target) {
 }
 
 /**
- * 重置位置
+ * 重置路径
  */
-function resetPosition () {
+function resetPaths () {
     __pathArr.forEach(path => {
-        path.resetPosition();
+        path.reset();
     });
 }
 
@@ -284,7 +286,7 @@ export {
     pathStarted,
     selectDot,
     getTargetDot,
-    resetPosition,
+    resetPaths,
     removeTargetDot,
     updateCartoonPath
 };

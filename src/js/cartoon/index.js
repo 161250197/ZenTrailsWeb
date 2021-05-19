@@ -5,7 +5,7 @@ import {
     Path,
     closePresentPath,
     getPathArr,
-    resetPosition
+    resetPaths
 } from '../path';
 import { angleToRadian } from '../util/math';
 import {
@@ -102,7 +102,7 @@ function resetCartoon () {
     hideElement(getResetBtnElement());
     __isPlayingCartoon = false;
     cancelAnimationFrame(__updateCartoonHandle);
-    resetPosition();
+    resetPaths();
     refreshCanvas();
 }
 
