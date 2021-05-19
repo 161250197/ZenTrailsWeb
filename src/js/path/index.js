@@ -69,7 +69,7 @@ class Path {
      * 动画播放时重新计算动画路径
      * @param {number} duration 
      */
-    calCartoonPath (duration) {
+    updateCartoonPath (duration) {
         let dots = this.firstDot.followDots;
         while (dots.length)
         {
@@ -201,19 +201,12 @@ class FollowDot extends Dot {
      * @param {CanvasDrawHelper} drawHelper 
      */
     drawDurationPath (drawHelper) {
-        const { durations } = this.__durationStates;
         drawHelper.startPath(this);
-        const durationCount = durations.length;
-        for (let i = 1; i < durationCount; i++)
-        {
-            const duration = durations[i];
-            const state = this.__durationStates[duration];
-            drawHelper.concatDot(state);
-        }
+        drawHelper.concatDot(this.__durationStates[0]);
         drawHelper.closePath();
     }
     /**
-     * 清空位置数据
+     * 重置位置数据
      */
     resetDurationStates () {
         const { x, y, angle } = this;
@@ -222,7 +215,7 @@ class FollowDot extends Dot {
             durations: [0]
         };
     }
-    __addDuration (duration) {
+    __addDurationState (duration, state) {
         const { durations } = this.__durationStates;
         const durationCount = durations.length;
         let index = 0;
@@ -235,29 +228,15 @@ class FollowDot extends Dot {
             index++;
         }
         durations.splice(index, 0, duration);
+        this.__durationStates[duration] = state;
     }
     /**
      * 计算位置数据
      * @param {number} duration 
-     * @param {?{x: number, y: number, angle: number}} lastPosition 
      */
-    calDurationState (duration, lastPosition = this) {
-        if (this.__durationStates[duration] === undefined)
-        {
-            this.__addDuration(duration);
-            const position = this.__calDurationState(duration);
-            this.__durationStates[duration] = position;
-            if (this.__positionTooFar(position, lastPosition))
-            {
-                let halfDuration = duration / 2;
-                lastPosition = this.calDurationState(halfDuration, lastPosition);
-                while (this.__positionTooFar(position, lastPosition))
-                {
-                    halfDuration = (halfDuration + duration) / 2;
-                    lastPosition = this.calDurationState(halfDuration, lastPosition);
-                }
-            }
-        }
+    calDurationState (duration) {
+        const state = this.__calDurationState(duration);
+        this.__addDurationState(duration, state);
         return this.__durationStates[duration];
     }
     __calDurationState (duration) {
@@ -275,12 +254,11 @@ class FollowDot extends Dot {
      * @returns {{x: number, y: number}}
      */
     __getDurationState (duration) {
+        if (this.__durationStates[duration] === undefined)
+        {
+            return this.calDurationState(duration);
+        }
         return this.calDurationState(duration);
-    }
-    __positionTooFar (p1, p2) {
-        const TOO_FAR_DISTANCE = 5;
-        const isTooFar = Math.abs(p1.x - p2.x) > TOO_FAR_DISTANCE && Math.abs(p1.y - p2.y) > TOO_FAR_DISTANCE;
-        return isTooFar;
     }
 }
 
@@ -409,7 +387,7 @@ function removeTargetDot () {
  */
 function updateCartoonPath (drawHelperPath, drawHelperDots, duration) {
     __pathArr.forEach(path => {
-        path.calCartoonPath(duration);
+        path.updateCartoonPath(duration);
         path.drawCartoonPath(drawHelperPath);
         path.drawPathDots(drawHelperDots);
     });
