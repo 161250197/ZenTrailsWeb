@@ -89,16 +89,45 @@ class Path {
      * @param {CanvasDrawHelper} drawHelper 
      */
     drawCartoonPath (drawHelper) {
-        // TODO
-        console.log(`drawCartoonPath drawHelper:${ drawHelper }`);
+        let dots = this.firstDot.followDots;
+        while (dots.length)
+        {
+            let newDots = [];
+            for (const dot of dots)
+            {
+                newDots = newDots.concat(dot.followDots);
+                dot.drawDurationPath(drawHelper);
+            }
+            dots = newDots;
+        }
     }
     /**
      * 绘制路径节点
      * @param {CanvasDrawHelper} drawHelper 
      */
     drawPathDots (drawHelper) {
-        // TODO
-        console.log(`drawPathDots drawHelper:${ drawHelper }`);
+        drawHelper.clearCanvas();
+        drawHelper.resetColor();
+        const { firstDot } = this;
+        drawHelper.drawCircle(firstDot);
+        let dots = firstDot.followDots;
+        while (dots.length)
+        {
+            let newDots = [];
+            for (const dot of dots)
+            {
+                newDots = newDots.concat(dot.followDots);
+                const { color, isAntiClockwise, lastDot } = dot;
+                drawHelper.drawLine(lastDot, dot);
+                drawHelper.setColor(color);
+                drawHelper.drawCircle(dot);
+                if (isAntiClockwise)
+                {
+                    drawHelper.drawCircle(dot, 5);
+                }
+            }
+            dots = newDots;
+        }
     }
 }
 
@@ -150,7 +179,7 @@ class FollowDot extends Dot {
             ...position,
             angle: this.angle
         };
-        this.durationStates = undefined;
+        this.__durationStates = undefined;
     }
     reset () {
         this.setState(this.__initialState);
@@ -168,12 +197,44 @@ class FollowDot extends Dot {
         return this.lastDot;
     }
     /**
+     * 动画播放时绘制动画路径
+     * @param {CanvasDrawHelper} drawHelper 
+     */
+    drawDurationPath (drawHelper) {
+        const { durations } = this.__durationStates;
+        drawHelper.startPath(this);
+        const durationCount = durations.length;
+        for (let i = 1; i < durationCount; i++)
+        {
+            const duration = durations[i];
+            const state = this.__durationStates[duration];
+            drawHelper.concatDot(state);
+        }
+        drawHelper.closePath();
+    }
+    /**
      * 清空位置数据
      */
     resetDurationStates () {
-        this.durationStates = {
-            durations: []
+        const { x, y, angle } = this;
+        this.__durationStates = {
+            0: { x, y, angle },
+            durations: [0]
         };
+    }
+    __addDuration (duration) {
+        const { durations } = this.__durationStates;
+        const durationCount = durations.length;
+        let index = 0;
+        while (index < durationCount)
+        {
+            if (durations[index] < duration)
+            {
+                break;
+            }
+            index++;
+        }
+        durations.splice(index, 0, duration);
     }
     /**
      * 计算位置数据
@@ -181,11 +242,11 @@ class FollowDot extends Dot {
      * @param {?{x: number, y: number, angle: number}} lastPosition 
      */
     calDurationState (duration, lastPosition = this) {
-        if (this.durationStates[duration] === undefined)
+        if (this.__durationStates[duration] === undefined)
         {
-            this.durationStates.durations.push(duration);
+            this.__addDuration(duration);
             const position = this.__calDurationState(duration);
-            this.durationStates[duration] = position;
+            this.__durationStates[duration] = position;
             if (this.__positionTooFar(position, lastPosition))
             {
                 let halfDuration = duration / 2;
@@ -197,7 +258,7 @@ class FollowDot extends Dot {
                 }
             }
         }
-        return this.durationStates[duration];
+        return this.__durationStates[duration];
     }
     __calDurationState (duration) {
         const { radius, angleVelocity } = this;
@@ -218,7 +279,8 @@ class FollowDot extends Dot {
     }
     __positionTooFar (p1, p2) {
         const TOO_FAR_DISTANCE = 5;
-        return Math.abs(p1.x - p2.x) > TOO_FAR_DISTANCE && Math.abs(p1.y - p2.y) > TOO_FAR_DISTANCE;
+        const isTooFar = Math.abs(p1.x - p2.x) > TOO_FAR_DISTANCE && Math.abs(p1.y - p2.y) > TOO_FAR_DISTANCE;
+        return isTooFar;
     }
 }
 
@@ -341,11 +403,15 @@ function removeTargetDot () {
 
 /**
  * 动画播放时更新路径
+ * @param {CanvasDrawHelper} drawHelperPath 
+ * @param {CanvasDrawHelper} drawHelperDots 
  * @param {number} duration 
  */
-function updateCartoonPath (duration) {
+function updateCartoonPath (drawHelperPath, drawHelperDots, duration) {
     __pathArr.forEach(path => {
         path.calCartoonPath(duration);
+        path.drawCartoonPath(drawHelperPath);
+        path.drawPathDots(drawHelperDots);
     });
 }
 

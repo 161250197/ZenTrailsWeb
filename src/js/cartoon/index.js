@@ -4,10 +4,9 @@ import {
     // eslint-disable-next-line no-unused-vars
     Path,
     closePresentPath,
-    getPathArr,
-    resetPaths
+    resetPaths,
+    updateCartoonPath
 } from '../path';
-import { angleToRadian } from '../util/math';
 import {
     getDownCanvasDrawHelper,
     getUpCanvasDrawHelper
@@ -24,6 +23,7 @@ import { refreshCanvas } from '../canvas';
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
 let __lastTime;
+let __updateCartoonPathFunc;
 
 function setUpdateCartoonHandle (time) {
     __updateCartoonHandle = requestAnimationFrame(updateCartoon);
@@ -33,68 +33,23 @@ function setUpdateCartoonHandle (time) {
 function updateCartoon () {
     const time = Date.now();
     const duration = time - __lastTime;
-    getUpCanvasDrawHelper().clearCanvas();
-    const pathArr = getPathArr();
-    pathArr.forEach(path => drawCartoonPath(duration, path));
+    __updateCartoonPathFunc(duration);
     setUpdateCartoonHandle(time);
-}
-
-function updateDot (duration, lastDot, dot) {
-    const { angle, radius, angleVelocity } = dot;
-    const angleChange = angleVelocity * duration / 100;
-    const newAngle = angle + (dot.isAntiClockwise ? -angleChange : angleChange);
-    const newX = lastDot.x + Math.cos(angleToRadian(newAngle)) * radius;
-    const newY = lastDot.y + Math.sin(angleToRadian(newAngle)) * radius;
-    dot.angle = newAngle;
-    dot.x = newX;
-    dot.y = newY;
-}
-
-/**
- * 绘制
- * @param {number} duration 
- * @param {Path} path 
- */
-function drawCartoonPath (duration, path) {
-    const downCanvasDrawHelper = getDownCanvasDrawHelper();
-    const upCanvasDrawHelper = getUpCanvasDrawHelper();
-    upCanvasDrawHelper.resetColor();
-    upCanvasDrawHelper.drawCircle(path.firstDot);
-    let dots = [path.firstDot];
-    while (dots.length)
-    {
-        let newDots = [];
-        for (const dot of dots)
-        {
-            newDots = newDots.concat(dot.followDots);
-        }
-        dots = newDots;
-        for (const dot of dots)
-        {
-            const { x, y, color, isAntiClockwise, lastDot } = dot;
-            const oldPosition = { x, y };
-            updateDot(duration, lastDot, dot);
-            upCanvasDrawHelper.setColor(color);
-            upCanvasDrawHelper.drawLine(lastDot, dot);
-            upCanvasDrawHelper.drawCircle(dot);
-            downCanvasDrawHelper.setColor(color);
-            downCanvasDrawHelper.drawLine(oldPosition, dot);
-            if (isAntiClockwise)
-            {
-                upCanvasDrawHelper.drawCircle(dot, 5);
-            }
-        }
-    }
 }
 
 function startCartoon () {
     closePresentPath();
     showElement(getResetBtnElement());
     hideElement(getStartBtnElement());
-    getDownCanvasDrawHelper().clearCanvas();
     __isPlayingCartoon = true;
     const time = Date.now();
     setUpdateCartoonHandle(time);
+    const drawHelperPath = getDownCanvasDrawHelper();
+    const drawHelperDots = getUpCanvasDrawHelper();
+    drawHelperPath.clearCanvas();
+    drawHelperPath.resetColor();
+    drawHelperDots.clearCanvas();
+    __updateCartoonPathFunc = updateCartoonPath.bind(this, drawHelperPath, drawHelperDots);
 }
 
 function resetCartoon () {
