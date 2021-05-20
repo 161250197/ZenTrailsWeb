@@ -58,17 +58,19 @@ function createSingletonFunc (createFunc, updateCallback) {
 const HIDE = 'hide';
 
 /**
+ * 隐藏节点
  * @param {HTMLElement} element 
  */
 function hideElement (element) {
-    element.classList.add(HIDE);
+    addElementClass(element, HIDE);
 }
 
 /**
+ * 显示节点
  * @param {HTMLElement} element 
  */
 function showElement (element) {
-    element.classList.remove(HIDE);
+    removeElementClass(element, HIDE);
 }
 
 /**
@@ -86,6 +88,24 @@ function setElementStyle (element, style) {
     element.setAttribute('style', styleStr);
 }
 
+/**
+ * 添加节点样式类
+ * @param {HTMLElement} element 
+ * @param {string} className 
+ */
+function addElementClass (element, className) {
+    element.classList.add(className);
+}
+
+/**
+ * 删除节点样式类
+ * @param {HTMLElement} element 
+ * @param {string} className 
+ */
+function removeElementClass (element, className) {
+    element.classList.remove(className);
+}
+
 export {
     preventDefaultStopPropagation,
     setElementEventUsed,
@@ -93,5 +113,7 @@ export {
     createSingletonFunc,
     hideElement,
     showElement,
-    setElementStyle
+    setElementStyle,
+    addElementClass,
+    removeElementClass
 };
