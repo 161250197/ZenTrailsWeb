@@ -37,6 +37,7 @@ const setPrompt = (function () {
         __timeoutId = setTimeout(() => {
             promptContentElement.innerText = prompt;
             removeElementClass(promptWrapperElement, transparentClassName);
+            __timeoutId = undefined;
         }, transitionTime);
     };
 }());
