@@ -1,6 +1,32 @@
 /* 按钮样式 */
 
 #cover {
+  >#prompt {
+    position: fixed;
+    right: 10px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >.i-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      margin: 6px;
+    }
+    >.content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: fade(grey, 80%);
+      height: 20px;
+      line-height: 20px;
+      font-size: 16px;
+      margin: 6px;
+    }
+  }
   >.btns {
     position: fixed;
     left: 0;
@@ -87,6 +113,7 @@
       border-top: thin solid lightgray;
     }
   }
+  >#prompt,
   .btn,
   #setting-wrapper,
   img {
