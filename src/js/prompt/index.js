@@ -1,20 +1,54 @@
 // 提示信息
 
-import { createSingletonFunc } from '../util/base';
+import {
+    addElementClass,
+    createSingletonFunc,
+    removeElementClass
+} from '../util/base';
 
-
-let getPromptContent = createSingletonFunc(
+let getPromptWrapperElement = createSingletonFunc(
     function () {
-        const promptElement = document.getElementById('prompt');
-        return promptElement.getElementsByClassName('content')[0];
+        return document.getElementById('prompt');
     },
-    func => getPromptContent = func
+    func => getPromptWrapperElement = func
 );
 
-function setPrompt (prompt) {
-    getPromptContent().innerText = prompt;
+let getPromptContentElement = createSingletonFunc(
+    function () {
+        return getPromptWrapperElement().getElementsByClassName('content')[0];
+    },
+    func => getPromptContentElement = func
+);
+
+const setPrompt = (function () {
+    const promptWrapperElement = getPromptWrapperElement();
+    const promptContentElement = getPromptContentElement();
+    const transparentClassName = 'transparent';
+    const transitionTime = 500;
+    let __timeoutId = undefined;
+    return (prompt) => {
+        if (__timeoutId === undefined)
+        {
+            addElementClass(promptWrapperElement, transparentClassName);
+        } else
+        {
+            clearTimeout(__timeoutId);
+        }
+        __timeoutId = setTimeout(() => {
+            promptContentElement.innerText = prompt;
+            removeElementClass(promptWrapperElement, transparentClassName);
+        }, transitionTime);
+    };
+}());
+
+/**
+ * 设置加载完成提示信息
+ */
+function setPromptLoadingFin () {
+    setPrompt('游戏加载完成！');
 }
 
 export {
-    setPrompt
+    setPrompt,
+    setPromptLoadingFin
 };
