@@ -6,22 +6,15 @@ import {
     removeElementClass
 } from '../util/base';
 
-let getPromptWrapperElement = createSingletonFunc(
-    function () {
-        return document.getElementById('prompt');
-    },
-    func => getPromptWrapperElement = func
-);
-
 let getPromptContentElement = createSingletonFunc(
     function () {
-        return getPromptWrapperElement().getElementsByClassName('content')[0];
+        const promptWrapperElement = document.getElementById('prompt');
+        return promptWrapperElement.getElementsByClassName('content')[0];
     },
     func => getPromptContentElement = func
 );
 
 const setPrompt = (function () {
-    const promptWrapperElement = getPromptWrapperElement();
     const promptContentElement = getPromptContentElement();
     const transparentClassName = 'transparent';
     const transitionTime = 500;
@@ -29,14 +22,14 @@ const setPrompt = (function () {
     return (prompt) => {
         if (__timeoutId === undefined)
         {
-            addElementClass(promptWrapperElement, transparentClassName);
+            addElementClass(promptContentElement, transparentClassName);
         } else
         {
             clearTimeout(__timeoutId);
         }
         __timeoutId = setTimeout(() => {
             promptContentElement.innerText = prompt;
-            removeElementClass(promptWrapperElement, transparentClassName);
+            removeElementClass(promptContentElement, transparentClassName);
             __timeoutId = undefined;
         }, transitionTime);
     };

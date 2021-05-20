@@ -8,11 +8,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 1;
-    transition: opacity ease-in-out 0.5s;
-    &.transparent {
-      opacity: 0;
-    }
     >.i-wrapper {
       display: flex;
       align-items: center;
@@ -30,6 +25,11 @@
       line-height: 20px;
       font-size: 16px;
       margin: 10px 0;
+      opacity: 1;
+      transition: opacity linear 0.3s;
+      &.transparent {
+        opacity: 0;
+      }
     }
   }
   >.btns {
