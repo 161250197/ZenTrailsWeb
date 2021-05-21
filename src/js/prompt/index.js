@@ -6,7 +6,10 @@ import {
     preventDefaultStopPropagation,
     removeElementClass
 } from '../util/base';
-import { setGuideLoadingFin } from './guide';
+import {
+    initGuide,
+    setGuideLoadingFin
+} from './guide';
 import {
     initHelp,
     showHelp
@@ -81,6 +84,7 @@ function initPrompt () {
     promptIconWrapperElement.addEventListener('dblclick', preventDefaultStopPropagation);
     setGuideLoadingFin();
     initHelp();
+    initGuide();
 }
 
 export {

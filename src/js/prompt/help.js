@@ -58,6 +58,7 @@ function initHelp () {
     const helpElement = __getHelpElement();
     helpElement.addEventListener('click', preventDefaultStopPropagation);
     helpElement.addEventListener('click', __hideHelp);
+    helpElement.addEventListener('dblclick', preventDefaultStopPropagation);
 }
 
 export {

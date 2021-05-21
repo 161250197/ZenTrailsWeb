@@ -16,6 +16,7 @@ const guidePromptArr = {
     loadingFin: '游戏加载完成！',
     helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
     emptyPrompt: '',
+    guideFin: '欢迎回来，继续你的 ZenTrailsWeb 之旅吧！',
     // 需要显示的帮助信息
     beginNewPath: '通过 双击 空白区域开启新路径吧！',
     addFollowDot: '通过 单击 可以增加后续节点！',
@@ -33,7 +34,14 @@ const guidePromptArr = {
  */
 let setGuideLoadingFin = function () {
     addPrompt(guidePromptArr.loadingFin);
-    addPrompt(guidePromptArr.beginNewPath);
+    if (__isGuideFin())
+    {
+        addPrompt(guidePromptArr.guideFin);
+        addPrompt(guidePromptArr.helpWanted);
+    } else
+    {
+        addPrompt(guidePromptArr.beginNewPath);
+    }
     setGuideLoadingFin = emptyFunc;
 };
 
@@ -89,11 +97,45 @@ let setGuideAfterChooseDot = function () {
     addPrompt(guidePromptArr.promptFin);
     addPrompt(guidePromptArr.helpWanted);
     enableShowHelp();
-    addPrompt(guidePromptArr.emptyPrompt);
+    __hidePrompt();
     setGuideAfterChooseDot = emptyFunc;
+    __setGuideFin();
 };
 
+function __hidePrompt () {
+    addPrompt(guidePromptArr.emptyPrompt);
+}
+
+const { __setGuideFin, __isGuideFin } = (function () {
+    const guideFinKey = 'ZenTrailsWeb-guideFinKey';
+    return {
+        __setGuideFin: function () {
+            localStorage.setItem(guideFinKey, true);
+        },
+        __isGuideFin: () => !!localStorage.getItem(guideFinKey)
+    };
+}());
+
+function __enableAllFeature () {
+    showStartBtnElement();
+    enableClosePresentPath();
+    enableShowDotSetting();
+    enableShowHelp();
+}
+
+/**
+ * 初始化引导信息
+ */
+function initGuide () {
+    if (__isGuideFin())
+    {
+        __hidePrompt();
+        __enableAllFeature();
+    }
+}
+
 export {
+    initGuide,
     setGuideLoadingFin,
     setGuideAfterStartPath,
     setGuideAfterAddFollowDot,
