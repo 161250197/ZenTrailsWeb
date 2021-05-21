@@ -68,7 +68,7 @@ function addPrompt (prompt) {
 }
 
 /**
- * 初始化提示信息
+ * 初始化提示信息模块
  */
 function initPrompt () {
     const promptIconWrapperElement = __getPromptIconWrapperElement();

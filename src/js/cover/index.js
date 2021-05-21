@@ -13,6 +13,7 @@ import {
     isEventUsed,
     createSingletonFunc
 } from '../util/base';
+import { initDotSetting } from './dot-setting';
 
 /**
  * 获取遮罩节点
@@ -94,13 +95,15 @@ function enableClosePresentPath () {
 }
 
 /**
- * 初始化遮罩
+ * 初始化遮罩模块
  */
 function initCover () {
     const cover = getCoverElement();
     cover.addEventListener('contextmenu', preventDefaultStopPropagation);
     cover.addEventListener('click', __onCoverClick);
     cover.addEventListener('dblclick', __onCoverDblClick);
+
+    initDotSetting();
 }
 
 export {

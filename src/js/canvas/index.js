@@ -5,6 +5,7 @@ import {
     getDownCanvasDrawHelper,
     getUpCanvasDrawHelper
 } from './draw-helper';
+import { initCanvasElement } from './element';
 
 /**
  * 刷新画布
@@ -18,6 +19,14 @@ function refreshCanvas () {
     });
 }
 
+/**
+ * 初始化画布模块
+ */
+function initCanvas () {
+    initCanvasElement();
+}
+
 export {
+    initCanvas,
     refreshCanvas
 };

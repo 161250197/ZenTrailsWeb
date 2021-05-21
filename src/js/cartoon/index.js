@@ -96,7 +96,7 @@ let __getResetBtnElement = createSingletonFunc(
 );
 
 /**
- * 初始化动画
+ * 初始化动画模块
  */
 function initCartoon () {
     const startBtnElement = __getStartBtnElement();
