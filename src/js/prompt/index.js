@@ -3,12 +3,20 @@
 import {
     addElementClass,
     createSingletonFunc,
+    preventDefaultStopPropagation,
     removeElementClass
 } from '../util/base';
 
+let getPromptWrapperElement = createSingletonFunc(
+    function () {
+        return document.getElementById('prompt');
+    },
+    func => getPromptWrapperElement = func
+);
+
 let getPromptContentElement = createSingletonFunc(
     function () {
-        const promptWrapperElement = document.getElementById('prompt');
+        const promptWrapperElement = getPromptWrapperElement();
         return promptWrapperElement.getElementsByClassName('content')[0];
     },
     func => getPromptContentElement = func
@@ -35,14 +43,14 @@ const setPrompt = (function () {
     };
 }());
 
+function emptyFunc () { }
+
 /**
  * 设置提示信息 加载完成
  */
 function setPromptLoadingFin () {
     setPrompt('游戏加载完成！通过 双击 空白区域开启新路径吧！');
 }
-
-function emptyFunc () { }
 
 /**
  * 设置提示信息 创建新路径后
@@ -68,10 +76,20 @@ let setPromptAfterClosePresentPath = function () {
     setPromptAfterClosePresentPath = emptyFunc;
 };
 
+/**
+ * 初始化提示信息
+ */
+function initPrompt () {
+    const promptWrapperElement = getPromptWrapperElement();
+    promptWrapperElement.addEventListener('click', preventDefaultStopPropagation);
+    setPromptLoadingFin();
+}
+
 export {
     setPrompt,
     setPromptLoadingFin,
     setPromptAfterStartPath,
     setPromptAfterAddFollowDot,
-    setPromptAfterClosePresentPath
+    setPromptAfterClosePresentPath,
+    initPrompt
 };
