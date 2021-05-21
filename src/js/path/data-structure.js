@@ -95,7 +95,6 @@ class Path {
      * @param {CanvasDrawHelper} drawHelper 
      */
     drawPathDots (drawHelper) {
-        drawHelper.resetColor();
         const { firstDot } = this;
         drawHelper.drawCircle(firstDot);
         let dots = firstDot.followDots;
@@ -113,6 +112,7 @@ class Path {
                 {
                     drawHelper.drawCircle(dot, 5);
                 }
+                drawHelper.resetColor();
             }
             dots = newDots;
         }
@@ -186,9 +186,11 @@ class FollowDot extends Dot {
      * @param {CanvasDrawHelper} drawHelper 
      */
     drawDurationPath (drawHelper) {
+        drawHelper.setColor(this.color);
         drawHelper.startPath(this);
         drawHelper.concatDot(this.__lastState);
         drawHelper.closePath();
+        drawHelper.resetColor();
     }
     /**
      * 计算位置数据
