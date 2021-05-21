@@ -3,8 +3,8 @@
 import {
     addElementClass,
     createSingletonFunc,
-    preventDefaultStopPropagation,
-    removeElementClass
+    removeElementClass,
+    setElementEventUsed
 } from '../util/base';
 import {
     initGuide,
@@ -79,9 +79,7 @@ function enableShowHelp () {
  * 初始化提示信息
  */
 function initPrompt () {
-    const promptIconWrapperElement = __getPromptIconWrapperElement();
-    promptIconWrapperElement.addEventListener('click', preventDefaultStopPropagation);
-    promptIconWrapperElement.addEventListener('dblclick', preventDefaultStopPropagation);
+    setElementEventUsed(__getPromptIconWrapperElement());
     setGuideLoadingFin();
     initHelp();
     initGuide();

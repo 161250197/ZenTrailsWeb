@@ -3,7 +3,7 @@
 import {
     createSingletonFunc,
     hideElement,
-    preventDefaultStopPropagation,
+    setElementEventUsed,
     showElement
 } from '../util/base';
 import { guidePromptArr } from './guide';
@@ -56,9 +56,8 @@ function initHelp () {
             .join('\n');
 
     const helpElement = __getHelpElement();
-    helpElement.addEventListener('click', preventDefaultStopPropagation);
+    setElementEventUsed(helpElement);
     helpElement.addEventListener('click', __hideHelp);
-    helpElement.addEventListener('dblclick', preventDefaultStopPropagation);
 }
 
 export {

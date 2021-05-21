@@ -12,7 +12,6 @@ import {
 import {
     createSingletonFunc,
     hideElement,
-    preventDefaultStopPropagation,
     setElementEventUsed,
     showElement
 } from '../util/base';
@@ -95,12 +94,10 @@ let __getResetBtnElement = createSingletonFunc(
 function initCartoon () {
     const startBtnElement = __getStartBtnElement();
     setElementEventUsed(startBtnElement);
-    startBtnElement.addEventListener('click', preventDefaultStopPropagation);
     startBtnElement.addEventListener('click', __startCartoon);
 
     const resetBtnElement = __getResetBtnElement();
     setElementEventUsed(resetBtnElement);
-    resetBtnElement.addEventListener('click', preventDefaultStopPropagation);
     resetBtnElement.addEventListener('click', __resetCartoon);
 }
 
