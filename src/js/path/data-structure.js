@@ -10,11 +10,19 @@ import {
     isInCircle
 } from '../util/math';
 
-
+/** 路径数据结构 */
 class Path {
+    /**
+     * @param {{x: number, y: number}} position 
+     */
     constructor (position) {
         this.firstDot = new FirstDot(position, this);
     }
+    /**
+     * 选择节点
+     * @param {{x: number, y: number}} position 
+     * @returns {Array<Dot>}
+     */
     selectDot (position) {
         const selectedDots = [];
         if (isInCircle(position, this.firstDot, 10))
@@ -40,6 +48,9 @@ class Path {
         }
         return selectedDots;
     }
+    /**
+     * 重置路径
+     */
     reset () {
         let dots = [this.firstDot];
         while (dots.length)
@@ -119,19 +130,29 @@ class Path {
     }
 }
 
+/** 节点数据结构 */
 class Dot {
+    /**
+     * @param {{x: number, y: number}} param0 
+     */
     constructor ({ x, y }) {
         this.x = x;
         this.y = y;
         this.followDots = [];
         this.isTarget = false;
     }
+    /**
+     * 追加节点
+     * @param {{x: number, y: number}} location 
+     * @returns {FollowDot}
+     */
     appendDot (location) {
         const __followDot = new FollowDot(location, this);
         this.followDots.push(__followDot);
         return __followDot;
     }
     /**
+     * 移除节点
      * @returns {?Dot} 上个点或空
      */
     removeDot () {
@@ -139,21 +160,30 @@ class Dot {
     }
 }
 
+/** 首个节点数据结构 */
 class FirstDot extends Dot {
+    /**
+     * @param {{x: number, y: number}} position 
+     * @param {Path} path 
+     */
     constructor (position, path) {
         super(position);
         this.path = path;
     }
+    /**
+     * @override
+     */
     removeDot () {
         removePath(this);
         return undefined;
     }
-    __getDurationState () {
-        return this;
-    }
 }
 
 class FollowDot extends Dot {
+    /**
+     * @param {{x: number, y: number}} position 
+     * @param {Dot} lastDot 
+     */
     constructor (position, lastDot) {
         super(position);
         this.radius = calPointDistance(lastDot, position);
@@ -167,14 +197,24 @@ class FollowDot extends Dot {
             angle: this.angle
         };
     }
+    /**
+     * 重置节点
+     */
     reset () {
         this.setState(this.__initialState);
     }
+    /**
+     * 设置节点状态
+     * @param {{x: number, y: number, angle: number}} param0 
+     */
     setState ({ x, y, angle }) {
         this.x = x;
         this.y = y;
         this.angle = angle;
     }
+    /**
+     * @override
+     */
     removeDot () {
         const lastDotFollowDots = this.lastDot.followDots;
         const index = lastDotFollowDots.indexOf(this);
