@@ -20,6 +20,7 @@ import {
     setGuideAfterStartPath,
     setGuideAfterChooseDot
 } from '../prompt/guide';
+import { initDataSaveUpload } from './data-save-upload';
 
 /** @type {Array<Path>} */
 let __pathArr = [];
@@ -181,7 +182,15 @@ function removePath (path) {
     __pathArr.splice(index, 1);
 }
 
+/**
+ * 初始化路径模块
+ */
+function initPath () {
+    initDataSaveUpload();
+}
+
 export {
+    initPath,
     startPath,
     addFollowDot,
     getPathArr,
