@@ -111,7 +111,22 @@ function removeElementClass (element, className) {
  */
 function emptyFunc () { }
 
+/**
+ * 下载文件
+ * @param {string} name 下载文件名
+ * @param {string} href 下载路径
+ */
+const downloadFile = (function () {
+    const a = document.createElement('a');
+    return (name, href) => {
+        a.download = name;
+        a.href = href;
+        a.click();
+    };
+}());
+
 export {
+    downloadFile,
     emptyFunc,
     preventDefaultStopPropagation,
     setElementEventUsed,

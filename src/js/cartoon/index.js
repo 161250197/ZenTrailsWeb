@@ -20,6 +20,11 @@ import {
     setGuideAfterPlayCartoon,
     setGuideAfterResetPlayCartoon
 } from '../prompt/guide';
+import {
+    hideExportPictureElement,
+    initExportPicture,
+    showExportPictureElement
+} from './export-picture';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -53,6 +58,7 @@ function __startCartoon () {
     __updateCartoonPathFunc = updateCartoonPath.bind(this, drawHelperPath, drawHelperDots);
 
     setGuideAfterPlayCartoon();
+    showExportPictureElement();
 }
 
 function __resetCartoon () {
@@ -64,6 +70,7 @@ function __resetCartoon () {
     refreshCanvas();
 
     setGuideAfterResetPlayCartoon();
+    hideExportPictureElement();
 }
 
 /**
@@ -99,6 +106,8 @@ function initCartoon () {
     const resetBtnElement = __getResetBtnElement();
     setElementEventUsed(resetBtnElement);
     resetBtnElement.addEventListener('click', __resetCartoon);
+
+    initExportPicture();
 }
 
 /**
