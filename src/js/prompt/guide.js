@@ -119,6 +119,16 @@ function __enableAllFeature () {
     enableShowHelp();
 }
 
+function __disableAllGuide () {
+    setGuideLoadingFin = emptyFunc;
+    setGuideAfterStartPath = emptyFunc;
+    setGuideAfterAddFollowDot = emptyFunc;
+    setGuideAfterClosePresentPath = emptyFunc;
+    setGuideAfterPlayCartoon = emptyFunc;
+    setGuideAfterResetPlayCartoon = emptyFunc;
+    setGuideAfterChooseDot = emptyFunc;
+}
+
 /**
  * 初始化引导信息
  */
@@ -127,6 +137,7 @@ function initGuide () {
     {
         __hidePrompt();
         __enableAllFeature();
+        __disableAllGuide();
     }
 }
 
