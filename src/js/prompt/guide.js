@@ -1,6 +1,10 @@
 // 引导信息
 
-import { showStartBtnElement } from '../cartoon';
+import {
+    enableResetCartoon,
+    showResetBtnElement,
+    showStartBtnElement
+} from '../cartoon';
 import { enableClosePresentPath } from '../cover';
 import { enableShowDotSetting } from '../cover/dot-setting';
 import { addPrompt } from '.';
@@ -69,9 +73,18 @@ let setGuideAfterClosePresentPath = function () {
  * 设置引导信息 播放动画后
  */
 let setGuideAfterPlayCartoon = function () {
-    addPrompt(__guidePromptArr.resetCartoon);
     addPrompt(__guidePromptArr.exportPicture);
     setGuideAfterPlayCartoon = emptyFunc;
+};
+
+/**
+ * 设置引导信息 导出图片后
+ */
+let setGuideAfterExportPicture = function () {
+    addPrompt(__guidePromptArr.resetCartoon);
+    enableResetCartoon();
+    showResetBtnElement();
+    setGuideAfterExportPicture = emptyFunc;
 };
 
 /**
@@ -114,6 +127,7 @@ function __enableAllFeature () {
     showStartBtnElement();
     enableClosePresentPath();
     enableShowDotSetting();
+    enableResetCartoon();
 }
 
 function __disableAllGuide () {
@@ -122,6 +136,7 @@ function __disableAllGuide () {
     setGuideAfterAddFollowDot = emptyFunc;
     setGuideAfterClosePresentPath = emptyFunc;
     setGuideAfterPlayCartoon = emptyFunc;
+    setGuideAfterExportPicture = emptyFunc;
     setGuideAfterResetPlayCartoon = emptyFunc;
     setGuideAfterChooseDot = emptyFunc;
 }
@@ -145,6 +160,7 @@ export {
     setGuideAfterAddFollowDot,
     setGuideAfterClosePresentPath,
     setGuideAfterPlayCartoon,
+    setGuideAfterExportPicture,
     setGuideAfterResetPlayCartoon,
     setGuideAfterChooseDot
 };

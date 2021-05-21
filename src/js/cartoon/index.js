@@ -43,9 +43,42 @@ function __updateCartoon () {
     __setUpdateCartoonHandle(time);
 }
 
+let __getStartBtnElement = createSingletonFunc(
+    function () {
+        return document.getElementById('start-btn');
+    },
+    func => __getStartBtnElement = func
+);
+
+let __getResetBtnElement = createSingletonFunc(
+    function () {
+        return document.getElementById('reset-btn');
+    },
+    func => __getResetBtnElement = func
+);
+
+const {
+    enableResetCartoon,
+    showResetBtnElement
+} = (function () {
+    let resetCartoonEnabled = false;
+    const resetBtnElement = __getResetBtnElement();
+    return {
+        enableResetCartoon: function () {
+            resetCartoonEnabled = true;
+        },
+        showResetBtnElement: function () {
+            if (resetCartoonEnabled)
+            {
+                showElement(resetBtnElement);
+            }
+        }
+    };
+}());
+
 function __startCartoon () {
     closePresentPath();
-    showElement(__getResetBtnElement());
+    showResetBtnElement();
     hideElement(__getStartBtnElement());
     __isPlayingCartoon = true;
     const time = Date.now();
@@ -81,20 +114,6 @@ function isPlayingCartoon () {
     return __isPlayingCartoon;
 }
 
-let __getStartBtnElement = createSingletonFunc(
-    function () {
-        return document.getElementById('start-btn');
-    },
-    func => __getStartBtnElement = func
-);
-
-let __getResetBtnElement = createSingletonFunc(
-    function () {
-        return document.getElementById('reset-btn');
-    },
-    func => __getResetBtnElement = func
-);
-
 /**
  * 初始化动画模块
  */
@@ -120,5 +139,7 @@ function showStartBtnElement () {
 export {
     initCartoon,
     isPlayingCartoon,
+    enableResetCartoon,
+    showResetBtnElement,
     showStartBtnElement
 };
