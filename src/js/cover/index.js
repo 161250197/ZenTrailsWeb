@@ -9,11 +9,6 @@ import {
     selectDot
 } from '../path';
 import {
-    setPromptAfterStartPath,
-    setPromptAfterAddFollowDot,
-    setPromptAfterClosePresentPath
-} from '../prompt';
-import {
     preventDefaultStopPropagation,
     isEventUsed,
     createSingletonFunc
@@ -72,7 +67,6 @@ function __onCoverLeftClickHandler (position) {
     if (pathStarted())
     {
         addFollowDot(position);
-        setPromptAfterAddFollowDot();
     } else
     {
         selectDot(position);
@@ -92,7 +86,6 @@ function onCoverAuxClick (e) {
     if (isRightBtnClick)
     {
         closePresentPath();
-        setPromptAfterClosePresentPath();
     }
 }
 
@@ -111,7 +104,6 @@ function onCoverDblClick (e) {
         clearTimeout(__onCoverLeftClickHandlerTimeoutId);
         const position = getPosition(e);
         startPath(position);
-        setPromptAfterStartPath();
     }
 }
 

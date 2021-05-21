@@ -14,6 +14,11 @@ import {
     FirstDot,
     Path
 } from './data-structure';
+import {
+    setPromptAfterAddFollowDot,
+    setPromptAfterClosePresentPath,
+    setPromptAfterStartPath
+} from '../prompt';
 
 /** @type {Array<Path>} */
 let __pathArr = [];
@@ -30,6 +35,8 @@ function startPath (location) {
     __pathArr.push(path);
     setTargetDot(path.firstDot);
     refreshCanvas();
+
+    setPromptAfterStartPath();
 }
 
 /**
@@ -39,6 +46,8 @@ function addFollowDot (location) {
     // TODO 绘制效果优化
     setTargetDot(__target.appendDot(location));
     refreshCanvas();
+
+    setPromptAfterAddFollowDot();
 }
 
 /**
@@ -53,6 +62,8 @@ function getPathArr () {
  */
 function closePresentPath () {
     setTargetDot(undefined);
+
+    setPromptAfterClosePresentPath();
 }
 
 /**
