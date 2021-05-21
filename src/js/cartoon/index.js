@@ -25,6 +25,12 @@ import {
     initExportPicture,
     showExportPictureElement
 } from './export-picture';
+import {
+    hideDataSaveBtnElement,
+    hideDataUploadBtnElement,
+    showDataSaveBtnElement,
+    showDataUploadBtnElement
+} from '../path/data-save-upload';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -79,6 +85,8 @@ const {
 function __startCartoon () {
     closePresentPath();
     showResetBtnElement();
+    hideDataSaveBtnElement();
+    hideDataUploadBtnElement();
     hideElement(__getStartBtnElement());
     __isPlayingCartoon = true;
     const time = Date.now();
@@ -95,6 +103,8 @@ function __startCartoon () {
 }
 
 function __resetCartoon () {
+    showDataSaveBtnElement();
+    showDataUploadBtnElement();
     showElement(__getStartBtnElement());
     hideElement(__getResetBtnElement());
     __isPlayingCartoon = false;

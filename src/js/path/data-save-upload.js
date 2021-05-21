@@ -2,7 +2,9 @@
 
 import {
     setElementEventUsed,
-    createSingletonFunc
+    createSingletonFunc,
+    hideElement,
+    showElement
 } from '../util/base';
 
 let __getDataUploadBtnElement = createSingletonFunc(
@@ -28,6 +30,34 @@ function __saveData () {
 }
 
 /**
+ * 隐藏数据导出节点
+ */
+function hideDataSaveBtnElement () {
+    hideElement(__getDataSaveBtnElement());
+}
+
+/**
+ * 显示数据导出节点
+ */
+function showDataSaveBtnElement () {
+    showElement(__getDataSaveBtnElement());
+}
+
+/**
+ * 隐藏数据导入节点
+ */
+function hideDataUploadBtnElement () {
+    hideElement(__getDataUploadBtnElement());
+}
+
+/**
+ * 显示数据导入节点
+ */
+function showDataUploadBtnElement () {
+    showElement(__getDataUploadBtnElement());
+}
+
+/**
  * 初始化导出导入数据
  */
 function initDataSaveUpload () {
@@ -41,5 +71,9 @@ function initDataSaveUpload () {
 }
 
 export {
+    hideDataSaveBtnElement,
+    showDataSaveBtnElement,
+    hideDataUploadBtnElement,
+    showDataUploadBtnElement,
     initDataSaveUpload
 };
