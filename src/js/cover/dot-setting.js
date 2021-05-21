@@ -27,7 +27,7 @@ let getSettingWrapperElement = createSingletonFunc(
  */
 let getColorSettingElement = createSingletonFunc(
     function () {
-        return getSettingWrapperElement().getElementsByClassName('color')[0];
+        return document.querySelector('#setting-wrapper .color');
     },
     func => getColorSettingElement = func
 );
@@ -38,7 +38,7 @@ let getColorSettingElement = createSingletonFunc(
  */
 let getDirectionSettingElement = createSingletonFunc(
     function () {
-        return getSettingWrapperElement().getElementsByClassName('direction')[0];
+        return document.querySelector('#setting-wrapper .direction');
     },
     func => getDirectionSettingElement = func
 );
@@ -49,7 +49,7 @@ let getDirectionSettingElement = createSingletonFunc(
  */
 let getVelocitySettingElement = createSingletonFunc(
     function () {
-        return getSettingWrapperElement().getElementsByClassName('velocity')[0];
+        return document.querySelector('#setting-wrapper .velocity');
     },
     func => getVelocitySettingElement = func
 );
@@ -60,7 +60,7 @@ let getVelocitySettingElement = createSingletonFunc(
  */
 let getRemoveBtnSettingElement = createSingletonFunc(
     function () {
-        return getSettingWrapperElement().getElementsByClassName('remove')[0];
+        return document.querySelector('#setting-wrapper .remove');
     },
     func => getRemoveBtnSettingElement = func
 );
@@ -71,7 +71,7 @@ let getRemoveBtnSettingElement = createSingletonFunc(
  */
 let getFirstDotSettingElement = createSingletonFunc(
     function () {
-        return getSettingWrapperElement().getElementsByClassName('first-dot-setting')[0];
+        return document.querySelector('#setting-wrapper .first-dot-setting');
     },
     func => getFirstDotSettingElement = func
 );
@@ -82,7 +82,7 @@ let getFirstDotSettingElement = createSingletonFunc(
  */
 let getFollowDotSettingElement = createSingletonFunc(
     function () {
-        return getSettingWrapperElement().getElementsByClassName('follow-dot-setting')[0];
+        return document.querySelector('#setting-wrapper .follow-dot-setting');
     },
     func => getFollowDotSettingElement = func
 );

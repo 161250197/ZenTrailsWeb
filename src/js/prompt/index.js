@@ -11,25 +11,16 @@ import {
     removeElementClass
 } from '../util/base';
 
-let getPromptWrapperElement = createSingletonFunc(
-    function () {
-        return document.getElementById('prompt');
-    },
-    func => getPromptWrapperElement = func
-);
-
 let getPromptIconWrapperElement = createSingletonFunc(
     function () {
-        const promptWrapperElement = getPromptWrapperElement();
-        return promptWrapperElement.getElementsByClassName('i-wrapper')[0];
+        return document.querySelector('#prompt .i-wrapper');
     },
     func => getPromptIconWrapperElement = func
 );
 
 let getPromptContentElement = createSingletonFunc(
     function () {
-        const promptWrapperElement = getPromptWrapperElement();
-        return promptWrapperElement.getElementsByClassName('content')[0];
+        return document.querySelector('#prompt .content');
     },
     func => getPromptContentElement = func
 );
