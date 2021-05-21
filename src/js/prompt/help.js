@@ -20,44 +20,44 @@ const __helpPromptNameOrder = [
     'promptFin'
 ];
 
-let getHelpElement = createSingletonFunc(
+let __getHelpElement = createSingletonFunc(
     function () {
         return document.getElementById('help');
     },
-    func => getHelpElement = func
+    func => __getHelpElement = func
 );
 
-let getHelpUlElement = createSingletonFunc(
+let __getHelpUlElement = createSingletonFunc(
     function () {
         return document.querySelector('#help .help-ul');
     },
-    func => getHelpUlElement = func
+    func => __getHelpUlElement = func
 );
 
-function hideHelp () {
-    hideElement(getHelpElement());
+function __hideHelp () {
+    hideElement(__getHelpElement());
 }
 
 /**
  * 显示帮助信息
  */
 function showHelp () {
-    showElement(getHelpElement());
+    showElement(__getHelpElement());
 }
 
 /**
  * 初始化帮助信息
  */
 function initHelp () {
-    getHelpUlElement().innerHTML =
+    __getHelpUlElement().innerHTML =
         __helpPromptNameOrder
             .map(name => guidePromptArr[name])
             .map(prompt => `<li>${ prompt }</li>`)
             .join('\n');
 
-    const helpElement = getHelpElement();
+    const helpElement = __getHelpElement();
     helpElement.addEventListener('click', preventDefaultStopPropagation);
-    helpElement.addEventListener('click', hideHelp);
+    helpElement.addEventListener('click', __hideHelp);
 }
 
 export {

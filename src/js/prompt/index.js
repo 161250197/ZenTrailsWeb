@@ -12,24 +12,24 @@ import {
     showHelp
 } from './help';
 
-let getPromptIconWrapperElement = createSingletonFunc(
+let __getPromptIconWrapperElement = createSingletonFunc(
     function () {
         return document.querySelector('#prompt .i-wrapper');
     },
-    func => getPromptIconWrapperElement = func
+    func => __getPromptIconWrapperElement = func
 );
 
-let getPromptContentElement = createSingletonFunc(
+let __getPromptContentElement = createSingletonFunc(
     function () {
         return document.querySelector('#prompt .content');
     },
-    func => getPromptContentElement = func
+    func => __getPromptContentElement = func
 );
 
 const __prompts = [];
 
-const refreshPrompt = (function () {
-    const promptContentElement = getPromptContentElement();
+const __refreshPrompt = (function () {
+    const promptContentElement = __getPromptContentElement();
     const transparentClassName = 'transparent';
     const transitionTime = 500;
     return () => {
@@ -45,17 +45,21 @@ const refreshPrompt = (function () {
                 __prompts.shift();
                 if (__prompts.length)
                 {
-                    setTimeout(refreshPrompt, transitionTime * 2);
+                    setTimeout(__refreshPrompt, transitionTime * 2);
                 }
             }, transitionTime);
         }, transitionTime);
     };
 }());
 
+/**
+ * 添加信息信息显示
+ * @param {string} prompt 
+ */
 function addPrompt (prompt) {
     if (__prompts.length === 0)
     {
-        setTimeout(refreshPrompt);
+        setTimeout(__refreshPrompt);
     }
     __prompts.push(prompt);
 }
@@ -64,7 +68,7 @@ function addPrompt (prompt) {
  * 启用显示帮助
  */
 function enableShowHelp () {
-    const promptIconWrapperElement = getPromptIconWrapperElement();
+    const promptIconWrapperElement = __getPromptIconWrapperElement();
     promptIconWrapperElement.addEventListener('click', showHelp);
 }
 
@@ -72,7 +76,7 @@ function enableShowHelp () {
  * 初始化提示信息
  */
 function initPrompt () {
-    const promptIconWrapperElement = getPromptIconWrapperElement();
+    const promptIconWrapperElement = __getPromptIconWrapperElement();
     promptIconWrapperElement.addEventListener('click', preventDefaultStopPropagation);
     promptIconWrapperElement.addEventListener('dblclick', preventDefaultStopPropagation);
     setGuideLoadingFin();

@@ -9,6 +9,9 @@ import {
 } from '.';
 import { emptyFunc } from '../util/base';
 
+/**
+ * 引导提示信息集合
+ */
 const guidePromptArr = {
     loadingFin: '游戏加载完成！',
     helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
