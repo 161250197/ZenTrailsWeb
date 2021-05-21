@@ -5,7 +5,10 @@ import {
     showResetBtnElement,
     showStartBtnElement
 } from '../cartoon';
-import { enableClosePresentPath } from '../cover';
+import {
+    enableChooseDot,
+    enableClosePresentPath
+} from '../cover';
 import { enableShowDotSetting } from '../cover/dot-setting';
 import { addPrompt } from '.';
 import { emptyFunc } from '../util/base';
@@ -91,6 +94,7 @@ let setGuideAfterExportPicture = function () {
  * 设置引导信息 重置动画后
  */
 let setGuideAfterResetPlayCartoon = function () {
+    enableChooseDot();
     addPrompt(__guidePromptArr.chooseDot);
     setGuideAfterResetPlayCartoon = emptyFunc;
 };
@@ -128,6 +132,7 @@ function __enableAllFeature () {
     enableClosePresentPath();
     enableShowDotSetting();
     enableResetCartoon();
+    enableChooseDot();
 }
 
 function __disableAllGuide () {

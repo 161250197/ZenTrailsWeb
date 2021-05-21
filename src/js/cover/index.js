@@ -51,15 +51,26 @@ function __onCoverClick (e) {
     }
 }
 
-function __onCoverLeftClickHandler (position) {
-    if (pathStarted())
-    {
-        addFollowDot(position);
-    } else
-    {
-        selectDot(position);
-    }
-}
+const {
+    enableChooseDot,
+    __onCoverLeftClickHandler
+} = (function () {
+    let chooseDotEnabled = false;
+    return {
+        enableChooseDot: function () {
+            chooseDotEnabled = true;
+        },
+        __onCoverLeftClickHandler: function (position) {
+            if (pathStarted())
+            {
+                addFollowDot(position);
+            } else if (chooseDotEnabled)
+            {
+                selectDot(position);
+            }
+        }
+    };
+}());
 
 function __onCoverAuxClick (e) {
     if (isEventUsed(e) || isPlayingCartoon())
@@ -108,6 +119,7 @@ function initCover () {
 
 export {
     getCoverElement,
+    enableChooseDot,
     enableClosePresentPath,
     initCover
 };
