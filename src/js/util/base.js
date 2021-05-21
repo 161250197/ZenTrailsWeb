@@ -55,14 +55,14 @@ function createSingletonFunc (createFunc, updateCallback) {
     };
 }
 
-const HIDE = 'hide';
+const __HIDE = 'hide';
 
 /**
  * 隐藏节点
  * @param {HTMLElement} element 
  */
 function hideElement (element) {
-    addElementClass(element, HIDE);
+    addElementClass(element, __HIDE);
 }
 
 /**
@@ -70,7 +70,7 @@ function hideElement (element) {
  * @param {HTMLElement} element 
  */
 function showElement (element) {
-    removeElementClass(element, HIDE);
+    removeElementClass(element, __HIDE);
 }
 
 /**

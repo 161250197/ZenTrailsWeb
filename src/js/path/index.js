@@ -34,7 +34,7 @@ function startPath (location) {
     // TODO 绘制效果优化
     const path = new Path(location);
     __pathArr.push(path);
-    setTargetDot(path.firstDot);
+    __setTargetDot(path.firstDot);
     refreshCanvas();
 
     setGuideAfterStartPath();
@@ -45,7 +45,7 @@ function startPath (location) {
  */
 function addFollowDot (location) {
     // TODO 绘制效果优化
-    setTargetDot(__target.appendDot(location));
+    __setTargetDot(__target.appendDot(location));
     refreshCanvas();
 
     setGuideAfterAddFollowDot();
@@ -62,7 +62,7 @@ function getPathArr () {
  * 关闭当前路径
  */
 function closePresentPath () {
-    setTargetDot(undefined);
+    __setTargetDot(undefined);
 
     setGuideAfterClosePresentPath();
 }
@@ -90,7 +90,7 @@ function selectDot (position) {
         setGuideAfterChooseDot();
 
         // TODO 多个重叠点时的优先级处理
-        setTargetDot(selectedDots[0]);
+        __setTargetDot(selectedDots[0]);
         refreshCanvas();
     }
 }
@@ -103,11 +103,7 @@ function getTargetDot () {
     return __target;
 }
 
-/**
- * 设置选择的目标点
- * @param {?Dot} target 
- */
-function setTargetDot (target) {
+function __setTargetDot (target) {
     if (__target !== undefined)
     {
         __target.isTarget = false;
@@ -148,7 +144,7 @@ function removeTargetDot () {
     {
         return;
     }
-    setTargetDot(__target.removeDot());
+    __setTargetDot(__target.removeDot());
 }
 
 /**

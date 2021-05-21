@@ -6,8 +6,11 @@ import {
     getUpCanvasDrawHelper
 } from './draw-helper';
 
+/**
+ * 刷新画布
+ */
 function refreshCanvas () {
-    return requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
         getDownCanvasDrawHelper().clearCanvas();
         const drawHelper = getUpCanvasDrawHelper();
         drawHelper.clearCanvas();

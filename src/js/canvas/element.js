@@ -5,11 +5,11 @@ import {
     setElementStyle
 } from '../util/base';
 
-let getCanvasWrapperElement = createSingletonFunc(
+let __getCanvasWrapperElement = createSingletonFunc(
     function () {
         return document.getElementById('canvas-wrapper');
     },
-    func => getCanvasWrapperElement = func
+    func => __getCanvasWrapperElement = func
 );
 
 /**
@@ -39,7 +39,7 @@ let getDownCanvasElement = createSingletonFunc(
  * @returns {{width: number, height: number}}
  */
 function getCanvasWrapperSize () {
-    const canvasWrapper = getCanvasWrapperElement();
+    const canvasWrapper = __getCanvasWrapperElement();
     const { offsetWidth, offsetHeight } = canvasWrapper;
     return {
         width: offsetWidth,
@@ -47,7 +47,7 @@ function getCanvasWrapperSize () {
     };
 }
 
-function updateCanvasSize () {
+function __updateCanvasSize () {
     const { width, height } = getCanvasWrapperSize();
     [
         getDownCanvasElement(),
@@ -68,7 +68,7 @@ function updateCanvasSize () {
  * 初始化画布管理
  */
 function initCanvasElement () {
-    setTimeout(updateCanvasSize);
+    setTimeout(__updateCanvasSize);
 }
 
 export {

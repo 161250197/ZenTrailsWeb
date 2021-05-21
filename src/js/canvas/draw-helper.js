@@ -1,8 +1,12 @@
 // 绘制辅助
 
 import { createSingletonFunc } from '../util/base';
-import { getDownCanvasElement, getUpCanvasElement } from './element';
+import {
+    getDownCanvasElement,
+    getUpCanvasElement
+} from './element';
 
+/** 画布绘制工具 */
 class CanvasDrawHelper {
     /**
      * 

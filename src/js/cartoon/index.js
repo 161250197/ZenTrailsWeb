@@ -27,25 +27,25 @@ let __updateCartoonHandle;
 let __lastTime;
 let __updateCartoonPathFunc;
 
-function setUpdateCartoonHandle (time) {
-    __updateCartoonHandle = requestAnimationFrame(updateCartoon);
+function __setUpdateCartoonHandle (time) {
+    __updateCartoonHandle = requestAnimationFrame(__updateCartoon);
     __lastTime = time;
 }
 
-function updateCartoon () {
+function __updateCartoon () {
     const time = Date.now();
     const duration = time - __lastTime;
     __updateCartoonPathFunc(duration);
-    setUpdateCartoonHandle(time);
+    __setUpdateCartoonHandle(time);
 }
 
-function startCartoon () {
+function __startCartoon () {
     closePresentPath();
-    showElement(getResetBtnElement());
-    hideElement(getStartBtnElement());
+    showElement(__getResetBtnElement());
+    hideElement(__getStartBtnElement());
     __isPlayingCartoon = true;
     const time = Date.now();
-    setUpdateCartoonHandle(time);
+    __setUpdateCartoonHandle(time);
     const drawHelperPath = getDownCanvasDrawHelper();
     const drawHelperDots = getUpCanvasDrawHelper();
     drawHelperPath.clearCanvas();
@@ -56,9 +56,9 @@ function startCartoon () {
     setGuideAfterPlayCartoon();
 }
 
-function resetCartoon () {
-    showElement(getStartBtnElement());
-    hideElement(getResetBtnElement());
+function __resetCartoon () {
+    showElement(__getStartBtnElement());
+    hideElement(__getResetBtnElement());
     __isPlayingCartoon = false;
     cancelAnimationFrame(__updateCartoonHandle);
     resetPaths();
@@ -75,40 +75,40 @@ function isPlayingCartoon () {
     return __isPlayingCartoon;
 }
 
-let getStartBtnElement = createSingletonFunc(
+let __getStartBtnElement = createSingletonFunc(
     function () {
         return document.getElementById('start-btn');
     },
-    func => getStartBtnElement = func
+    func => __getStartBtnElement = func
 );
 
-let getResetBtnElement = createSingletonFunc(
+let __getResetBtnElement = createSingletonFunc(
     function () {
         return document.getElementById('reset-btn');
     },
-    func => getResetBtnElement = func
+    func => __getResetBtnElement = func
 );
 
 /**
  * 初始化动画
  */
 function initCartoon () {
-    const startBtnElement = getStartBtnElement();
+    const startBtnElement = __getStartBtnElement();
     setElementEventUsed(startBtnElement);
     startBtnElement.addEventListener('click', preventDefaultStopPropagation);
-    startBtnElement.addEventListener('click', startCartoon);
+    startBtnElement.addEventListener('click', __startCartoon);
 
-    const resetBtnElement = getResetBtnElement();
+    const resetBtnElement = __getResetBtnElement();
     setElementEventUsed(resetBtnElement);
     resetBtnElement.addEventListener('click', preventDefaultStopPropagation);
-    resetBtnElement.addEventListener('click', resetCartoon);
+    resetBtnElement.addEventListener('click', __resetCartoon);
 }
 
 /**
  * 显示开始播放动画节点
  */
 function showStartBtnElement () {
-    showElement(getStartBtnElement());
+    showElement(__getStartBtnElement());
 }
 
 export {

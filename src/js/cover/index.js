@@ -25,12 +25,7 @@ let getCoverElement = createSingletonFunc(
     func => getCoverElement = func
 );
 
-/**
- * 获取点击或触摸事件的位置
- * @param {MouseEvent|TouchEvent} e 
- * @returns {x: number, y: number}
- */
-function getPosition (e) {
+function __getPosition (e) {
     const { clientX, clientY } =
         e.touches && e.touches[0] ?
             e.touches[0] :
@@ -40,11 +35,7 @@ function getPosition (e) {
 
 let __onCoverLeftClickHandlerTimeoutId;
 
-/**
- * 遮罩左键点击响应
- * @param {MouseEvent} e 
- */
-function onCoverClick (e) {
+function __onCoverClick (e) {
     if (isEventUsed(e) || isPlayingCartoon())
     {
         return;
@@ -53,16 +44,12 @@ function onCoverClick (e) {
     if (isLeftBtnClick)
     {
         clearTimeout(__onCoverLeftClickHandlerTimeoutId);
-        const position = getPosition(e);
+        const position = __getPosition(e);
         const CLICK_TIMEOUT = 200;
         __onCoverLeftClickHandlerTimeoutId = setTimeout(() => __onCoverLeftClickHandler(position), CLICK_TIMEOUT);
     }
 }
 
-/**
- * 遮罩左键点击响应
- * @param {{x: number, y: number}} position 
- */
 function __onCoverLeftClickHandler (position) {
     if (pathStarted())
     {
@@ -73,11 +60,7 @@ function __onCoverLeftClickHandler (position) {
     }
 }
 
-/**
- * 遮罩辅助点击响应
- * @param {MouseEvent} e 
- */
-function onCoverAuxClick (e) {
+function __onCoverAuxClick (e) {
     if (isEventUsed(e) || isPlayingCartoon())
     {
         return;
@@ -89,11 +72,7 @@ function onCoverAuxClick (e) {
     }
 }
 
-/**
- * 遮罩双击响应
- * @param {MouseEvent} e 
- */
-function onCoverDblClick (e) {
+function __onCoverDblClick (e) {
     if (isEventUsed(e) || isPlayingCartoon())
     {
         return;
@@ -102,7 +81,7 @@ function onCoverDblClick (e) {
     if (isLeftBtnClick)
     {
         clearTimeout(__onCoverLeftClickHandlerTimeoutId);
-        const position = getPosition(e);
+        const position = __getPosition(e);
         startPath(position);
     }
 }
@@ -111,7 +90,7 @@ function onCoverDblClick (e) {
  * 允许关闭当前路径
  */
 function enableClosePresentPath () {
-    getCoverElement().addEventListener('auxclick', onCoverAuxClick);
+    getCoverElement().addEventListener('auxclick', __onCoverAuxClick);
 }
 
 /**
@@ -120,8 +99,8 @@ function enableClosePresentPath () {
 function initCover () {
     const cover = getCoverElement();
     cover.addEventListener('contextmenu', preventDefaultStopPropagation);
-    cover.addEventListener('click', onCoverClick);
-    cover.addEventListener('dblclick', onCoverDblClick);
+    cover.addEventListener('click', __onCoverClick);
+    cover.addEventListener('dblclick', __onCoverDblClick);
 }
 
 export {
