@@ -61,18 +61,26 @@ function addPrompt (prompt) {
 }
 
 /**
+ * 启用显示帮助
+ */
+function enableShowHelp () {
+    const promptIconWrapperElement = getPromptIconWrapperElement();
+    promptIconWrapperElement.addEventListener('click', showHelp);
+}
+
+/**
  * 初始化提示信息
  */
 function initPrompt () {
     const promptIconWrapperElement = getPromptIconWrapperElement();
     promptIconWrapperElement.addEventListener('click', preventDefaultStopPropagation);
-    promptIconWrapperElement.addEventListener('click', showHelp);
     promptIconWrapperElement.addEventListener('dblclick', preventDefaultStopPropagation);
     setGuideLoadingFin();
     initHelp();
 }
 
 export {
+    enableShowHelp,
     addPrompt,
     initPrompt
 };

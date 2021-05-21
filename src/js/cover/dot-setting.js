@@ -150,7 +150,7 @@ function hideDotSetting () {
 }
 
 /**
- * 支持显示节点设置弹窗
+ * 启用显示节点设置弹窗
  */
 function enableShowDotSetting () {
     showFollowDotSetting = showFollowDotSettingFunc;

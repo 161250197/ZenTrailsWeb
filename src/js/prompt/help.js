@@ -3,6 +3,7 @@
 import {
     createSingletonFunc,
     hideElement,
+    preventDefaultStopPropagation,
     showElement
 } from '../util/base';
 import { guidePromptArr } from './guide';
@@ -53,7 +54,10 @@ function initHelp () {
             .map(name => guidePromptArr[name])
             .map(prompt => `<li>${ prompt }</li>`)
             .join('\n');
-    getHelpElement().addEventListener('click', hideHelp);
+
+    const helpElement = getHelpElement();
+    helpElement.addEventListener('click', preventDefaultStopPropagation);
+    helpElement.addEventListener('click', hideHelp);
 }
 
 export {

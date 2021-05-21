@@ -3,7 +3,10 @@
 import { showStartBtnElement } from '../cartoon';
 import { enableClosePresentPath } from '../cover';
 import { enableShowDotSetting } from '../cover/dot-setting';
-import { addPrompt } from '.';
+import {
+    addPrompt,
+    enableShowHelp
+} from '.';
 import { emptyFunc } from '../util/base';
 
 const guidePromptArr = {
@@ -78,11 +81,12 @@ let setGuideAfterResetPlayCartoon = function () {
  */
 let setGuideAfterChooseDot = function () {
     addPrompt(guidePromptArr.changeDotSetting);
+    enableShowDotSetting();
     addPrompt(guidePromptArr.addMoreFollowDot);
     addPrompt(guidePromptArr.promptFin);
     addPrompt(guidePromptArr.helpWanted);
+    enableShowHelp();
     addPrompt(guidePromptArr.emptyPrompt);
-    enableShowDotSetting();
     setGuideAfterChooseDot = emptyFunc;
 };
 
