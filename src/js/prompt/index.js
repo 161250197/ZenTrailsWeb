@@ -10,9 +10,9 @@ import {
     preventDefaultStopPropagation,
     removeElementClass
 } from '../util/base';
+import { guidePromptArr } from './guide';
 import {
     initHelp,
-    helpPromptArr,
     showHelp
 } from './help';
 
@@ -68,8 +68,8 @@ function addPrompt (prompt) {
  * 设置提示信息 加载完成
  */
 let setPromptLoadingFin = function () {
-    addPrompt(helpPromptArr.loadingFin);
-    addPrompt(helpPromptArr.beginNewPath);
+    addPrompt(guidePromptArr.loadingFin);
+    addPrompt(guidePromptArr.beginNewPath);
     setPromptLoadingFin = emptyFunc;
 };
 
@@ -77,7 +77,7 @@ let setPromptLoadingFin = function () {
  * 设置提示信息 创建新路径后
  */
 let setPromptAfterStartPath = function () {
-    addPrompt(helpPromptArr.addFollowDot);
+    addPrompt(guidePromptArr.addFollowDot);
     setPromptAfterStartPath = emptyFunc;
 };
 
@@ -85,7 +85,7 @@ let setPromptAfterStartPath = function () {
  * 设置提示信息 增加新节点后
  */
 let setPromptAfterAddFollowDot = function () {
-    addPrompt(helpPromptArr.closePresentPath);
+    addPrompt(guidePromptArr.closePresentPath);
     enableClosePresentPath();
     setPromptAfterAddFollowDot = emptyFunc;
 };
@@ -94,7 +94,7 @@ let setPromptAfterAddFollowDot = function () {
  * 设置提示信息 关闭当前路径后
  */
 let setPromptAfterClosePresentPath = function () {
-    addPrompt(helpPromptArr.startPlayCartoon);
+    addPrompt(guidePromptArr.startPlayCartoon);
     showStartBtnElement();
     setPromptAfterClosePresentPath = emptyFunc;
 };
@@ -103,7 +103,7 @@ let setPromptAfterClosePresentPath = function () {
  * 设置提示信息 播放动画后
  */
 let setPromptAfterPlayCartoon = function () {
-    addPrompt(helpPromptArr.resetCartoon);
+    addPrompt(guidePromptArr.resetCartoon);
     setPromptAfterPlayCartoon = emptyFunc;
 };
 
@@ -111,7 +111,7 @@ let setPromptAfterPlayCartoon = function () {
  * 设置提示信息 重置动画后
  */
 let setPromptAfterResetPlayCartoon = function () {
-    addPrompt(helpPromptArr.chooseDot);
+    addPrompt(guidePromptArr.chooseDot);
     setPromptAfterResetPlayCartoon = emptyFunc;
 };
 
@@ -119,11 +119,11 @@ let setPromptAfterResetPlayCartoon = function () {
  * 设置提示信息 选择节点后
  */
 let setPromptAfterChooseDot = function () {
-    addPrompt(helpPromptArr.changeDotSetting);
-    addPrompt(helpPromptArr.addMoreFollowDot);
-    addPrompt(helpPromptArr.promptFin);
-    addPrompt(helpPromptArr.helpWanted);
-    addPrompt(helpPromptArr.emptyPrompt);
+    addPrompt(guidePromptArr.changeDotSetting);
+    addPrompt(guidePromptArr.addMoreFollowDot);
+    addPrompt(guidePromptArr.promptFin);
+    addPrompt(guidePromptArr.helpWanted);
+    addPrompt(guidePromptArr.emptyPrompt);
     enableShowDotSetting();
     setPromptAfterChooseDot = emptyFunc;
 };
