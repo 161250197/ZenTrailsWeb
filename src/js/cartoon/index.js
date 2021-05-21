@@ -84,9 +84,9 @@ let getResetBtnElement = createSingletonFunc(
 );
 
 /**
- * 初始化动画管理
+ * 初始化动画
  */
-function initCartoonManager () {
+function initCartoon () {
     const startBtnElement = getStartBtnElement();
     setElementEventUsed(startBtnElement);
     startBtnElement.addEventListener('click', preventDefaultStopPropagation);
@@ -99,6 +99,6 @@ function initCartoonManager () {
 }
 
 export {
-    initCartoonManager,
+    initCartoon,
     isPlayingCartoon
 };

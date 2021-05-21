@@ -116,9 +116,9 @@ function onCoverDblClick (e) {
 }
 
 /**
- * 初始化遮罩管理
+ * 初始化遮罩
  */
-function initCoverManager () {
+function initCover () {
     const cover = getCoverElement();
     cover.addEventListener('contextmenu', preventDefaultStopPropagation);
     cover.addEventListener('click', onCoverClick);
@@ -128,5 +128,5 @@ function initCoverManager () {
 
 export {
     getCoverElement,
-    initCoverManager
+    initCover
 };
