@@ -69,7 +69,7 @@ function closePresentPath () {
 
 /**
  * 获取路径是否已经开启
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function pathStarted () {
     return __target !== undefined;

@@ -19,7 +19,7 @@ class CanvasDrawHelper {
     }
     /**
      * 设置颜色
-     * @param {String} color 
+     * @param {string} color 
      */
     setColor (color) {
         this.__ctx.strokeStyle = color;

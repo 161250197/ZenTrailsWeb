@@ -3,7 +3,7 @@
 /**
  * 移除默认响应并组织事件冒泡
  * @param {Event} e 
- * @returns {Boolean} false
+ * @returns {boolean} false
  */
 function preventDefaultStopPropagation (e) {
     setEventUsed(e);
@@ -33,7 +33,7 @@ function setEventUsed (e) {
 /**
  * 检查事件是否已被使用
  * @param {Event} e 
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function isEventUsed (e) {
     return !!e.__eventUsed;
@@ -76,7 +76,7 @@ function showElement (element) {
 /**
  * 设置节点样式
  * @param {HTMLElement} element 
- * @param {String|Array<String>} style 
+ * @param {string|Array<string>} style 
  */
 function setElementStyle (element, style) {
     const styleSeparater = '; ';

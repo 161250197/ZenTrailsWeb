@@ -69,7 +69,7 @@ function resetCartoon () {
 
 /**
  * 获取是否正在播放动画
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function isPlayingCartoon () {
     return __isPlayingCartoon;
