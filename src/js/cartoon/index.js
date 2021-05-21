@@ -1,8 +1,6 @@
 // 动画管理
 
 import {
-    // eslint-disable-next-line no-unused-vars
-    Path,
     closePresentPath,
     resetPaths,
     updateCartoonPath
