@@ -18,9 +18,9 @@ import {
 } from '../util/base';
 import { refreshCanvas } from '../canvas';
 import {
-    setPromptAfterPlayCartoon,
-    setPromptAfterResetPlayCartoon
-} from '../prompt';
+    setGuideAfterPlayCartoon,
+    setGuideAfterResetPlayCartoon
+} from '../prompt/guide';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -53,7 +53,7 @@ function startCartoon () {
     drawHelperDots.clearCanvas();
     __updateCartoonPathFunc = updateCartoonPath.bind(this, drawHelperPath, drawHelperDots);
 
-    setPromptAfterPlayCartoon();
+    setGuideAfterPlayCartoon();
 }
 
 function resetCartoon () {
@@ -64,7 +64,7 @@ function resetCartoon () {
     resetPaths();
     refreshCanvas();
 
-    setPromptAfterResetPlayCartoon();
+    setGuideAfterResetPlayCartoon();
 }
 
 /**

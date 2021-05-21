@@ -15,11 +15,11 @@ import {
     Path
 } from './data-structure';
 import {
-    setPromptAfterAddFollowDot,
-    setPromptAfterClosePresentPath,
-    setPromptAfterStartPath,
-    setPromptAfterChooseDot
-} from '../prompt';
+    setGuideAfterAddFollowDot,
+    setGuideAfterClosePresentPath,
+    setGuideAfterStartPath,
+    setGuideAfterChooseDot
+} from '../prompt/guide';
 
 /** @type {Array<Path>} */
 let __pathArr = [];
@@ -37,7 +37,7 @@ function startPath (location) {
     setTargetDot(path.firstDot);
     refreshCanvas();
 
-    setPromptAfterStartPath();
+    setGuideAfterStartPath();
 }
 
 /**
@@ -48,7 +48,7 @@ function addFollowDot (location) {
     setTargetDot(__target.appendDot(location));
     refreshCanvas();
 
-    setPromptAfterAddFollowDot();
+    setGuideAfterAddFollowDot();
 }
 
 /**
@@ -64,7 +64,7 @@ function getPathArr () {
 function closePresentPath () {
     setTargetDot(undefined);
 
-    setPromptAfterClosePresentPath();
+    setGuideAfterClosePresentPath();
 }
 
 /**
@@ -87,7 +87,7 @@ function selectDot (position) {
     }
     if (selectedDots.length)
     {
-        setPromptAfterChooseDot();
+        setGuideAfterChooseDot();
 
         // TODO 多个重叠点时的优先级处理
         setTargetDot(selectedDots[0]);
