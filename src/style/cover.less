@@ -33,6 +33,41 @@
         opacity: 0;
       }
     }
+    >#help {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      background: fade(lightgray, 20%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      >.help-board {
+        width: 80%;
+        border-radius: 10px;
+        box-shadow: lightgrey 0px 0px 10px 3px;
+        background: white;
+        cursor: auto;
+        >header {
+          width: 100%;
+          height: 30px;
+          box-sizing: border-box;
+          padding: 5px;
+          text-align: center;
+          border-bottom: thin solid lightgray;
+        }
+        >ul {
+          padding: 0 40px;
+          line-height: 1.5em;
+          >li {
+            margin: 5px 0;
+          }
+        }
+      }
+    }
   }
   >.btns {
     position: fixed;
@@ -40,11 +75,9 @@
     top: 0;
     right: 0;
     bottom: 0;
-
     >.btn {
       position: absolute;
       color: fade(grey, 80%);
-
       &#start-btn,
       &#reset-btn {
         left: 20px;

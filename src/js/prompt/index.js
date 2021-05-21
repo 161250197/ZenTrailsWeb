@@ -10,6 +10,11 @@ import {
     preventDefaultStopPropagation,
     removeElementClass
 } from '../util/base';
+import {
+    initHelp,
+    helpPromptArr,
+    showHelp
+} from './help';
 
 let getPromptIconWrapperElement = createSingletonFunc(
     function () {
@@ -59,25 +64,12 @@ function addPrompt (prompt) {
     __prompts.push(prompt);
 }
 
-const __promptArr = {
-    loadingFin: '游戏加载完成！通过 双击 空白区域开启新路径吧！',
-    addFollowDot: '通过 单击 可以增加后续节点！',
-    closePresentPath: '通过 右击 可以结束当前路径！',
-    startPlayCartoon: '点击 左下角 播放按钮就可以开始播放动画啦 (<ゝω•)~☆ ',
-    resetCartoon: '点击 左下角 重置按钮可以返回编辑节点！',
-    chooseDot: '通过 点击 节点就可以修改节点信息！',
-    changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
-    addMoreFollowDot: '通过 单击 也可以继续增加后续节点 啦！',
-    promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！',
-    helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
-    emptyPrompt: ''
-};
-
 /**
  * 设置提示信息 加载完成
  */
 let setPromptLoadingFin = function () {
-    addPrompt(__promptArr.loadingFin);
+    addPrompt(helpPromptArr.loadingFin);
+    addPrompt(helpPromptArr.beginNewPath);
     setPromptLoadingFin = emptyFunc;
 };
 
@@ -85,7 +77,7 @@ let setPromptLoadingFin = function () {
  * 设置提示信息 创建新路径后
  */
 let setPromptAfterStartPath = function () {
-    addPrompt(__promptArr.addFollowDot);
+    addPrompt(helpPromptArr.addFollowDot);
     setPromptAfterStartPath = emptyFunc;
 };
 
@@ -93,7 +85,7 @@ let setPromptAfterStartPath = function () {
  * 设置提示信息 增加新节点后
  */
 let setPromptAfterAddFollowDot = function () {
-    addPrompt(__promptArr.closePresentPath);
+    addPrompt(helpPromptArr.closePresentPath);
     enableClosePresentPath();
     setPromptAfterAddFollowDot = emptyFunc;
 };
@@ -102,7 +94,7 @@ let setPromptAfterAddFollowDot = function () {
  * 设置提示信息 关闭当前路径后
  */
 let setPromptAfterClosePresentPath = function () {
-    addPrompt(__promptArr.startPlayCartoon);
+    addPrompt(helpPromptArr.startPlayCartoon);
     showStartBtnElement();
     setPromptAfterClosePresentPath = emptyFunc;
 };
@@ -111,7 +103,7 @@ let setPromptAfterClosePresentPath = function () {
  * 设置提示信息 播放动画后
  */
 let setPromptAfterPlayCartoon = function () {
-    addPrompt(__promptArr.resetCartoon);
+    addPrompt(helpPromptArr.resetCartoon);
     setPromptAfterPlayCartoon = emptyFunc;
 };
 
@@ -119,7 +111,7 @@ let setPromptAfterPlayCartoon = function () {
  * 设置提示信息 重置动画后
  */
 let setPromptAfterResetPlayCartoon = function () {
-    addPrompt(__promptArr.chooseDot);
+    addPrompt(helpPromptArr.chooseDot);
     setPromptAfterResetPlayCartoon = emptyFunc;
 };
 
@@ -127,11 +119,11 @@ let setPromptAfterResetPlayCartoon = function () {
  * 设置提示信息 选择节点后
  */
 let setPromptAfterChooseDot = function () {
-    addPrompt(__promptArr.changeDotSetting);
-    addPrompt(__promptArr.addMoreFollowDot);
-    addPrompt(__promptArr.promptFin);
-    addPrompt(__promptArr.helpWanted);
-    addPrompt(__promptArr.emptyPrompt);
+    addPrompt(helpPromptArr.changeDotSetting);
+    addPrompt(helpPromptArr.addMoreFollowDot);
+    addPrompt(helpPromptArr.promptFin);
+    addPrompt(helpPromptArr.helpWanted);
+    addPrompt(helpPromptArr.emptyPrompt);
     enableShowDotSetting();
     setPromptAfterChooseDot = emptyFunc;
 };
@@ -142,8 +134,10 @@ let setPromptAfterChooseDot = function () {
 function initPrompt () {
     const promptIconWrapperElement = getPromptIconWrapperElement();
     promptIconWrapperElement.addEventListener('click', preventDefaultStopPropagation);
+    promptIconWrapperElement.addEventListener('click', showHelp);
     promptIconWrapperElement.addEventListener('dblclick', preventDefaultStopPropagation);
     setPromptLoadingFin();
+    initHelp();
 }
 
 export {
