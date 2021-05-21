@@ -3,10 +3,7 @@
 import { showStartBtnElement } from '../cartoon';
 import { enableClosePresentPath } from '../cover';
 import { enableShowDotSetting } from '../cover/dot-setting';
-import {
-    addPrompt,
-    enableShowHelp
-} from '.';
+import { addPrompt } from '.';
 import { emptyFunc } from '../util/base';
 
 const __guidePromptArr = {
@@ -17,6 +14,7 @@ const __guidePromptArr = {
     closePresentPath: '通过 右击 可以结束当前路径！',
     startPlayCartoon: '点击 左下角 播放按钮就可以开始播放动画啦 (<ゝω•)~☆ ',
     resetCartoon: '点击 左下角 重置按钮可以返回编辑节点！',
+    exportPicture: '点击 左下角 导出图片按钮可以导出轨迹图片！',
     chooseDot: '通过 点击 节点就可以修改节点信息！',
     changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
     addMoreFollowDot: '通过 单击 也可以继续增加后续节点啦！',
@@ -72,6 +70,7 @@ let setGuideAfterClosePresentPath = function () {
  */
 let setGuideAfterPlayCartoon = function () {
     addPrompt(__guidePromptArr.resetCartoon);
+    addPrompt(__guidePromptArr.exportPicture);
     setGuideAfterPlayCartoon = emptyFunc;
 };
 
@@ -92,10 +91,9 @@ let setGuideAfterChooseDot = function () {
     addPrompt(__guidePromptArr.addMoreFollowDot);
     addPrompt(__guidePromptArr.promptFin);
     addPrompt(__guidePromptArr.helpWanted);
-    enableShowHelp();
     __hidePrompt();
-    setGuideAfterChooseDot = emptyFunc;
     __setGuideFin();
+    setGuideAfterChooseDot = emptyFunc;
 };
 
 function __hidePrompt () {
@@ -116,7 +114,6 @@ function __enableAllFeature () {
     showStartBtnElement();
     enableClosePresentPath();
     enableShowDotSetting();
-    enableShowHelp();
 }
 
 function __disableAllGuide () {
