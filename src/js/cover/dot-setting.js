@@ -6,7 +6,8 @@ import {
     createSingletonFunc,
     setElementEventUsed,
     hideElement,
-    showElement
+    showElement,
+    emptyFunc
 } from '../util/base';
 
 /**
@@ -120,7 +121,8 @@ function initDotSetting () {
 /**
  * 显示首个节点的设置弹窗
  */
-function showFirstDotSetting () {
+let showFirstDotSetting = emptyFunc;
+function showFirstDotSettingFunc () {
     hideElement(getFollowDotSettingElement());
     showElement(getFirstDotSettingElement());
     showElement(getSettingWrapperElement());
@@ -130,7 +132,8 @@ function showFirstDotSetting () {
  * 显示后续节点的设置弹窗
  * @param {Dot} targetDot 
  */
-function showFollowDotSetting (targetDot) {
+let showFollowDotSetting = emptyFunc;
+function showFollowDotSettingFunc (targetDot) {
     getColorSettingElement().value = targetDot.color;
     getDirectionSettingElement().innerText = targetDot.isAntiClockwise ? '逆时针' : '顺时针';
     getVelocitySettingElement().value = targetDot.angleVelocity;
@@ -146,9 +149,18 @@ function hideDotSetting () {
     hideElement(getSettingWrapperElement());
 }
 
+/**
+ * 支持显示节点设置弹窗
+ */
+function enableShowDotSetting () {
+    showFollowDotSetting = showFollowDotSettingFunc;
+    showFirstDotSetting = showFirstDotSettingFunc;
+}
+
 export {
     initDotSetting,
     showFirstDotSetting,
     showFollowDotSetting,
-    hideDotSetting
+    hideDotSetting,
+    enableShowDotSetting
 };

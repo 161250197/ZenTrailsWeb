@@ -108,17 +108,24 @@ function onCoverDblClick (e) {
 }
 
 /**
+ * 允许关闭当前路径
+ */
+function enableClosePresentPath () {
+    getCoverElement().addEventListener('auxclick', onCoverAuxClick);
+}
+
+/**
  * 初始化遮罩
  */
 function initCover () {
     const cover = getCoverElement();
     cover.addEventListener('contextmenu', preventDefaultStopPropagation);
     cover.addEventListener('click', onCoverClick);
-    cover.addEventListener('auxclick', onCoverAuxClick);
     cover.addEventListener('dblclick', onCoverDblClick);
 }
 
 export {
     getCoverElement,
+    enableClosePresentPath,
     initCover
 };

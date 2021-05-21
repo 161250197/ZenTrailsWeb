@@ -106,7 +106,13 @@ function removeElementClass (element, className) {
     element.classList.remove(className);
 }
 
+/**
+ * 空方法
+ */
+function emptyFunc () { }
+
 export {
+    emptyFunc,
     preventDefaultStopPropagation,
     setElementEventUsed,
     isEventUsed,

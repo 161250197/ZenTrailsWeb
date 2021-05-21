@@ -106,7 +106,15 @@ function initCartoon () {
     resetBtnElement.addEventListener('click', resetCartoon);
 }
 
+/**
+ * 显示开始播放动画节点
+ */
+function showStartBtnElement () {
+    showElement(getStartBtnElement());
+}
+
 export {
     initCartoon,
-    isPlayingCartoon
+    isPlayingCartoon,
+    showStartBtnElement
 };

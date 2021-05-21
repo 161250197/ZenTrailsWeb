@@ -87,11 +87,11 @@ function selectDot (position) {
     }
     if (selectedDots.length)
     {
+        setPromptAfterChooseDot();
+
         // TODO 多个重叠点时的优先级处理
         setTargetDot(selectedDots[0]);
         refreshCanvas();
-
-        setPromptAfterChooseDot();
     }
 }
 

@@ -1,8 +1,12 @@
 // 提示信息
 
+import { showStartBtnElement } from '../cartoon';
+import { enableClosePresentPath } from '../cover';
+import { enableShowDotSetting } from '../cover/dot-setting';
 import {
     addElementClass,
     createSingletonFunc,
+    emptyFunc,
     preventDefaultStopPropagation,
     removeElementClass
 } from '../util/base';
@@ -64,18 +68,17 @@ function addPrompt (prompt) {
     __prompts.push(prompt);
 }
 
-function emptyFunc () { }
-
 const __promptArr = {
     loadingFin: '游戏加载完成！通过 双击 空白区域开启新路径吧！',
-    changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
     addFollowDot: '通过 单击 可以增加后续节点！',
     closePresentPath: '通过 右击 可以结束当前路径！',
     startPlayCartoon: '点击 左下角 播放按钮就可以开始播放动画啦 (<ゝω•)~☆ ',
-    resetCartoon: '点击 左下角 重置按钮可以返回编辑路径！',
-    chooseDot: '通过 点击 节点可以修改节点信息！',
-    afterChooseDot: '选择节点后可以重新 修改节点信息 和 增加后续节点 啦！',
+    resetCartoon: '点击 左下角 重置按钮可以返回编辑节点！',
+    chooseDot: '通过 点击 节点就可以修改节点信息！',
+    changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
+    addMoreFollowDot: '通过 单击 也可以继续增加后续节点 啦！',
     promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！',
+    helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
     emptyPrompt: ''
 };
 
@@ -91,7 +94,6 @@ let setPromptLoadingFin = function () {
  * 设置提示信息 创建新路径后
  */
 let setPromptAfterStartPath = function () {
-    addPrompt(__promptArr.changeDotSetting);
     addPrompt(__promptArr.addFollowDot);
     setPromptAfterStartPath = emptyFunc;
 };
@@ -101,6 +103,7 @@ let setPromptAfterStartPath = function () {
  */
 let setPromptAfterAddFollowDot = function () {
     addPrompt(__promptArr.closePresentPath);
+    enableClosePresentPath();
     setPromptAfterAddFollowDot = emptyFunc;
 };
 
@@ -109,6 +112,7 @@ let setPromptAfterAddFollowDot = function () {
  */
 let setPromptAfterClosePresentPath = function () {
     addPrompt(__promptArr.startPlayCartoon);
+    showStartBtnElement();
     setPromptAfterClosePresentPath = emptyFunc;
 };
 
@@ -132,9 +136,12 @@ let setPromptAfterResetPlayCartoon = function () {
  * 设置提示信息 选择节点后
  */
 let setPromptAfterChooseDot = function () {
-    addPrompt(__promptArr.afterChooseDot);
+    addPrompt(__promptArr.changeDotSetting);
+    addPrompt(__promptArr.addMoreFollowDot);
     addPrompt(__promptArr.promptFin);
+    addPrompt(__promptArr.helpWanted);
     addPrompt(__promptArr.emptyPrompt);
+    enableShowDotSetting();
     setPromptAfterChooseDot = emptyFunc;
 };
 
