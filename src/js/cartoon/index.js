@@ -19,6 +19,10 @@ import {
     showElement
 } from '../util/base';
 import { refreshCanvas } from '../canvas';
+import {
+    setPromptAfterPlayCartoon,
+    setPromptAfterResetPlayCartoon
+} from '../prompt';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -50,6 +54,8 @@ function startCartoon () {
     drawHelperPath.resetColor();
     drawHelperDots.clearCanvas();
     __updateCartoonPathFunc = updateCartoonPath.bind(this, drawHelperPath, drawHelperDots);
+
+    setPromptAfterPlayCartoon();
 }
 
 function resetCartoon () {
@@ -59,6 +65,8 @@ function resetCartoon () {
     cancelAnimationFrame(__updateCartoonHandle);
     resetPaths();
     refreshCanvas();
+
+    setPromptAfterResetPlayCartoon();
 }
 
 /**

@@ -17,7 +17,8 @@ import {
 import {
     setPromptAfterAddFollowDot,
     setPromptAfterClosePresentPath,
-    setPromptAfterStartPath
+    setPromptAfterStartPath,
+    setPromptAfterChooseDot
 } from '../prompt';
 
 /** @type {Array<Path>} */
@@ -89,6 +90,8 @@ function selectDot (position) {
         // TODO 多个重叠点时的优先级处理
         setTargetDot(selectedDots[0]);
         refreshCanvas();
+
+        setPromptAfterChooseDot();
     }
 }
 
