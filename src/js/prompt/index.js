@@ -30,26 +30,39 @@ let getPromptContentElement = createSingletonFunc(
     func => getPromptContentElement = func
 );
 
-const setPrompt = (function () {
+const __prompts = [];
+
+const refreshPrompt = (function () {
     const promptContentElement = getPromptContentElement();
     const transparentClassName = 'transparent';
     const transitionTime = 500;
-    let __timeoutId = undefined;
-    return (prompt) => {
-        if (__timeoutId === undefined)
+    return () => {
+        if (__prompts.length === 0)
         {
-            addElementClass(promptContentElement, transparentClassName);
-        } else
-        {
-            clearTimeout(__timeoutId);
+            return;
         }
-        __timeoutId = setTimeout(() => {
-            promptContentElement.innerText = prompt;
+        addElementClass(promptContentElement, transparentClassName);
+        setTimeout(() => {
+            promptContentElement.innerText = __prompts[0];
             removeElementClass(promptContentElement, transparentClassName);
-            __timeoutId = undefined;
+            setTimeout(() => {
+                __prompts.shift();
+                if (__prompts.length)
+                {
+                    setTimeout(refreshPrompt, transitionTime * 2);
+                }
+            }, transitionTime);
         }, transitionTime);
     };
 }());
+
+function addPrompt (prompt) {
+    if (__prompts.length === 0)
+    {
+        setTimeout(refreshPrompt);
+    }
+    __prompts.push(prompt);
+}
 
 function emptyFunc () { }
 
@@ -62,16 +75,15 @@ const __promptArr = {
     resetCartoon: '点击 左下角 重置按钮可以返回编辑路径！',
     chooseDot: '通过 点击 节点可以修改节点信息！',
     afterChooseDot: '选择节点后可以重新 修改节点信息 和 增加后续节点 啦！',
-    promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！'
+    promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！',
+    emptyPrompt: ''
 };
-
-const __promptUpdateTime = 2000;
 
 /**
  * 设置提示信息 加载完成
  */
 let setPromptLoadingFin = function () {
-    setPrompt(__promptArr.loadingFin);
+    addPrompt(__promptArr.loadingFin);
     setPromptLoadingFin = emptyFunc;
 };
 
@@ -79,10 +91,8 @@ let setPromptLoadingFin = function () {
  * 设置提示信息 创建新路径后
  */
 let setPromptAfterStartPath = function () {
-    setPrompt(__promptArr.changeDotSetting);
-    setTimeout(() => {
-        setPrompt(__promptArr.addFollowDot);
-    }, __promptUpdateTime);
+    addPrompt(__promptArr.changeDotSetting);
+    addPrompt(__promptArr.addFollowDot);
     setPromptAfterStartPath = emptyFunc;
 };
 
@@ -90,7 +100,7 @@ let setPromptAfterStartPath = function () {
  * 设置提示信息 增加新节点后
  */
 let setPromptAfterAddFollowDot = function () {
-    setPrompt(__promptArr.closePresentPath);
+    addPrompt(__promptArr.closePresentPath);
     setPromptAfterAddFollowDot = emptyFunc;
 };
 
@@ -98,7 +108,7 @@ let setPromptAfterAddFollowDot = function () {
  * 设置提示信息 关闭当前路径后
  */
 let setPromptAfterClosePresentPath = function () {
-    setPrompt(__promptArr.startPlayCartoon);
+    addPrompt(__promptArr.startPlayCartoon);
     setPromptAfterClosePresentPath = emptyFunc;
 };
 
@@ -106,7 +116,7 @@ let setPromptAfterClosePresentPath = function () {
  * 设置提示信息 播放动画后
  */
 let setPromptAfterPlayCartoon = function () {
-    setPrompt(__promptArr.resetCartoon);
+    addPrompt(__promptArr.resetCartoon);
     setPromptAfterPlayCartoon = emptyFunc;
 };
 
@@ -114,7 +124,7 @@ let setPromptAfterPlayCartoon = function () {
  * 设置提示信息 重置动画后
  */
 let setPromptAfterResetPlayCartoon = function () {
-    setPrompt(__promptArr.chooseDot);
+    addPrompt(__promptArr.chooseDot);
     setPromptAfterResetPlayCartoon = emptyFunc;
 };
 
@@ -122,10 +132,9 @@ let setPromptAfterResetPlayCartoon = function () {
  * 设置提示信息 选择节点后
  */
 let setPromptAfterChooseDot = function () {
-    setPrompt(__promptArr.afterChooseDot);
-    setTimeout(() => {
-        setPrompt(__promptArr.promptFin);
-    }, __promptUpdateTime);
+    addPrompt(__promptArr.afterChooseDot);
+    addPrompt(__promptArr.promptFin);
+    addPrompt(__promptArr.emptyPrompt);
     setPromptAfterChooseDot = emptyFunc;
 };
 
@@ -140,7 +149,6 @@ function initPrompt () {
 }
 
 export {
-    setPrompt,
     setPromptLoadingFin,
     setPromptAfterStartPath,
     setPromptAfterAddFollowDot,
