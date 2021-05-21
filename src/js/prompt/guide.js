@@ -9,15 +9,9 @@ import {
 } from '.';
 import { emptyFunc } from '../util/base';
 
-/**
- * 引导提示信息集合
- */
-const guidePromptArr = {
+const __guidePromptArr = {
     loadingFin: '游戏加载完成！',
-    helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
-    emptyPrompt: '',
     guideFin: '欢迎回来，继续你的 ZenTrailsWeb 之旅吧！',
-    // 需要显示的帮助信息
     beginNewPath: '通过 双击 空白区域开启新路径吧！',
     addFollowDot: '通过 单击 可以增加后续节点！',
     closePresentPath: '通过 右击 可以结束当前路径！',
@@ -26,21 +20,23 @@ const guidePromptArr = {
     chooseDot: '通过 点击 节点就可以修改节点信息！',
     changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
     addMoreFollowDot: '通过 单击 也可以继续增加后续节点啦！',
-    promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！'
+    promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！',
+    helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
+    emptyPrompt: ''
 };
 
 /**
  * 设置引导信息 加载完成
  */
 let setGuideLoadingFin = function () {
-    addPrompt(guidePromptArr.loadingFin);
+    addPrompt(__guidePromptArr.loadingFin);
     if (__isGuideFin())
     {
-        addPrompt(guidePromptArr.guideFin);
-        addPrompt(guidePromptArr.helpWanted);
+        addPrompt(__guidePromptArr.guideFin);
+        addPrompt(__guidePromptArr.helpWanted);
     } else
     {
-        addPrompt(guidePromptArr.beginNewPath);
+        addPrompt(__guidePromptArr.beginNewPath);
     }
     setGuideLoadingFin = emptyFunc;
 };
@@ -49,7 +45,7 @@ let setGuideLoadingFin = function () {
  * 设置引导信息 创建新路径后
  */
 let setGuideAfterStartPath = function () {
-    addPrompt(guidePromptArr.addFollowDot);
+    addPrompt(__guidePromptArr.addFollowDot);
     setGuideAfterStartPath = emptyFunc;
 };
 
@@ -57,7 +53,7 @@ let setGuideAfterStartPath = function () {
  * 设置引导信息 增加新节点后
  */
 let setGuideAfterAddFollowDot = function () {
-    addPrompt(guidePromptArr.closePresentPath);
+    addPrompt(__guidePromptArr.closePresentPath);
     enableClosePresentPath();
     setGuideAfterAddFollowDot = emptyFunc;
 };
@@ -66,7 +62,7 @@ let setGuideAfterAddFollowDot = function () {
  * 设置引导信息 关闭当前路径后
  */
 let setGuideAfterClosePresentPath = function () {
-    addPrompt(guidePromptArr.startPlayCartoon);
+    addPrompt(__guidePromptArr.startPlayCartoon);
     showStartBtnElement();
     setGuideAfterClosePresentPath = emptyFunc;
 };
@@ -75,7 +71,7 @@ let setGuideAfterClosePresentPath = function () {
  * 设置引导信息 播放动画后
  */
 let setGuideAfterPlayCartoon = function () {
-    addPrompt(guidePromptArr.resetCartoon);
+    addPrompt(__guidePromptArr.resetCartoon);
     setGuideAfterPlayCartoon = emptyFunc;
 };
 
@@ -83,7 +79,7 @@ let setGuideAfterPlayCartoon = function () {
  * 设置引导信息 重置动画后
  */
 let setGuideAfterResetPlayCartoon = function () {
-    addPrompt(guidePromptArr.chooseDot);
+    addPrompt(__guidePromptArr.chooseDot);
     setGuideAfterResetPlayCartoon = emptyFunc;
 };
 
@@ -91,11 +87,11 @@ let setGuideAfterResetPlayCartoon = function () {
  * 设置引导信息 选择节点后
  */
 let setGuideAfterChooseDot = function () {
-    addPrompt(guidePromptArr.changeDotSetting);
+    addPrompt(__guidePromptArr.changeDotSetting);
     enableShowDotSetting();
-    addPrompt(guidePromptArr.addMoreFollowDot);
-    addPrompt(guidePromptArr.promptFin);
-    addPrompt(guidePromptArr.helpWanted);
+    addPrompt(__guidePromptArr.addMoreFollowDot);
+    addPrompt(__guidePromptArr.promptFin);
+    addPrompt(__guidePromptArr.helpWanted);
     enableShowHelp();
     __hidePrompt();
     setGuideAfterChooseDot = emptyFunc;
@@ -103,7 +99,7 @@ let setGuideAfterChooseDot = function () {
 };
 
 function __hidePrompt () {
-    addPrompt(guidePromptArr.emptyPrompt);
+    addPrompt(__guidePromptArr.emptyPrompt);
 }
 
 const { __setGuideFin, __isGuideFin } = (function () {
@@ -142,6 +138,5 @@ export {
     setGuideAfterClosePresentPath,
     setGuideAfterPlayCartoon,
     setGuideAfterResetPlayCartoon,
-    setGuideAfterChooseDot,
-    guidePromptArr
+    setGuideAfterChooseDot
 };
