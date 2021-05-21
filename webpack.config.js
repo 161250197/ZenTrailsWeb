@@ -10,6 +10,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, 'dist');
 
+const port = 9000;
+
 module.exports = {
     entry: './src/js/index.js',
     output: {
@@ -17,10 +19,12 @@ module.exports = {
         path: outputPath
     },
     devServer: {
+        useLocalIp: true,
+        open: true,
         host: '0.0.0.0',
         contentBase: outputPath,
         compress: true,
-        port: 9000
+        port
     },
     devtool: 'inline-source-map',
     optimization: {
