@@ -14,6 +14,14 @@ let getPromptWrapperElement = createSingletonFunc(
     func => getPromptWrapperElement = func
 );
 
+let getPromptIconWrapperElement = createSingletonFunc(
+    function () {
+        const promptWrapperElement = getPromptWrapperElement();
+        return promptWrapperElement.getElementsByClassName('i-wrapper')[0];
+    },
+    func => getPromptIconWrapperElement = func
+);
+
 let getPromptContentElement = createSingletonFunc(
     function () {
         const promptWrapperElement = getPromptWrapperElement();
@@ -125,8 +133,9 @@ let setPromptAfterChooseDot = function () {
  * 初始化提示信息
  */
 function initPrompt () {
-    const promptWrapperElement = getPromptWrapperElement();
-    promptWrapperElement.addEventListener('click', preventDefaultStopPropagation);
+    const promptIconWrapperElement = getPromptIconWrapperElement();
+    promptIconWrapperElement.addEventListener('click', preventDefaultStopPropagation);
+    promptIconWrapperElement.addEventListener('dblclick', preventDefaultStopPropagation);
     setPromptLoadingFin();
 }
 
