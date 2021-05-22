@@ -4,7 +4,8 @@ import {
     setElementEventUsed,
     createSingletonFunc,
     hideElement,
-    showElement
+    showElement,
+    downloadFile
 } from '../util/base';
 import {
     setGuideAfterUploadData,
@@ -25,14 +26,43 @@ let __getDataSaveBtnElement = createSingletonFunc(
     func => __getDataSaveBtnElement = func
 );
 
-function __uploadData () {
-    // TODO
-    setGuideAfterUploadData();
-}
+const __uploadData = (function () {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'file';
+    inputElement.accept = '.ZenTrailsWeb';
+    inputElement.addEventListener('change', function () {
+        if (inputElement.files.length === 0)
+        {
+            return;
+        }
+        const file = inputElement.files[0];
+        reader.readAsText(file);
+    });
+
+    const reader = new FileReader();
+    reader.onload = function () {
+        // TODO
+        console.log(__decodeFileContent(reader.result));
+        setGuideAfterUploadData();
+    };
+    return function () {
+        inputElement.click();
+    };
+}());
 
 function __saveData () {
     // TODO
+    const dataStr = 'test';
+    downloadFile('data.ZenTrailsWeb', __encodeDataStr(dataStr));
     setGuideAfterSaveData();
+}
+
+function __decodeFileContent (content) {
+    return decodeURIComponent(content);
+}
+
+function __encodeDataStr (dataStr) {
+    return `data:text/plain;base64,${ btoa(encodeURIComponent(dataStr)) }`;
 }
 
 /**
