@@ -35,8 +35,7 @@ const __guidePromptArr = {
     dataSave: '点击 左下角 导出按钮可以保存路径数据，这样就可以保存和分享给朋友啦！',
     dataUpload: '点击 左下角 导入按钮就可以导入保存的路径数据啦！',
     chooseDot: '通过 点击 节点就可以修改节点信息！',
-    addMoreFollowDot: '通过 单击 可以继续增加后续节点！',
-    changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
+    addMoreFollowDotAndChangeDotSetting: '通过 单击 可以继续增加后续节点！操作 右下角 面板就可以修改节点信息啦！',
     clearCanvas: '点击 左下角 清空按钮就可以清空画布啦！清空前记得保存哦 (<ゝω•)~☆',
     promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！',
     helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
@@ -128,10 +127,28 @@ let setGuideAfterExportPicture = function () {
  * 设置引导信息 重置动画后
  */
 let setGuideAfterResetPlayCartoon = function () {
+    enableChooseDot();
+    addPrompt(__guidePromptArr.chooseDot);
+    setGuideAfterResetPlayCartoon = emptyFunc;
+};
+
+/**
+ * 设置引导信息 选择节点后
+ */
+let setGuideAfterChooseDot = function () {
+    enableShowDotSetting();
+    addPrompt(__guidePromptArr.addMoreFollowDotAndChangeDotSetting);
+    setGuideAfterChooseDot = emptyFunc;
+};
+
+/**
+ * 设置引导信息 修改节点信息后
+ */
+let setGuideAfterChangeDotSetting = function () {
     enableDataSave();
     showDataSaveBtnElement();
     addPrompt(__guidePromptArr.dataSave);
-    setGuideAfterResetPlayCartoon = emptyFunc;
+    setGuideAfterChangeDotSetting = emptyFunc;
 };
 
 /**
@@ -148,29 +165,10 @@ let setGuideAfterDataSave = function () {
  * 设置引导信息 导入数据后
  */
 let setGuideAfterDataUpload = function () {
-    enableChooseDot();
-    addPrompt(__guidePromptArr.chooseDot);
-    setGuideAfterDataUpload = emptyFunc;
-};
-
-/**
- * 设置引导信息 选择节点后
- */
-let setGuideAfterChooseDot = function () {
-    enableShowDotSetting();
-    addPrompt(__guidePromptArr.addMoreFollowDot);
-    addPrompt(__guidePromptArr.changeDotSetting);
-    setGuideAfterChooseDot = emptyFunc;
-};
-
-/**
- * 设置引导信息 修改节点信息后
- */
-let setGuideAfterChangeDotSetting = function () {
     enableClearCanvas();
     showClearCanvasBtnElement();
     addPrompt(__guidePromptArr.clearCanvas);
-    setGuideAfterChangeDotSetting = emptyFunc;
+    setGuideAfterDataUpload = emptyFunc;
 };
 
 /**
