@@ -73,7 +73,9 @@ const __uploadData = (function () {
             const firstIdDotArr = firstIdDotStr
                 .split(';')
                 .map(str => {
-                    const [id, x, y] = str.split(' ');
+                    const [id, xValue, yValue] = str.split(' ');
+                    const x = Number(xValue);
+                    const y = Number(yValue);
                     const path = new Path({ x, y });
                     __pathArr.push(path);
                     return { id, dot: path.firstDot };
@@ -83,7 +85,9 @@ const __uploadData = (function () {
                 const idToFollowDataArr = followIdDotStr
                     .split(';')
                     .map(str => {
-                        const [id, x, y, angleVelocityValue, isAntiClockwiseValue, color] = str.split(' ');
+                        const [id, xValue, yValue, angleVelocityValue, isAntiClockwiseValue, color] = str.split(' ');
+                        const x = Number(xValue);
+                        const y = Number(yValue);
                         const angleVelocity = Number(angleVelocityValue);
                         const isAntiClockwise = !!isAntiClockwiseValue;
                         return { id, x, y, angleVelocity, isAntiClockwise, color };
