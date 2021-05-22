@@ -166,14 +166,14 @@ function updateCartoonPath (drawHelperPath, drawHelperDots, duration) {
         path.updateCartoonPath(duration);
         path.drawCartoonPath(drawHelperPath);
     });
-    drawPath(drawHelperDots);
+    drawPaths(drawHelperDots);
 }
 
 /**
  * 绘制路径
  * @param {CanvasDrawHelper} drawHelper 
  */
-function drawPath (drawHelper) {
+function drawPaths (drawHelper) {
     drawHelper.clearCanvas();
     __pathArr.forEach(path => {
         path.drawPathDots(drawHelper);
@@ -209,6 +209,6 @@ export {
     resetPaths,
     removeTargetDot,
     updateCartoonPath,
-    drawPath,
+    drawPaths,
     removePath
 };

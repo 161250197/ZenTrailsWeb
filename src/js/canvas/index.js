@@ -1,6 +1,6 @@
 // 画布
 
-import { drawPath } from '../path';
+import { drawPaths } from '../path';
 import {
     getDownCanvasDrawHelper,
     getUpCanvasDrawHelper
@@ -15,7 +15,7 @@ function refreshCanvas () {
         getDownCanvasDrawHelper().clearCanvas();
         const drawHelper = getUpCanvasDrawHelper();
         drawHelper.clearCanvas();
-        drawPath(drawHelper);
+        drawPaths(drawHelper);
     });
 }
 
