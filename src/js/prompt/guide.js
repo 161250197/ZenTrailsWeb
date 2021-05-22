@@ -161,7 +161,10 @@ let setGuideAfterChooseDot = function () {
 /**
  * 设置引导信息 修改节点信息后
  */
-let setGuideAfterChangeDotSetting = __setGuideAllFinished;
+let setGuideAfterChangeDotSetting = function () {
+    __setGuideAllFinished();
+    setGuideAfterChangeDotSetting = emptyFunc;
+};
 
 function __hidePrompt () {
     addPrompt(__guidePromptArr.emptyPrompt);
@@ -180,6 +183,7 @@ function __enableAllFeature () {
 }
 
 function __disableAllGuide () {
+    __setGuideAllFinished = emptyFunc;
     setGuideLoadingFin = emptyFunc;
     setGuideAfterStartPath = emptyFunc;
     setGuideAfterAddFollowDot = emptyFunc;
@@ -187,7 +191,10 @@ function __disableAllGuide () {
     setGuideAfterPlayCartoon = emptyFunc;
     setGuideAfterExportPicture = emptyFunc;
     setGuideAfterResetPlayCartoon = emptyFunc;
+    setGuideAfterSaveData = emptyFunc;
+    setGuideAfterUploadData = emptyFunc;
     setGuideAfterChooseDot = emptyFunc;
+    setGuideAfterChangeDotSetting = emptyFunc;
 }
 
 /**
