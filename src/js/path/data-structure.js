@@ -174,7 +174,7 @@ class FirstDot extends Dot {
      * @override
      */
     removeDot () {
-        removePath(this);
+        removePath(this.path);
         return undefined;
     }
 }
