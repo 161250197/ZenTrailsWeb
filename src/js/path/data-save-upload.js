@@ -8,8 +8,8 @@ import {
     downloadFile
 } from '../util/base';
 import {
-    setGuideAfterUploadData,
-    setGuideAfterSaveData
+    setGuideAfterDataUpload,
+    setGuideAfterDataSave
 } from '../prompt/guide';
 import {
     getPathArr,
@@ -32,7 +32,7 @@ let __getDataSaveBtnElement = createSingletonFunc(
     func => __getDataSaveBtnElement = func
 );
 
-const __uploadData = (function () {
+const __dataUpload = (function () {
     const inputElement = document.createElement('input');
     inputElement.type = 'file';
     inputElement.accept = '.ZenTrailsWeb';
@@ -124,14 +124,14 @@ const __uploadData = (function () {
         }());
         setPathArr(pathArr);
         refreshCanvas();
-        setGuideAfterUploadData();
+        setGuideAfterDataUpload();
     };
     return function () {
         inputElement.click();
     };
 }());
 
-function __saveData () {
+function __dataSave () {
     const dataStr = (function () {
         const {
             createFirstIdDot,
@@ -217,7 +217,7 @@ function __saveData () {
         ].join('\n');
     }());
     downloadFile('data.ZenTrailsWeb', __encodeDataStr(dataStr));
-    setGuideAfterSaveData();
+    setGuideAfterDataSave();
 }
 
 function __decodeFileContent (content) {
@@ -243,16 +243,16 @@ function hideDataUploadBtnElement () {
 }
 
 const {
-    enableSaveData,
+    enableDataSave,
     showDataSaveBtnElement
 } = (function () {
-    let saveDataEnabled = false;
+    let dataSaveEnabled = false;
     return {
-        enableSaveData: function () {
-            saveDataEnabled = true;
+        enableDataSave: function () {
+            dataSaveEnabled = true;
         },
         showDataSaveBtnElement: function () {
-            if (saveDataEnabled)
+            if (dataSaveEnabled)
             {
                 showElement(__getDataSaveBtnElement());
             }
@@ -261,16 +261,16 @@ const {
 }());
 
 const {
-    enableUploadData,
+    enableDataUpload,
     showDataUploadBtnElement
 } = (function () {
-    let saveDataEnabled = false;
+    let dataUploadEnabled = false;
     return {
-        enableUploadData: function () {
-            saveDataEnabled = true;
+        enableDataUpload: function () {
+            dataUploadEnabled = true;
         },
         showDataUploadBtnElement: function () {
-            if (saveDataEnabled)
+            if (dataUploadEnabled)
             {
                 showElement(__getDataUploadBtnElement());
             }
@@ -284,16 +284,16 @@ const {
 function initDataSaveUpload () {
     const dataUploadBtnElement = __getDataUploadBtnElement();
     setElementEventUsed(dataUploadBtnElement);
-    dataUploadBtnElement.addEventListener('click', __uploadData);
+    dataUploadBtnElement.addEventListener('click', __dataUpload);
 
     const dataSaveBtnElement = __getDataSaveBtnElement();
     setElementEventUsed(dataSaveBtnElement);
-    dataSaveBtnElement.addEventListener('click', __saveData);
+    dataSaveBtnElement.addEventListener('click', __dataSave);
 }
 
 export {
-    enableSaveData,
-    enableUploadData,
+    enableDataSave,
+    enableDataUpload,
     hideDataSaveBtnElement,
     showDataSaveBtnElement,
     hideDataUploadBtnElement,

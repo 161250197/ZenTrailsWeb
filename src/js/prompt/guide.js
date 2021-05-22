@@ -13,8 +13,8 @@ import { enableShowDotSetting } from '../cover/dot-setting';
 import { addPrompt } from '.';
 import { emptyFunc } from '../util/base';
 import {
-    enableSaveData,
-    enableUploadData,
+    enableDataSave,
+    enableDataUpload,
     showDataSaveBtnElement,
     showDataUploadBtnElement
 } from '../path/data-save-upload';
@@ -28,8 +28,8 @@ const __guidePromptArr = {
     startPlayCartoon: '点击 左下角 播放按钮就可以开始播放动画啦 (<ゝω•)~☆ ',
     exportPicture: '点击 左下角 导出图片按钮可以导出轨迹图片！',
     resetCartoon: '点击 左下角 重置按钮可以返回编辑节点！',
-    saveData: '点击 左下角 导出按钮可以保存路径数据，这样就可以保存和分享给朋友啦！',
-    uploadData: '点击 左下角 导入按钮就可以导入保存的路径数据啦！',
+    dataSave: '点击 左下角 导出按钮可以保存路径数据，这样就可以保存和分享给朋友啦！',
+    dataUpload: '点击 左下角 导入按钮就可以导入保存的路径数据啦！',
     chooseDot: '通过 点击 节点就可以修改节点信息！',
     addMoreFollowDot: '通过 单击 可以继续增加后续节点！',
     changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
@@ -123,29 +123,29 @@ let setGuideAfterExportPicture = function () {
  * 设置引导信息 重置动画后
  */
 let setGuideAfterResetPlayCartoon = function () {
-    enableSaveData();
+    enableDataSave();
     showDataSaveBtnElement();
-    addPrompt(__guidePromptArr.saveData);
+    addPrompt(__guidePromptArr.dataSave);
     setGuideAfterResetPlayCartoon = emptyFunc;
 };
 
 /**
  * 设置引导信息 保存数据后
  */
-let setGuideAfterSaveData = function () {
-    enableUploadData();
+let setGuideAfterDataSave = function () {
+    enableDataUpload();
     showDataUploadBtnElement();
-    addPrompt(__guidePromptArr.uploadData);
-    setGuideAfterSaveData = emptyFunc;
+    addPrompt(__guidePromptArr.dataUpload);
+    setGuideAfterDataSave = emptyFunc;
 };
 
 /**
  * 设置引导信息 导入数据后
  */
-let setGuideAfterUploadData = function () {
+let setGuideAfterDataUpload = function () {
     enableChooseDot();
     addPrompt(__guidePromptArr.chooseDot);
-    setGuideAfterUploadData = emptyFunc;
+    setGuideAfterDataUpload = emptyFunc;
 };
 
 /**
@@ -176,8 +176,8 @@ function __enableAllFeature () {
     enableShowDotSetting();
     enableResetCartoon();
     enableChooseDot();
-    enableSaveData();
-    enableUploadData();
+    enableDataSave();
+    enableDataUpload();
     showDataSaveBtnElement();
     showDataUploadBtnElement();
 }
@@ -191,8 +191,8 @@ function __disableAllGuide () {
     setGuideAfterPlayCartoon = emptyFunc;
     setGuideAfterExportPicture = emptyFunc;
     setGuideAfterResetPlayCartoon = emptyFunc;
-    setGuideAfterSaveData = emptyFunc;
-    setGuideAfterUploadData = emptyFunc;
+    setGuideAfterDataSave = emptyFunc;
+    setGuideAfterDataUpload = emptyFunc;
     setGuideAfterChooseDot = emptyFunc;
     setGuideAfterChangeDotSetting = emptyFunc;
 }
@@ -218,8 +218,8 @@ export {
     setGuideAfterPlayCartoon,
     setGuideAfterExportPicture,
     setGuideAfterResetPlayCartoon,
-    setGuideAfterSaveData,
-    setGuideAfterUploadData,
+    setGuideAfterDataSave,
+    setGuideAfterDataUpload,
     setGuideAfterChooseDot,
     setGuideAfterChangeDotSetting
 };
