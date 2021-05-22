@@ -18,6 +18,10 @@ import {
     showDataSaveBtnElement,
     showDataUploadBtnElement
 } from '../path/data-save-upload';
+import {
+    enableClearCanvas,
+    showClearCanvasBtnElement
+} from '../canvas/clear';
 
 const __guidePromptArr = {
     loadingFin: '游戏加载完成！',
@@ -25,7 +29,7 @@ const __guidePromptArr = {
     beginNewPath: '通过 双击 空白区域开启新路径吧！',
     addFollowDot: '通过 单击 可以增加后续节点！',
     closePresentPath: '通过 右击 可以结束当前路径！',
-    startPlayCartoon: '点击 左下角 播放按钮就可以开始播放动画啦 (<ゝω•)~☆ ',
+    startPlayCartoon: '点击 左下角 播放按钮就可以开始播放动画啦 (<ゝω•)~☆',
     exportPicture: '点击 左下角 导出图片按钮可以导出轨迹图片！',
     resetCartoon: '点击 左下角 重置按钮可以返回编辑节点！',
     dataSave: '点击 左下角 导出按钮可以保存路径数据，这样就可以保存和分享给朋友啦！',
@@ -33,6 +37,7 @@ const __guidePromptArr = {
     chooseDot: '通过 点击 节点就可以修改节点信息！',
     addMoreFollowDot: '通过 单击 可以继续增加后续节点！',
     changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
+    clearCanvas: '点击 左下角 清空按钮就可以清空画布啦！清空前记得保存哦 (<ゝω•)~☆',
     promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！',
     helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
     emptyPrompt: ''
@@ -162,8 +167,18 @@ let setGuideAfterChooseDot = function () {
  * 设置引导信息 修改节点信息后
  */
 let setGuideAfterChangeDotSetting = function () {
-    __setGuideAllFinished();
+    enableClearCanvas();
+    showClearCanvasBtnElement();
+    addPrompt(__guidePromptArr.clearCanvas);
     setGuideAfterChangeDotSetting = emptyFunc;
+};
+
+/**
+ * 设置引导信息 清空画布后
+ */
+let setGuideAfterClearCanvas = function () {
+    __setGuideAllFinished();
+    setGuideAfterClearCanvas = emptyFunc;
 };
 
 function __hidePrompt () {
@@ -180,6 +195,8 @@ function __enableAllFeature () {
     enableDataUpload();
     showDataSaveBtnElement();
     showDataUploadBtnElement();
+    enableClearCanvas();
+    showClearCanvasBtnElement();
 }
 
 function __disableAllGuide () {
@@ -195,6 +212,7 @@ function __disableAllGuide () {
     setGuideAfterDataUpload = emptyFunc;
     setGuideAfterChooseDot = emptyFunc;
     setGuideAfterChangeDotSetting = emptyFunc;
+    setGuideAfterClearCanvas = emptyFunc;
 }
 
 /**
@@ -221,5 +239,6 @@ export {
     setGuideAfterDataSave,
     setGuideAfterDataUpload,
     setGuideAfterChooseDot,
-    setGuideAfterChangeDotSetting
+    setGuideAfterChangeDotSetting,
+    setGuideAfterClearCanvas
 };

@@ -31,6 +31,10 @@ import {
     showDataSaveBtnElement,
     showDataUploadBtnElement
 } from '../path/data-save-upload';
+import {
+    hideClearCanvasBtnElement,
+    showClearCanvasBtnElement
+} from '../canvas/clear';
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
@@ -83,11 +87,12 @@ const {
 }());
 
 function __startCartoon () {
-    closePresentPath();
-    showResetBtnElement();
     hideDataSaveBtnElement();
     hideDataUploadBtnElement();
     hideElement(__getStartBtnElement());
+    hideClearCanvasBtnElement();
+
+    closePresentPath();
     __isPlayingCartoon = true;
     const time = Date.now();
     __setUpdateCartoonHandle(time);
@@ -100,20 +105,23 @@ function __startCartoon () {
 
     setGuideAfterPlayCartoon();
     showExportPictureElement();
+    showResetBtnElement();
 }
 
 function __resetCartoon () {
-    showDataSaveBtnElement();
-    showDataUploadBtnElement();
-    showElement(__getStartBtnElement());
+    hideExportPictureElement();
     hideElement(__getResetBtnElement());
+
     __isPlayingCartoon = false;
     cancelAnimationFrame(__updateCartoonHandle);
     resetPaths();
     refreshCanvas();
 
     setGuideAfterResetPlayCartoon();
-    hideExportPictureElement();
+    showDataSaveBtnElement();
+    showDataUploadBtnElement();
+    showElement(__getStartBtnElement());
+    showClearCanvasBtnElement();
 }
 
 /**
