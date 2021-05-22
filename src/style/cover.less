@@ -21,6 +21,12 @@
         width: 100%;
         height: 100%;
       }
+      &:hover {
+        filter: brightness(0.9);
+        border-radius: 50%;
+        box-shadow: lightgrey 0 0 5px 0;
+        background: #f0f0f0;
+      }
     }
     >.content {
       display: flex;
@@ -52,7 +58,7 @@
       >.help-board {
         width: 660px;
         border-radius: 10px;
-        box-shadow: lightgrey 0px 0px 10px 3px;
+        box-shadow: lightgrey 0 0 10px 3px;
         background: white;
         cursor: auto;
         >header {
@@ -92,7 +98,7 @@
       justify-content: center;
       flex-direction: column;
       border-radius: 10px;
-      box-shadow: lightgrey 0px 0px 10px 3px;
+      box-shadow: lightgrey 0 0 10px 3px;
       background: white;
       margin: 20px;
       margin-right: 0;
@@ -101,6 +107,9 @@
         width: 20px;
         height: 20px;
         margin-bottom: 5px;
+      }
+      &:hover {
+          background: #f0f0f0;
       }
     }
   }
@@ -114,21 +123,22 @@
     width: 200px;
     height: 200px;
     box-sizing: border-box;
-    box-shadow: lightgrey 0px 0px 10px 3px;
+    box-shadow: lightgrey 0 0 10px 3px;
     border-radius: 10px;
     background: white;
     >header,
     >footer,
     .row {
       width: 100%;
-      height: 30px;
+      height: 40px;
       box-sizing: border-box;
-      margin: 5px 0;
+      padding: 5px 0;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     >header {
+      border-radius: 10px 10px 0 0;
       border-bottom: thin solid lightgray;
     }
     >.first-dot-setting,
@@ -155,8 +165,12 @@
       }
     }
     >footer {
+      border-radius: 0 0 10px 10px;
       cursor: pointer;
       border-top: thin solid lightgray;
+      &:hover {
+          background: #f0f0f0;
+      }
     }
   }
   >#prompt,
