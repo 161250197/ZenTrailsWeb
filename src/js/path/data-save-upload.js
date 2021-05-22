@@ -15,6 +15,7 @@ import {
     getPathArr,
     setPathArr
 } from '.';
+import { refreshCanvas } from '../canvas';
 
 let __getDataUploadBtnElement = createSingletonFunc(
     function () {
@@ -48,10 +49,11 @@ const __uploadData = (function () {
         const pathArr = (function () {
             // TODO
             const dataStr = __decodeFileContent(reader.result);
-            console.log(dataStr);
+            console.log(dataStr.split('\n'));
             return [];
         });
         setPathArr(pathArr);
+        refreshCanvas();
         setGuideAfterUploadData();
     };
     return function () {
@@ -61,10 +63,88 @@ const __uploadData = (function () {
 
 function __saveData () {
     const dataStr = (function () {
-        // TODO
-        const pathArr = getPathArr();
-        console.log(pathArr);
-        return 'test';
+        const {
+            createFirstIdDot,
+            createFollowIdDot,
+            getFirstIdDotArr,
+            getFollowIdDotArr
+        } = (function () {
+            let id = 0;
+            const idFirstDotArr = [];
+            const idFollowDotArr = [];
+            return {
+                createFirstIdDot: function (dot) {
+                    const idDot = { id, dot };
+                    idFirstDotArr.push(idDot);
+                    id++;
+                    return idDot;
+                },
+                getFirstIdDotArr: function () {
+                    return idFirstDotArr;
+                },
+                createFollowIdDot: function (dot) {
+                    const idDot = { id, dot };
+                    idFollowDotArr.push(idDot);
+                    id++;
+                    return idDot;
+                },
+                getFollowIdDotArr: function () {
+                    return idFollowDotArr;
+                }
+            };
+        }());
+        const idToFollowIdsArr = (function () {
+            const __idToFollowIdsArr = [];
+            const pathArr = getPathArr();
+            let idDotArr = pathArr.map(({ firstDot }) => createFirstIdDot(firstDot));
+            while (idDotArr.length)
+            {
+                let newIdDotArr = [];
+                for (const { dot, id } of idDotArr)
+                {
+                    const followIdDotArr = dot.followDots.map(createFollowIdDot);
+                    __idToFollowIdsArr.push({
+                        id,
+                        followIds: followIdDotArr.map(({ id }) => id)
+                    });
+                    newIdDotArr = newIdDotArr.concat(followIdDotArr);
+                }
+                idDotArr = newIdDotArr;
+            }
+            return __idToFollowIdsArr;
+        }());
+        const idToFollowIdsStr = (function () {
+            let idToFollowIdsStrArr = [];
+            for (const { id, followIds } of idToFollowIdsArr)
+            {
+                if (followIds.length)
+                {
+                    idToFollowIdsStrArr.push(`${ id } ${ followIds.join(',') }`);
+                }
+            }
+            return idToFollowIdsStrArr.join(';');
+        }());
+        const firstIdDotStr = (function () {
+            return getFirstIdDotArr()
+                .map(({ id, dot }) => {
+                    const { x, y } = dot;
+                    return `${ id } ${ x } ${ y }`;
+                })
+                .join(';');
+        }());
+        const followIdDotStr = (function () {
+            return getFollowIdDotArr()
+                .map(({ id, dot }) => {
+                    const { x, y, angleVelocity, isAntiClockwise, color } = dot;
+                    return `${ id } ${ x } ${ y } ${ angleVelocity } ${ isAntiClockwise ? 1 : 0 } ${ color }`;
+                })
+                .join(';');
+        }());
+        return [
+            idToFollowIdsStr,
+            firstIdDotStr,
+            followIdDotStr
+        ].join('\n');
     }());
     downloadFile('data.ZenTrailsWeb', __encodeDataStr(dataStr));
     setGuideAfterSaveData();
