@@ -173,6 +173,10 @@ function __enableAllFeature () {
     enableShowDotSetting();
     enableResetCartoon();
     enableChooseDot();
+    enableSaveData();
+    enableUploadData();
+    showDataSaveBtnElement();
+    showDataUploadBtnElement();
 }
 
 function __disableAllGuide () {
