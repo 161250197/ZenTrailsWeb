@@ -31,11 +31,32 @@ const __guidePromptArr = {
     saveData: '点击 左下角 导出按钮可以保存路径数据，这样就可以保存和分享给朋友啦！',
     uploadData: '点击 左下角 导入按钮就可以导入保存的路径数据啦！',
     chooseDot: '通过 点击 节点就可以修改节点信息！',
+    addMoreFollowDot: '通过 单击 可以继续增加后续节点！',
     changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
-    addMoreFollowDot: '通过 单击 也可以继续增加后续节点啦！',
     promptFin: '你已经学会所有的基本操作啦，开启你的 ZenTrailsWeb 之旅吧！',
     helpWanted: '← 需要帮忙可以点击这里查看帮助信息',
     emptyPrompt: ''
+};
+
+const {
+    __setGuideFin,
+    __isGuideFin
+} = (function () {
+    const guideFinKey = 'ZenTrailsWeb-guideFinKey';
+    return {
+        __setGuideFin: function () {
+            localStorage.setItem(guideFinKey, true);
+        },
+        __isGuideFin: () => !!localStorage.getItem(guideFinKey)
+    };
+}());
+
+let __setGuideAllFinished = function () {
+    addPrompt(__guidePromptArr.promptFin);
+    addPrompt(__guidePromptArr.helpWanted);
+    __hidePrompt();
+    __setGuideFin();
+    __setGuideAllFinished = emptyFunc;
 };
 
 /**
@@ -131,29 +152,20 @@ let setGuideAfterUploadData = function () {
  * 设置引导信息 选择节点后
  */
 let setGuideAfterChooseDot = function () {
-    addPrompt(__guidePromptArr.changeDotSetting);
     enableShowDotSetting();
     addPrompt(__guidePromptArr.addMoreFollowDot);
-    addPrompt(__guidePromptArr.promptFin);
-    addPrompt(__guidePromptArr.helpWanted);
-    __hidePrompt();
-    __setGuideFin();
+    addPrompt(__guidePromptArr.changeDotSetting);
     setGuideAfterChooseDot = emptyFunc;
 };
+
+/**
+ * 设置引导信息 修改节点信息后
+ */
+let setGuideAfterChangeDotSetting = __setGuideAllFinished;
 
 function __hidePrompt () {
     addPrompt(__guidePromptArr.emptyPrompt);
 }
-
-const { __setGuideFin, __isGuideFin } = (function () {
-    const guideFinKey = 'ZenTrailsWeb-guideFinKey';
-    return {
-        __setGuideFin: function () {
-            localStorage.setItem(guideFinKey, true);
-        },
-        __isGuideFin: () => !!localStorage.getItem(guideFinKey)
-    };
-}());
 
 function __enableAllFeature () {
     showStartBtnElement();
@@ -197,5 +209,6 @@ export {
     setGuideAfterResetPlayCartoon,
     setGuideAfterSaveData,
     setGuideAfterUploadData,
-    setGuideAfterChooseDot
+    setGuideAfterChooseDot,
+    setGuideAfterChangeDotSetting
 };
