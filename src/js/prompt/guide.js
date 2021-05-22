@@ -87,8 +87,8 @@ let setGuideAfterStartPath = function () {
  * 设置引导信息 增加新节点后
  */
 let setGuideAfterAddFollowDot = function () {
-    addPrompt(__guidePromptArr.closePresentPath);
     enableClosePresentPath();
+    addPrompt(__guidePromptArr.closePresentPath);
     setGuideAfterAddFollowDot = emptyFunc;
 };
 
@@ -96,8 +96,8 @@ let setGuideAfterAddFollowDot = function () {
  * 设置引导信息 关闭当前路径后
  */
 let setGuideAfterClosePresentPath = function () {
-    addPrompt(__guidePromptArr.startPlayCartoon);
     showStartBtnElement();
+    addPrompt(__guidePromptArr.startPlayCartoon);
     setGuideAfterClosePresentPath = emptyFunc;
 };
 
@@ -113,9 +113,9 @@ let setGuideAfterPlayCartoon = function () {
  * 设置引导信息 导出图片后
  */
 let setGuideAfterExportPicture = function () {
-    addPrompt(__guidePromptArr.resetCartoon);
     enableResetCartoon();
     showResetBtnElement();
+    addPrompt(__guidePromptArr.resetCartoon);
     setGuideAfterExportPicture = emptyFunc;
 };
 
