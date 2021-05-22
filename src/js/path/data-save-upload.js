@@ -6,6 +6,10 @@ import {
     hideElement,
     showElement
 } from '../util/base';
+import {
+    setGuideAfterUploadData,
+    setGuideAfterSaveData
+} from '../prompt/guide';
 
 let __getDataUploadBtnElement = createSingletonFunc(
     function () {
@@ -23,10 +27,12 @@ let __getDataSaveBtnElement = createSingletonFunc(
 
 function __uploadData () {
     // TODO
+    setGuideAfterUploadData();
 }
 
 function __saveData () {
     // TODO
+    setGuideAfterSaveData();
 }
 
 /**
@@ -37,25 +43,47 @@ function hideDataSaveBtnElement () {
 }
 
 /**
- * 显示数据导出节点
- */
-function showDataSaveBtnElement () {
-    showElement(__getDataSaveBtnElement());
-}
-
-/**
  * 隐藏数据导入节点
  */
 function hideDataUploadBtnElement () {
     hideElement(__getDataUploadBtnElement());
 }
 
-/**
- * 显示数据导入节点
- */
-function showDataUploadBtnElement () {
-    showElement(__getDataUploadBtnElement());
-}
+const {
+    enableSaveData,
+    showDataSaveBtnElement
+} = (function () {
+    let saveDataEnabled = false;
+    return {
+        enableSaveData: function () {
+            saveDataEnabled = true;
+        },
+        showDataSaveBtnElement: function () {
+            if (saveDataEnabled)
+            {
+                showElement(__getDataSaveBtnElement());
+            }
+        }
+    };
+}());
+
+const {
+    enableUploadData,
+    showDataUploadBtnElement
+} = (function () {
+    let saveDataEnabled = false;
+    return {
+        enableUploadData: function () {
+            saveDataEnabled = true;
+        },
+        showDataUploadBtnElement: function () {
+            if (saveDataEnabled)
+            {
+                showElement(__getDataUploadBtnElement());
+            }
+        }
+    };
+}());
 
 /**
  * 初始化导出导入数据
@@ -71,6 +99,8 @@ function initDataSaveUpload () {
 }
 
 export {
+    enableSaveData,
+    enableUploadData,
     hideDataSaveBtnElement,
     showDataSaveBtnElement,
     hideDataUploadBtnElement,

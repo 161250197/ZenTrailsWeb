@@ -12,6 +12,12 @@ import {
 import { enableShowDotSetting } from '../cover/dot-setting';
 import { addPrompt } from '.';
 import { emptyFunc } from '../util/base';
+import {
+    enableSaveData,
+    enableUploadData,
+    showDataSaveBtnElement,
+    showDataUploadBtnElement
+} from '../path/data-save-upload';
 
 const __guidePromptArr = {
     loadingFin: '游戏加载完成！',
@@ -20,8 +26,10 @@ const __guidePromptArr = {
     addFollowDot: '通过 单击 可以增加后续节点！',
     closePresentPath: '通过 右击 可以结束当前路径！',
     startPlayCartoon: '点击 左下角 播放按钮就可以开始播放动画啦 (<ゝω•)~☆ ',
-    resetCartoon: '点击 左下角 重置按钮可以返回编辑节点！',
     exportPicture: '点击 左下角 导出图片按钮可以导出轨迹图片！',
+    resetCartoon: '点击 左下角 重置按钮可以返回编辑节点！',
+    saveData: '点击 左下角 导出按钮可以保存路径数据，这样就可以保存和分享给朋友啦！',
+    uploadData: '点击 左下角 导入按钮就可以导入保存的路径数据啦！',
     chooseDot: '通过 点击 节点就可以修改节点信息！',
     changeDotSetting: '操作 右下角 面板就可以修改节点信息啦！',
     addMoreFollowDot: '通过 单击 也可以继续增加后续节点啦！',
@@ -94,9 +102,29 @@ let setGuideAfterExportPicture = function () {
  * 设置引导信息 重置动画后
  */
 let setGuideAfterResetPlayCartoon = function () {
+    enableSaveData();
+    showDataSaveBtnElement();
+    addPrompt(__guidePromptArr.saveData);
+    setGuideAfterResetPlayCartoon = emptyFunc;
+};
+
+/**
+ * 设置引导信息 保存数据后
+ */
+let setGuideAfterSaveData = function () {
+    enableUploadData();
+    showDataUploadBtnElement();
+    addPrompt(__guidePromptArr.uploadData);
+    setGuideAfterSaveData = emptyFunc;
+};
+
+/**
+ * 设置引导信息 导入数据后
+ */
+let setGuideAfterUploadData = function () {
     enableChooseDot();
     addPrompt(__guidePromptArr.chooseDot);
-    setGuideAfterResetPlayCartoon = emptyFunc;
+    setGuideAfterUploadData = emptyFunc;
 };
 
 /**
@@ -167,5 +195,7 @@ export {
     setGuideAfterPlayCartoon,
     setGuideAfterExportPicture,
     setGuideAfterResetPlayCartoon,
+    setGuideAfterSaveData,
+    setGuideAfterUploadData,
     setGuideAfterChooseDot
 };
