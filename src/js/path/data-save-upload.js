@@ -51,7 +51,7 @@ const __uploadData = (function () {
             const dataStr = __decodeFileContent(reader.result);
             console.log(dataStr.split('\n'));
             return [];
-        });
+        }());
         setPathArr(pathArr);
         refreshCanvas();
         setGuideAfterUploadData();
