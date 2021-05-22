@@ -11,6 +11,10 @@ import {
     setGuideAfterUploadData,
     setGuideAfterSaveData
 } from '../prompt/guide';
+import {
+    getPathArr,
+    setPathArr
+} from '.';
 
 let __getDataUploadBtnElement = createSingletonFunc(
     function () {
@@ -41,8 +45,13 @@ const __uploadData = (function () {
 
     const reader = new FileReader();
     reader.onload = function () {
-        // TODO
-        console.log(__decodeFileContent(reader.result));
+        const pathArr = (function () {
+            // TODO
+            const dataStr = __decodeFileContent(reader.result);
+            console.log(dataStr);
+            return [];
+        });
+        setPathArr(pathArr);
         setGuideAfterUploadData();
     };
     return function () {
@@ -51,8 +60,12 @@ const __uploadData = (function () {
 }());
 
 function __saveData () {
-    // TODO
-    const dataStr = 'test';
+    const dataStr = (function () {
+        // TODO
+        const pathArr = getPathArr();
+        console.log(pathArr);
+        return 'test';
+    }());
     downloadFile('data.ZenTrailsWeb', __encodeDataStr(dataStr));
     setGuideAfterSaveData();
 }

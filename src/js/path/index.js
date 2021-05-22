@@ -53,10 +53,17 @@ function addFollowDot (location) {
 }
 
 /**
- * @returns {Array<FirstDot|FollowDot>}
+ * @returns {Array<Path>}
  */
 function getPathArr () {
     return __pathArr;
+}
+
+/**
+ * @returns {Array<Path>}
+ */
+function setPathArr (pathArr) {
+    __pathArr = pathArr;
 }
 
 /**
@@ -194,6 +201,7 @@ export {
     startPath,
     addFollowDot,
     getPathArr,
+    setPathArr,
     closePresentPath,
     pathStarted,
     selectDot,
