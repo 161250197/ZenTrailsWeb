@@ -160,6 +160,11 @@ class Dot {
     }
 }
 
+function __roundPositionNumber (num) {
+    const grid = 10;
+    return Math.round(num / grid) * grid;
+}
+
 /** 首个节点数据结构 */
 class FirstDot extends Dot {
     /**
@@ -168,6 +173,8 @@ class FirstDot extends Dot {
      */
     constructor (position, path) {
         super(position);
+        this.x = __roundPositionNumber(this.x);
+        this.y = __roundPositionNumber(this.y);
         this.path = path;
     }
     /**
@@ -179,6 +186,16 @@ class FirstDot extends Dot {
     }
 }
 
+function __roundDistanceNumber (num) {
+    const grid = 10;
+    return Math.ceil(num / grid) * grid;
+}
+
+function __roundAngleNumber (num) {
+    const grid = 30;
+    return Math.round(num / grid) * grid;
+}
+
 class FollowDot extends Dot {
     /**
      * @param {{x: number, y: number}} position 
@@ -186,14 +203,20 @@ class FollowDot extends Dot {
      */
     constructor (position, lastDot) {
         super(position);
-        this.radius = calPointDistance(lastDot, position);
-        this.angle = calPointLineAngle(lastDot, position);
+        const radius = calPointDistance(lastDot, position);
+        this.radius = __roundDistanceNumber(radius);
+        const angle = calPointLineAngle(lastDot, position);
+        this.angle = __roundAngleNumber(angle);
         this.angleVelocity = 10;
         this.isAntiClockwise = false;
         this.color = '#000000';
         this.lastDot = lastDot;
+        const { x, y } = this.__calDurationState(0);
+        this.x = __roundPositionNumber(x);
+        this.y = __roundPositionNumber(y);
         this.__initialState = {
-            ...position,
+            x,
+            y,
             angle: this.angle
         };
     }
