@@ -108,7 +108,7 @@ class Path {
      */
     drawPathDots (drawHelper) {
         const { firstDot } = this;
-        drawHelper.drawCircle(firstDot);
+        drawHelper.drawPathFirstDot(firstDot);
         let dots = firstDot.followDots;
         while (dots.length)
         {
@@ -116,15 +116,7 @@ class Path {
             for (const dot of dots)
             {
                 newDots = newDots.concat(dot.followDots);
-                const { color, isAntiClockwise, lastDot } = dot;
-                drawHelper.drawLine(lastDot, dot);
-                drawHelper.setColor(color);
-                drawHelper.drawCircle(dot);
-                if (isAntiClockwise)
-                {
-                    drawHelper.drawCircle(dot, 5);
-                }
-                drawHelper.resetColor();
+                drawHelper.drawPathFollowDot(dot);
             }
             dots = newDots;
         }
