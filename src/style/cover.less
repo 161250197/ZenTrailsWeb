@@ -150,6 +150,8 @@
       align-items: center;
       justify-content: center;
       flex: 1;
+    }
+    >.follow-dot-setting {
       >.row {
         >.name {
           width: 50px;
@@ -161,6 +163,28 @@
         >.color,
         >.direction {
           cursor: pointer;
+          &:hover {
+            .is-clockwise-span,
+            .is-anti-clockwise-span {
+              border-bottom: thin solid grey;
+            }
+          }
+          &.is-clockwise {
+            .is-anti-clockwise-span {
+              color: fade(grey, 80%);
+            }
+            .is-clockwise-span {
+              border-bottom: none;
+            }
+          }
+          &.is-anti-clockwise {
+            .is-clockwise-span {
+              color: fade(grey, 80%);
+            }
+            .is-anti-clockwise-span {
+              border-bottom: none;
+            }
+          }
         }
       }
     }

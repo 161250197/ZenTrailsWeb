@@ -11,7 +11,9 @@ import {
     setElementEventUsed,
     hideElement,
     showElement,
-    emptyFunc
+    emptyFunc,
+    removeElementClass,
+    addElementClass
 } from '../util/base';
 
 let __getSettingWrapperElement = createSingletonFunc(
@@ -82,7 +84,7 @@ function initDotSetting () {
     directionSettingElement.addEventListener('click', () => {
         const __targetDot = getTargetDot();
         __targetDot.isAntiClockwise = !__targetDot.isAntiClockwise;
-        directionSettingElement.innerText = __targetDot.isAntiClockwise ? '逆时针' : '顺时针';
+        __updateDirectionSettingElement(__targetDot);
         refreshCanvas();
         setGuideAfterChangeDotSetting();
     });
@@ -111,6 +113,15 @@ function showFirstDotSettingFunc () {
     showElement(__getSettingWrapperElement());
 }
 
+function __updateDirectionSettingElement (targetDot) {
+    const directionSettingElement = __getDirectionSettingElement();
+    const isClockwiseClass = 'is-clockwise';
+    const isAntiClockwiseClass = 'is-anti-clockwise';
+    removeElementClass(directionSettingElement, isClockwiseClass);
+    removeElementClass(directionSettingElement, isAntiClockwiseClass);
+    addElementClass(directionSettingElement, targetDot.isAntiClockwise ? isAntiClockwiseClass : isClockwiseClass);
+}
+
 /**
  * 显示后续节点的设置弹窗
  * @param {Dot} targetDot 
@@ -118,7 +129,7 @@ function showFirstDotSettingFunc () {
 let showFollowDotSetting = emptyFunc;
 function showFollowDotSettingFunc (targetDot) {
     __getColorSettingElement().value = targetDot.color;
-    __getDirectionSettingElement().innerText = targetDot.isAntiClockwise ? '逆时针' : '顺时针';
+    __updateDirectionSettingElement(targetDot);
     __getVelocitySettingElement().value = targetDot.angleVelocity;
     hideElement(__getFirstDotSettingElement());
     showElement(__getFollowDotSettingElement());
