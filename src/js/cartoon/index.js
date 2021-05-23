@@ -36,7 +36,6 @@ import {
     showClearCanvasBtnElement
 } from '../canvas/clear';
 
-let __isPlayingCartoon = false;
 let __updateCartoonHandle;
 let __updateCartoonPathFunc;
 
@@ -89,7 +88,7 @@ function __startCartoon () {
     hideClearCanvasBtnElement();
 
     closePresentPath();
-    __isPlayingCartoon = true;
+    setIsPlayingCartoon(true);
     __setUpdateCartoonHandle();
     const drawHelperPath = getDownCanvasDrawHelper();
     const drawHelperDots = getUpCanvasDrawHelper();
@@ -107,7 +106,7 @@ function __resetCartoon () {
     hideExportPictureElement();
     hideElement(__getResetBtnElement());
 
-    __isPlayingCartoon = false;
+    setIsPlayingCartoon(false);
     cancelAnimationFrame(__updateCartoonHandle);
     resetPaths();
     refreshCanvas();
@@ -119,13 +118,20 @@ function __resetCartoon () {
     showClearCanvasBtnElement();
 }
 
-/**
- * 获取是否正在播放动画
- * @returns {boolean}
- */
-function isPlayingCartoon () {
-    return __isPlayingCartoon;
-}
+const {
+    isPlayingCartoon,
+    setIsPlayingCartoon
+} = (function () {
+    let isPlayingCartoon = false;
+    return {
+        isPlayingCartoon: function () {
+            return isPlayingCartoon;
+        },
+        setIsPlayingCartoon: function (flag) {
+            isPlayingCartoon = flag;
+        }
+    };
+}());
 
 /**
  * 初始化动画模块
