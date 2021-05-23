@@ -38,19 +38,15 @@ import {
 
 let __isPlayingCartoon = false;
 let __updateCartoonHandle;
-let __lastTime;
 let __updateCartoonPathFunc;
 
-function __setUpdateCartoonHandle (time) {
+function __setUpdateCartoonHandle () {
     __updateCartoonHandle = requestAnimationFrame(__updateCartoon);
-    __lastTime = time;
 }
 
 function __updateCartoon () {
-    const time = Date.now();
-    const duration = time - __lastTime;
-    __updateCartoonPathFunc(duration);
-    __setUpdateCartoonHandle(time);
+    __updateCartoonPathFunc();
+    __setUpdateCartoonHandle();
 }
 
 let __getStartBtnElement = createSingletonFunc(
@@ -94,8 +90,7 @@ function __startCartoon () {
 
     closePresentPath();
     __isPlayingCartoon = true;
-    const time = Date.now();
-    __setUpdateCartoonHandle(time);
+    __setUpdateCartoonHandle();
     const drawHelperPath = getDownCanvasDrawHelper();
     const drawHelperDots = getUpCanvasDrawHelper();
     drawHelperPath.clearCanvas();

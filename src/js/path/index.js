@@ -159,11 +159,10 @@ function removeTargetDot () {
  * 动画播放时更新路径
  * @param {CanvasDrawHelper} drawHelperPath 
  * @param {CanvasDrawHelper} drawHelperDots 
- * @param {number} duration 
  */
-function updateCartoonPath (drawHelperPath, drawHelperDots, duration) {
+function updateCartoonPath (drawHelperPath, drawHelperDots) {
     __pathArr.forEach(path => {
-        path.updateCartoonPath(duration);
+        path.updateCartoonPath();
         path.drawCartoonPath(drawHelperPath);
     });
     drawPaths(drawHelperDots);

@@ -69,10 +69,11 @@ class Path {
     }
     /**
      * 动画播放时重新计算动画路径
-     * @param {number} duration 
      */
-    updateCartoonPath (duration) {
+    updateCartoonPath () {
         let dots = this.firstDot.followDots;
+        // 固定刷新间隔为 10ms
+        const duration = 10;
         while (dots.length)
         {
             let newDots = [];
