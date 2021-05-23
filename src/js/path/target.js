@@ -1,6 +1,8 @@
 // 选择目标管理
 
 import { refreshCanvas } from '../canvas';
+// eslint-disable-next-line no-unused-vars
+import { CanvasDrawHelper } from '../canvas/draw-helper';
 import {
     hideDotSetting,
     showFirstDotSetting,
@@ -86,10 +88,24 @@ function appendFollowDot (location) {
     setTargetDot(newTarget);
 }
 
+/**
+ * 绘制选择节点
+ * @param {CanvasDrawHelper} drawHelper 
+ */
+function drawTargetDot (drawHelper) {
+    drawHelper.clearCanvas();
+    const target = getTargetDot();
+    if (target !== undefined)
+    {
+        drawHelper.drawTargetDot(target);
+    }
+}
+
 export {
     getTargetDot,
     setTargetDot,
     removeTargetDot,
     unsetTargetDot,
-    appendFollowDot
+    appendFollowDot,
+    drawTargetDot
 };

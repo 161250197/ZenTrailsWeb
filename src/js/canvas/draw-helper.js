@@ -1,7 +1,7 @@
 // 绘制辅助
 
 // eslint-disable-next-line no-unused-vars
-import { FirstDot, FollowDot } from '../path/data-structure';
+import { Dot, FirstDot, FollowDot } from '../path/data-structure';
 import { createSingletonFunc } from '../util/base';
 import {
     getDownCanvasElement,
@@ -17,16 +17,20 @@ class CanvasDrawHelper {
         this.__ctx = ctx.getContext('2d');
     }
     /**
+     * 绘制选中的路径节点效果
+     * @param {Dot} dot 
+     */
+    drawTargetDot (dot) {
+        // TODO 优化效果
+        this.drawCircle(dot, 3);
+    }
+    /**
      * 绘制路径首节点
      * @param {FirstDot} dot 
      */
     drawPathFirstDot (dot) {
         // TODO 优化效果
         this.drawCircle(dot);
-        if (dot.isTarget)
-        {
-            this.drawCircle(dot, 3);
-        }
     }
     /**
      * 绘制路径后续节点
@@ -40,10 +44,6 @@ class CanvasDrawHelper {
         if (isAntiClockwise)
         {
             this.drawCircle(dot, 5);
-        }
-        if (dot.isTarget)
-        {
-            this.drawCircle(dot, 3);
         }
         this.resetColor();
         this.drawLine(lastDot, dot);

@@ -1,6 +1,7 @@
 // 画布
 
 import { drawPaths } from '../path';
+import { drawTargetDot } from '../path/target';
 import { initClear } from './clear';
 import {
     getDownCanvasDrawHelper,
@@ -13,10 +14,8 @@ import { initCanvasElement } from './element';
  */
 function refreshCanvas () {
     requestAnimationFrame(() => {
-        getDownCanvasDrawHelper().clearCanvas();
-        const drawHelper = getUpCanvasDrawHelper();
-        drawHelper.clearCanvas();
-        drawPaths(drawHelper);
+        drawPaths(getUpCanvasDrawHelper());
+        drawTargetDot(getDownCanvasDrawHelper());
     });
 }
 
