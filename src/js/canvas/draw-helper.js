@@ -23,6 +23,10 @@ class CanvasDrawHelper {
     drawPathFirstDot (dot) {
         // TODO 优化效果
         this.drawCircle(dot);
+        if (dot.isTarget)
+        {
+            this.drawCircle(dot, 3);
+        }
     }
     /**
      * 绘制路径后续节点
@@ -36,6 +40,10 @@ class CanvasDrawHelper {
         if (isAntiClockwise)
         {
             this.drawCircle(dot, 5);
+        }
+        if (dot.isTarget)
+        {
+            this.drawCircle(dot, 3);
         }
         this.resetColor();
         this.drawLine(lastDot, dot);

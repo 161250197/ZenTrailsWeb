@@ -67,12 +67,14 @@ function removeTargetDot () {
  * 取消选择目标节点
  */
 function unsetTargetDot () {
-    if (__target !== undefined)
+    if (__target === undefined)
     {
-        __target.isTarget = false;
-        hideDotSetting();
-        __target = undefined;
+        return;
     }
+    __target.isTarget = false;
+    hideDotSetting();
+    __target = undefined;
+    refreshCanvas();
 }
 
 /**
