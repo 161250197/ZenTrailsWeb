@@ -4,7 +4,7 @@ import { refreshCanvas } from '../canvas';
 import {
     getTargetDot,
     removeTargetDot
-} from '../path';
+} from '../path/target';
 import { setGuideAfterChangeDotSetting } from '../prompt/guide';
 import {
     createSingletonFunc,
