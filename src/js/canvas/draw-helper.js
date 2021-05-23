@@ -41,11 +41,12 @@ class CanvasDrawHelper {
         this.drawLine(lastDot, dot);
     }
     /**
-     * 绘制动画路径
+     * 绘制动画路径节点运动轨迹
      * @param {FollowDot} dot 
      * @param {{x: number, y: number}} lastPosition 
      */
     drawCartoonPath (dot, lastPosition) {
+        // TODO 优化效果
         this.setColor(dot.color);
         this.drawLine(dot, lastPosition);
         this.resetColor();
