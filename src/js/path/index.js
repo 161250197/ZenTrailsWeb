@@ -36,6 +36,7 @@ function startPath (location) {
 }
 
 /**
+ * 获取路径集合
  * @returns {Array<Path>}
  */
 function getPathArr () {
@@ -43,6 +44,7 @@ function getPathArr () {
 }
 
 /**
+ * 设置路径集合
  * @returns {Array<Path>}
  */
 function setPathArr (pathArr) {
@@ -138,6 +140,7 @@ function pathStarted () {
 }
 
 /**
+ * 添加后续节点
  * @param {{x: number, y: number}} location 
  */
 function addFollowDot (location) {
