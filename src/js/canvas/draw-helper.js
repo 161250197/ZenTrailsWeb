@@ -1,5 +1,7 @@
 // 绘制辅助
 
+// eslint-disable-next-line no-unused-vars
+import { FollowDot } from '../path/data-structure';
 import { createSingletonFunc } from '../util/base';
 import {
     getDownCanvasElement,
@@ -9,11 +11,20 @@ import {
 /** 画布绘制工具 */
 class CanvasDrawHelper {
     /**
-     * 
      * @param {HTMLCanvasElement} ctx 
      */
     constructor (ctx) {
         this.__ctx = ctx.getContext('2d');
+    }
+    /**
+     * 绘制动画路径
+     * @param {FollowDot} dot 
+     * @param {{x: number, y: number}} lastPosition 
+     */
+    drawCartoonPath (dot, lastPosition) {
+        this.setColor(dot.color);
+        this.drawLine(dot, lastPosition);
+        this.resetColor();
     }
     /**
      * 重置颜色

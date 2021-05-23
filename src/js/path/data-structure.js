@@ -96,7 +96,7 @@ class Path {
             for (const dot of dots)
             {
                 newDots = newDots.concat(dot.followDots);
-                dot.drawDurationPath(drawHelper);
+                dot.drawCartoonPath(drawHelper);
             }
             dots = newDots;
         }
@@ -245,15 +245,11 @@ class FollowDot extends Dot {
         return this.lastDot;
     }
     /**
-     * 动画播放时绘制动画路径
+     * 绘制动画路径
      * @param {CanvasDrawHelper} drawHelper 
      */
-    drawDurationPath (drawHelper) {
-        drawHelper.setColor(this.color);
-        drawHelper.startPath(this);
-        drawHelper.concatDot(this.__lastState);
-        drawHelper.closePath();
-        drawHelper.resetColor();
+    drawCartoonPath (drawHelper) {
+        drawHelper.drawCartoonPath(this, this.__lastState);
     }
     /**
      * 计算位置数据
