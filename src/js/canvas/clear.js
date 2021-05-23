@@ -2,6 +2,7 @@
 
 import { refreshCanvas } from '.';
 import { setPathArr } from '../path';
+import { unsetTargetDot } from '../path/target';
 import { setGuideAfterClearCanvas } from '../prompt/guide';
 import {
     createSingletonFunc,
@@ -47,6 +48,7 @@ const {
  */
 function __clearCanvas () {
     setPathArr([]);
+    unsetTargetDot();
     refreshCanvas();
     setGuideAfterClearCanvas();
 }
