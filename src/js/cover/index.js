@@ -14,6 +14,7 @@ import {
     createSingletonFunc
 } from '../util/base';
 import { initDotSetting } from './dot-setting';
+import { initMouseMove } from './mouse-move';
 
 /**
  * 获取遮罩节点
@@ -115,6 +116,7 @@ function initCover () {
     cover.addEventListener('dblclick', __onCoverDblClick);
 
     initDotSetting();
+    initMouseMove();
 }
 
 export {
