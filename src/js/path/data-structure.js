@@ -187,8 +187,15 @@ function __roundDistanceNumber (num) {
     return Math.ceil(num / grid) * grid;
 }
 
-function __roundAngleNumber (num) {
-    const grid = 30;
+function __roundAngleNumber (num, radius) {
+    const radiusArr = [50, 100, 200];
+    const gridArr = [30, 20, 10, 5];
+    let index = 0;
+    while (index < radiusArr.length && radiusArr[index] < radius)
+    {
+        index++;
+    }
+    const grid = gridArr[index];
     return Math.round(num / grid) * grid;
 }
 
@@ -202,14 +209,14 @@ class FollowDot extends Dot {
         const radius = calPointDistance(lastDot, position);
         this.radius = __roundDistanceNumber(radius);
         const angle = calPointLineAngle(lastDot, position);
-        this.angle = __roundAngleNumber(angle);
+        this.angle = __roundAngleNumber(angle, radius);
         this.angleVelocity = 10;
         this.isAntiClockwise = false;
         this.color = defaultColor;
         this.lastDot = lastDot;
         const { x, y } = this.__calDurationState(0);
-        this.x = __roundPositionNumber(x);
-        this.y = __roundPositionNumber(y);
+        this.x = x;
+        this.y = y;
         this.__initialState = {
             x,
             y,
