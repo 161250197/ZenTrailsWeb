@@ -2,6 +2,7 @@
 
 import {
     createSingletonFunc,
+    debounce,
     setElementStyle
 } from '../util/base';
 
@@ -64,11 +65,17 @@ function __updateCanvasSize () {
     });
 }
 
+function addResizeEventListener () {
+    const debouncedOnResize = debounce(this, __updateCanvasSize);
+    window.addEventListener('resize', debouncedOnResize);
+}
+
 /**
  * 初始化画布管理
  */
 function initCanvasElement () {
     setTimeout(__updateCanvasSize);
+    addResizeEventListener();
 }
 
 export {

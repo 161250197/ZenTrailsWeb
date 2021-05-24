@@ -125,7 +125,28 @@ const downloadFile = (function () {
     };
 }());
 
+const defaultTime = 100;
+
+/**
+ * 防抖
+ * @param {Object} that func 的 this 对象
+ * @param {Function} func 要执行的方法
+ * @param {Number?} time 间隔时间
+ */
+function debounce (that, func, time) {
+    time = time || defaultTime;
+    let timeoutId;
+    return function () {
+        clearTimeout(timeoutId);
+        const args = arguments;
+        timeoutId = setTimeout(function () {
+            func.apply(that, args);
+        }, time);
+    };
+}
+
 export {
+    debounce,
     downloadFile,
     emptyFunc,
     preventDefaultStopPropagation,
