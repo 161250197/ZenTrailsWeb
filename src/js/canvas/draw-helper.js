@@ -25,6 +25,18 @@ class CanvasDrawHelper {
         ctx.lineWidth = 3;
         this.__ctx = ctx;
     }
+    __drawLine (start, end) {
+        this.startPath(start);
+        this.concatDot(end);
+        this.closePath();
+    }
+    __drawCircle ({ x, y }, radius, startRadian = 0, endRadian = 2 * Math.PI, isAntiClockwise) {
+        const { __ctx } = this;
+        __ctx.beginPath();
+        __ctx.arc(x, y, radius, startRadian, endRadian, isAntiClockwise);
+        this.__ctx.stroke();
+        this.__ctx.closePath();
+    }
     __createDotRadialGradient ({ x, y, color = defaultColor }) {
         const radius = dotRadius;
         const gradient = this.__ctx.createRadialGradient(x, y, 0, x, y, radius);
@@ -59,33 +71,27 @@ class CanvasDrawHelper {
         __ctx.lineWidth = 1;
         __ctx.globalAlpha = 0.6;
         __ctx.strokeStyle = this.__createDotLinearGradient(dot);
-        this.drawLine(dot.lastDot, dot);
+        this.__drawLine(dot.lastDot, dot);
         __ctx.restore();
     }
     __drawDotDirection (dot) {
         const { __ctx } = this;
         __ctx.save();
 
-        const { x, y, color, angle, isAntiClockwise } = dot;
+        const { color, angle, isAntiClockwise } = dot;
 
         const radian = angleToRadian(angle);
         const restRadian = Math.PI / 6;
         const startRadian = radian + restRadian;
-        const andRadian = radian + Math.PI;
+        const endRadian = radian + Math.PI;
 
-        __ctx.beginPath();
         __ctx.strokeStyle = color;
         __ctx.lineWidth = 5;
-        __ctx.arc(x, y, dotRadius, startRadian, andRadian, isAntiClockwise);
-        __ctx.stroke();
-        __ctx.closePath();
+        this.__drawCircle(dot, dotRadius, startRadian, endRadian, isAntiClockwise);
 
-        __ctx.beginPath();
         __ctx.strokeStyle = 'white';
         __ctx.lineWidth = 1;
-        __ctx.arc(x, y, dotRadius, startRadian, andRadian, isAntiClockwise);
-        __ctx.stroke();
-        __ctx.closePath();
+        this.__drawCircle(dot, dotRadius, startRadian, endRadian, isAntiClockwise);
 
         __ctx.restore();
     }
@@ -99,10 +105,10 @@ class CanvasDrawHelper {
         __ctx.lineWidth = 5;
         __ctx.globalAlpha = 0.6;
         __ctx.strokeStyle = defaultColor;
-        this.drawCircle(dot, dotRadius);
+        this.__drawCircle(dot, dotRadius);
         __ctx.lineWidth = 1;
         __ctx.strokeStyle = 'white';
-        this.drawCircle(dot, dotRadius);
+        this.__drawCircle(dot, dotRadius);
         __ctx.restore();
     }
     /**
@@ -127,43 +133,11 @@ class CanvasDrawHelper {
      * @param {{x: number, y: number}} lastPosition 
      */
     drawCartoonPath (dot, lastPosition) {
-        this.setColor(dot.color);
-        this.drawLine(dot, lastPosition);
-        this.resetColor();
-    }
-    /**
-     * 重置颜色
-     */
-    resetColor () {
-        this.setColor('black');
-    }
-    /**
-     * 设置颜色
-     * @param {string} color 
-     */
-    setColor (color) {
-        this.__ctx.strokeStyle = color;
-    }
-    /**
-     * 绘制线段
-     * @param {{x: number, y: number}} start 
-     * @param {{x: number, y: number}} end 
-     */
-    drawLine (start, end) {
-        this.startPath(start);
-        this.concatDot(end);
-        this.closePath();
-    }
-    /**
-     * 绘制圆形
-     * @param {{x: number, y: number}} param0 圆心
-     * @param {number} radius 半径
-     */
-    drawCircle ({ x, y }, radius) {
-        this.__ctx.beginPath();
-        this.__ctx.arc(x, y, radius, 0, 2 * Math.PI);
-        this.__ctx.stroke();
-        this.__ctx.closePath();
+        const { __ctx } = this;
+        __ctx.save();
+        __ctx.strokeStyle = dot.color;
+        this.__drawLine(dot, lastPosition);
+        __ctx.restore();
     }
     /**
      * 开启绘制路径

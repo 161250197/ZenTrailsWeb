@@ -26,7 +26,6 @@ let __pathArr = [];
  * @param {{x: number, y: number}} location 
  */
 function startPath (location) {
-    // TODO 绘制效果优化
     const path = new Path(location);
     __pathArr.push(path);
     setTargetDot(path.firstDot);

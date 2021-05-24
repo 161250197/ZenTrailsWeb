@@ -93,7 +93,6 @@ function __startCartoon () {
     const drawHelperPath = getDownCanvasDrawHelper();
     const drawHelperDots = getUpCanvasDrawHelper();
     drawHelperPath.clearCanvas();
-    drawHelperPath.resetColor();
     drawHelperDots.clearCanvas();
     __updateCartoonPathFunc = updateCartoonPath.bind(this, drawHelperPath, drawHelperDots);
 
