@@ -3,6 +3,7 @@
 // eslint-disable-next-line no-unused-vars
 import { Dot, FirstDot, FollowDot } from '../path/data-structure';
 import { createSingletonFunc } from '../util/base';
+import { angleToRadian } from '../util/math';
 import {
     getDownCanvasElement,
     getUpCanvasElement
@@ -31,6 +32,7 @@ class CanvasDrawHelper {
         gradient.addColorStop(0.2, color);
         gradient.addColorStop(0.8, color);
         gradient.addColorStop(0.9, 'white');
+        gradient.addColorStop(0.9, 'transparent');
         return gradient;
     }
     __createDotLinearGradient ({ x, y, color, lastDot }) {
@@ -42,8 +44,51 @@ class CanvasDrawHelper {
         gradient.addColorStop(1, color);
         return gradient;
     }
-    __drawDotFunc ({ x, y }) {
-        this.__ctx.fillRect(x - dotRadius, y - dotRadius, 2 * dotRadius, 2 * dotRadius);
+    __drawDotFunc (dot) {
+        const { __ctx } = this;
+        __ctx.save();
+        __ctx.fillStyle = this.__createDotRadialGradient(dot);
+        const { x, y } = dot;
+        __ctx.fillRect(x - dotRadius, y - dotRadius, 2 * dotRadius, 2 * dotRadius);
+        __ctx.restore();
+        __ctx.restore();
+    }
+    __drawLastDotToDotLine (dot) {
+        const { __ctx } = this;
+        __ctx.save();
+        __ctx.lineWidth = 1;
+        __ctx.strokeStyle = this.__createDotLinearGradient(dot);
+        this.drawLine(dot.lastDot, dot);
+        __ctx.restore();
+    }
+    __drawDotDirection (dot) {
+        const { __ctx } = this;
+        __ctx.save();
+
+        const { x, y, color, angle, isAntiClockwise } = dot;
+
+        const radian = angleToRadian(angle);
+        const restRadian = Math.PI / 6;
+        const startRadian = radian + restRadian;
+        const andRadian = radian + Math.PI;
+
+        __ctx.beginPath();
+        __ctx.strokeStyle = color;
+        __ctx.lineWidth = 5;
+        __ctx.globalAlpha = 1;
+        __ctx.arc(x, y, dotRadius, startRadian, andRadian, isAntiClockwise);
+        __ctx.stroke();
+        __ctx.closePath();
+
+        __ctx.beginPath();
+        __ctx.strokeStyle = 'white';
+        __ctx.lineWidth = 1;
+        __ctx.globalAlpha = 1;
+        __ctx.arc(x, y, dotRadius, startRadian, andRadian, isAntiClockwise);
+        __ctx.stroke();
+        __ctx.closePath();
+
+        __ctx.restore();
     }
     /**
      * 绘制选中的路径节点效果
@@ -65,26 +110,16 @@ class CanvasDrawHelper {
      * @param {FirstDot} dot 
      */
     drawPathFirstDot (dot) {
-        const { __ctx } = this;
-        __ctx.save();
-        __ctx.fillStyle = this.__createDotRadialGradient(dot);
         this.__drawDotFunc(dot);
-        __ctx.restore();
     }
     /**
      * 绘制路径后续节点
      * @param {FollowDot} dot 
      */
     drawPathFollowDot (dot) {
-        const { __ctx } = this;
-        __ctx.save();
-        __ctx.fillStyle = this.__createDotRadialGradient(dot);
+        this.__drawLastDotToDotLine(dot);
+        this.__drawDotDirection(dot);
         this.__drawDotFunc(dot);
-        __ctx.lineWidth = 1;
-        __ctx.strokeStyle = this.__createDotLinearGradient(dot);
-        // TODO 根据 angle 和 顺逆时针 绘制提示效果
-        this.drawLine(dot.lastDot, dot);
-        __ctx.restore();
     }
     /**
      * 绘制动画路径节点运动轨迹
