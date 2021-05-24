@@ -5,9 +5,9 @@ import {
     startPath,
     addFollowDot,
     closePresentPath,
-    pathStarted,
-    selectDot
+    pathStarted
 } from '../path';
+import { selectDot } from '../path/target';
 import {
     preventDefaultStopPropagation,
     isEventUsed,

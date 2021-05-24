@@ -1,5 +1,6 @@
 // 选择目标管理
 
+import { getPathArr } from '.';
 import { refreshCanvas } from '../canvas';
 // eslint-disable-next-line no-unused-vars
 import { CanvasDrawHelper } from '../canvas/draw-helper';
@@ -8,6 +9,7 @@ import {
     showFirstDotSetting,
     showFollowDotSetting
 } from '../cover/dot-setting';
+import { setGuideAfterChooseDot } from '../prompt/guide';
 import {
     // eslint-disable-next-line no-unused-vars
     Dot,
@@ -101,7 +103,29 @@ function drawTargetDot (drawHelper) {
     }
 }
 
+/**
+ * 选择点
+ * @param {{x: number, y: number}} position  
+ */
+function selectDot (position) {
+    let selectedDots = [];
+    const pathArr = getPathArr();
+    for (const path of pathArr)
+    {
+        selectedDots = selectedDots.concat(path.selectDot(position));
+    }
+    if (selectedDots.length)
+    {
+        setGuideAfterChooseDot();
+
+        // TODO 多个重叠点时的优先级处理
+        const selectedDot = selectedDots[0];
+        setTargetDot(selectedDot);
+    }
+}
+
 export {
+    selectDot,
     getTargetDot,
     setTargetDot,
     removeTargetDot,

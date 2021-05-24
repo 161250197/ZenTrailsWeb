@@ -7,8 +7,7 @@ import { Path } from './data-structure';
 import {
     setGuideAfterAddFollowDot,
     setGuideAfterClosePresentPath,
-    setGuideAfterStartPath,
-    setGuideAfterChooseDot
+    setGuideAfterStartPath
 } from '../prompt/guide';
 import { initDataSaveUpload } from './data-save-upload';
 import {
@@ -57,27 +56,6 @@ function closePresentPath () {
     unsetTargetDot();
 
     setGuideAfterClosePresentPath();
-}
-
-/**
- * 选择点
- * @param {{x: number, y: number}} position  
- */
-function selectDot (position) {
-    let selectedDots = [];
-    for (const path of __pathArr)
-    {
-        selectedDots = selectedDots.concat(path.selectDot(position));
-    }
-    if (selectedDots.length)
-    {
-        setGuideAfterChooseDot();
-
-        // TODO 多个重叠点时的优先级处理
-        const selectedDot = selectedDots[0];
-        setTargetDot(selectedDot);
-        refreshCanvas();
-    }
 }
 
 /**
@@ -157,7 +135,6 @@ export {
     setPathArr,
     closePresentPath,
     pathStarted,
-    selectDot,
     resetPaths,
     updateCartoonPath,
     drawPaths,
