@@ -1,10 +1,7 @@
 // 路径数据结构
 
-import {
-    // eslint-disable-next-line no-unused-vars
-    CanvasDrawHelper,
-    defaultColor
-} from '../canvas/draw-helper';
+// eslint-disable-next-line no-unused-vars
+import { CanvasDrawHelper } from '../canvas/draw-helper';
 import { removePath } from '.';
 import {
     calPosition,
@@ -12,6 +9,11 @@ import {
     calPointLineAngle,
     isInCircle
 } from '../util/math';
+
+const {
+    dotRadius,
+    defaultColor
+} = require('../config.json');
 
 /** 路径数据结构 */
 class Path {
@@ -28,11 +30,13 @@ class Path {
      */
     selectDot (position) {
         const selectedDots = [];
-        if (isInCircle(position, this.firstDot, 10))
+        const activeRadius = 2 * dotRadius;
+        const { firstDot } = this;
+        if (isInCircle(position, firstDot, activeRadius))
         {
-            selectedDots.push(this.firstDot);
+            selectedDots.push(firstDot);
         }
-        let dots = [this.firstDot];
+        let dots = [firstDot];
         while (dots.length)
         {
             let newDots = [];
@@ -43,7 +47,7 @@ class Path {
             dots = newDots;
             for (const dot of dots)
             {
-                if (isInCircle(position, dot, 10))
+                if (isInCircle(position, dot, activeRadius))
                 {
                     selectedDots.push(dot);
                 }

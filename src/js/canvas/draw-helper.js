@@ -8,8 +8,10 @@ import {
     getUpCanvasElement
 } from './element';
 
-const __dotRadius = 5;
-const defaultColor = '#888888';
+const {
+    dotRadius,
+    defaultColor
+} = require('../config.json');
 
 /** 画布绘制工具 */
 class CanvasDrawHelper {
@@ -23,7 +25,7 @@ class CanvasDrawHelper {
         this.__ctx = ctx;
     }
     __createDotRadialGradient ({ x, y, color = defaultColor }) {
-        const radius = __dotRadius;
+        const radius = dotRadius;
         const gradient = this.__ctx.createRadialGradient(x, y, 0, x, y, radius);
         gradient.addColorStop(0, '#bbbbbb');
         gradient.addColorStop(0.2, color);
@@ -41,7 +43,7 @@ class CanvasDrawHelper {
         return gradient;
     }
     __drawDotFunc ({ x, y }) {
-        this.__ctx.fillRect(x - __dotRadius, y - __dotRadius, 2 * __dotRadius, 2 * __dotRadius);
+        this.__ctx.fillRect(x - dotRadius, y - dotRadius, 2 * dotRadius, 2 * dotRadius);
     }
     /**
      * 绘制选中的路径节点效果
@@ -52,10 +54,10 @@ class CanvasDrawHelper {
         __ctx.save();
         __ctx.lineWidth = 5;
         __ctx.strokeStyle = defaultColor;
-        this.drawCircle(dot, __dotRadius);
+        this.drawCircle(dot, dotRadius);
         __ctx.lineWidth = 1;
         __ctx.strokeStyle = 'white';
-        this.drawCircle(dot, __dotRadius);
+        this.drawCircle(dot, dotRadius);
         __ctx.restore();
     }
     /**
@@ -183,6 +185,7 @@ let getDownCanvasDrawHelper = createSingletonFunc(
 );
 
 export {
+    dotRadius,
     defaultColor,
     CanvasDrawHelper,
     getUpCanvasDrawHelper,
