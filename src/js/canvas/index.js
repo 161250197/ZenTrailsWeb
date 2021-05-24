@@ -14,8 +14,8 @@ import { initCanvasElement } from './element';
  */
 function refreshCanvas () {
     requestAnimationFrame(() => {
-        drawPaths(getUpCanvasDrawHelper());
-        drawTargetDot(getDownCanvasDrawHelper());
+        drawPaths(getDownCanvasDrawHelper());
+        drawTargetDot(getUpCanvasDrawHelper());
     });
 }
 
