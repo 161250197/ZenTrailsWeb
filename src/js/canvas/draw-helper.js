@@ -11,10 +11,10 @@ import {
 /** 画布绘制工具 */
 class CanvasDrawHelper {
     /**
-     * @param {HTMLCanvasElement} ctx 
+     * @param {HTMLCanvasElement} canvasElement 
      */
-    constructor (ctx) {
-        this.__ctx = ctx.getContext('2d');
+    constructor (canvasElement) {
+        this.__ctx = canvasElement.getContext('2d');
     }
     /**
      * 绘制选中的路径节点效果
