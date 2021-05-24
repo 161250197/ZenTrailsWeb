@@ -57,6 +57,7 @@ class CanvasDrawHelper {
         const { __ctx } = this;
         __ctx.save();
         __ctx.lineWidth = 1;
+        __ctx.globalAlpha = 0.6;
         __ctx.strokeStyle = this.__createDotLinearGradient(dot);
         this.drawLine(dot.lastDot, dot);
         __ctx.restore();
@@ -75,7 +76,6 @@ class CanvasDrawHelper {
         __ctx.beginPath();
         __ctx.strokeStyle = color;
         __ctx.lineWidth = 5;
-        __ctx.globalAlpha = 1;
         __ctx.arc(x, y, dotRadius, startRadian, andRadian, isAntiClockwise);
         __ctx.stroke();
         __ctx.closePath();
@@ -83,7 +83,6 @@ class CanvasDrawHelper {
         __ctx.beginPath();
         __ctx.strokeStyle = 'white';
         __ctx.lineWidth = 1;
-        __ctx.globalAlpha = 1;
         __ctx.arc(x, y, dotRadius, startRadian, andRadian, isAntiClockwise);
         __ctx.stroke();
         __ctx.closePath();
@@ -98,6 +97,7 @@ class CanvasDrawHelper {
         const { __ctx } = this;
         __ctx.save();
         __ctx.lineWidth = 5;
+        __ctx.globalAlpha = 0.6;
         __ctx.strokeStyle = defaultColor;
         this.drawCircle(dot, dotRadius);
         __ctx.lineWidth = 1;
