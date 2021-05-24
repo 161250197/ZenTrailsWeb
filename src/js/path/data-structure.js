@@ -1,7 +1,10 @@
 // 路径数据结构
 
-// eslint-disable-next-line no-unused-vars
-import { CanvasDrawHelper } from '../canvas/draw-helper';
+import {
+    // eslint-disable-next-line no-unused-vars
+    CanvasDrawHelper,
+    defaultColor
+} from '../canvas/draw-helper';
 import { removePath } from '.';
 import {
     angleToRadian,
@@ -202,7 +205,7 @@ class FollowDot extends Dot {
         this.angle = __roundAngleNumber(angle);
         this.angleVelocity = 10;
         this.isAntiClockwise = false;
-        this.color = '#000000';
+        this.color = defaultColor;
         this.lastDot = lastDot;
         const { x, y } = this.__calDurationState(0);
         this.x = __roundPositionNumber(x);
