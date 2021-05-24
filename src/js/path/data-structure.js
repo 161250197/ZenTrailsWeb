@@ -7,7 +7,7 @@ import {
 } from '../canvas/draw-helper';
 import { removePath } from '.';
 import {
-    angleToRadian,
+    calPosition,
     calPointDistance,
     calPointLineAngle,
     isInCircle
@@ -271,8 +271,7 @@ class FollowDot extends Dot {
         const { radius, angleVelocity, lastDot } = this;
         const angleChange = angleVelocity * duration / 100;
         const angle = this.angle + (this.isAntiClockwise ? -angleChange : angleChange);
-        const x = lastDot.x + Math.cos(angleToRadian(angle)) * radius;
-        const y = lastDot.y + Math.sin(angleToRadian(angle)) * radius;
+        const { x, y } = calPosition(lastDot, angle, radius);
         return { x, y, angle };
     }
 }

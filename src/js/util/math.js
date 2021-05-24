@@ -82,7 +82,23 @@ function calPointDistancePowTwo (start, end) {
     return distanceSquare;
 }
 
+/**
+ * 根据初始位置，角度，距离计算目标点位置
+ * @param {{x: number, y: number}} start 
+ * @param {number} angle 
+ * @param {number} distance 
+ * @returns {{x: number, y: number}}
+ */
+function calPosition (start, angle, distance) {
+    const { x, y } = start;
+    const radian = angleToRadian(angle);
+    const newX = x + Math.cos(radian) * distance;
+    const newY = y + Math.sin(radian) * distance;
+    return { x: newX, y: newY };
+}
+
 export {
+    calPosition,
     angleToRadian,
     calPointLineAngle,
     isInCircle,
