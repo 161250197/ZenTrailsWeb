@@ -13,10 +13,8 @@ import { initCanvasElement } from './element';
  * 刷新画布
  */
 function refreshCanvas () {
-    requestAnimationFrame(() => {
-        drawPaths(getDownCanvasDrawHelper());
-        drawTargetDot(getUpCanvasDrawHelper());
-    });
+    drawPaths(getDownCanvasDrawHelper());
+    drawTargetDot(getUpCanvasDrawHelper());
 }
 
 /**
