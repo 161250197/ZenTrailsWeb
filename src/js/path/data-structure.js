@@ -7,7 +7,10 @@ import {
     calPosition,
     isInCircle
 } from '../util/math';
-import { regularFollowDotProperty } from './data-format';
+import {
+    regularFirstDotPosition,
+    regularFollowDotProperty
+} from './data-format';
 
 const {
     dotRadius,
@@ -20,7 +23,8 @@ class Path {
      * @param {{x: number, y: number}} position 
      */
     constructor (position) {
-        this.firstDot = new FirstDot(position, this);
+        const regularPosition = regularFirstDotPosition(position);
+        this.firstDot = new FirstDot(regularPosition, this);
     }
     /**
      * 选择节点
