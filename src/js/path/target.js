@@ -1,7 +1,6 @@
 // 选择目标管理
 
 import { getPathArr } from '.';
-import { refreshCanvas } from '../canvas';
 // eslint-disable-next-line no-unused-vars
 import { CanvasDrawHelper } from '../canvas/draw-helper';
 import {
@@ -120,22 +119,8 @@ function getTargetDotByPosition (position) {
     return selectedDot;
 }
 
-/**
- * 选择点
- * @param {{x: number, y: number}} position  
- */
-function selectDot (position) {
-    const target = getTargetDotByPosition(position);
-    if (target)
-    {
-        setTargetDot(target);
-        refreshCanvas();
-    }
-}
-
 export {
     getTargetDotByPosition,
-    selectDot,
     getTargetDot,
     setTargetDot,
     removeTargetDot,

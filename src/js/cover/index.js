@@ -1,5 +1,6 @@
 // 遮罩管理
 
+import { refreshCanvas } from '../canvas';
 import { isPlayingCartoon } from '../cartoon';
 import {
     startPath,
@@ -7,7 +8,10 @@ import {
     closePresentPath,
     pathStarted
 } from '../path';
-import { selectDot } from '../path/target';
+import {
+    getTargetDotByPosition,
+    setTargetDot
+} from '../path/target';
 import {
     preventDefaultStopPropagation,
     isEventUsed,
@@ -17,7 +21,46 @@ import { initDotSetting } from './dot-setting';
 import { getCoverElement } from './element';
 import { initMouseMove } from './mouse-move';
 
-let __onCoverLeftClickHandlerTimeoutId;
+const {
+    __setupClickHandler,
+    __execDblClickHandler
+} = (function () {
+    let position;
+    let target;
+    let timeoutId;
+
+    function execClickHandler () {
+        if (pathStarted())
+        {
+            addFollowDot(position);
+        } else if (target)
+        {
+            setTargetDot(target);
+            refreshCanvas();
+        }
+    }
+
+    return {
+        __setupClickHandler: function (e) {
+            clearTimeout(timeoutId);
+            position = getEventPosition(e);
+            target = getTargetDotByPosition(position);
+            const CLICK_TIMEOUT = 200;
+            timeoutId = setTimeout(execClickHandler, CLICK_TIMEOUT);
+        },
+        __execDblClickHandler: function () {
+            clearTimeout(timeoutId);
+            if (target)
+            {
+                setTargetDot(target);
+                refreshCanvas();
+            } else
+            {
+                startPath(position);
+            }
+        }
+    };
+}());
 
 function __onCoverClick (e) {
     if (isEventUsed(e) || isPlayingCartoon())
@@ -27,20 +70,7 @@ function __onCoverClick (e) {
     const isLeftBtnClick = e.button === 0;
     if (isLeftBtnClick)
     {
-        clearTimeout(__onCoverLeftClickHandlerTimeoutId);
-        const position = getEventPosition(e);
-        const CLICK_TIMEOUT = 200;
-        __onCoverLeftClickHandlerTimeoutId = setTimeout(() => __onCoverLeftClickHandler(position), CLICK_TIMEOUT);
-    }
-}
-
-function __onCoverLeftClickHandler (position) {
-    if (pathStarted())
-    {
-        addFollowDot(position);
-    } else
-    {
-        selectDot(position);
+        __setupClickHandler(e);
     }
 }
 
@@ -64,9 +94,7 @@ function __onCoverDblClick (e) {
     const isLeftBtnClick = e.button === 0;
     if (isLeftBtnClick)
     {
-        clearTimeout(__onCoverLeftClickHandlerTimeoutId);
-        const position = getEventPosition(e);
-        startPath(position);
+        __execDblClickHandler();
     }
 }
 
