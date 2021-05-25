@@ -107,8 +107,12 @@ class CanvasDrawHelper {
      * @param {{x: number, y: number}} position 
      */
     drawMouseMoveFirstDot (position) {
-        // TODO 效果优化
-        this.__drawCircle(position, 5);
+        const { __ctx } = this;
+        __ctx.save();
+        __ctx.globalAlpha = 0.6;
+        this.__drawDotFunc(position);
+        this.drawTargetDot(position);
+        __ctx.restore();
     }
     /**
      * 绘制选中的路径节点效果

@@ -33,7 +33,7 @@ const {
     addCoverMouseMoveListener,
     removeCoverMouseMoveListener
 } = (function () {
-    const throttledOnMouseMove = throttle(this, __onMouseMove);
+    const throttledOnMouseMove = throttle(this, __onMouseMove, 20);
     const coverElement = getCoverElement();
     return {
         addCoverMouseMoveListener: function () {
