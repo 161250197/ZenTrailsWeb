@@ -102,24 +102,39 @@ function drawTargetDot (drawHelper) {
 /**
  * 选择点
  * @param {{x: number, y: number}} position  
+ * @returns {?Dot}
  */
-function selectDot (position) {
+function getTargetDotByPosition (position) {
     let selectedDots = [];
     const pathArr = getPathArr();
     for (const path of pathArr)
     {
         selectedDots = selectedDots.concat(path.selectDot(position));
     }
+    let selectedDot = undefined;
     if (selectedDots.length)
     {
         // TODO 多个重叠点时的优先级处理
-        const selectedDot = selectedDots[0];
-        setTargetDot(selectedDot);
+        selectedDot = selectedDots[0];
     }
-    refreshCanvas();
+    return selectedDot;
+}
+
+/**
+ * 选择点
+ * @param {{x: number, y: number}} position  
+ */
+function selectDot (position) {
+    const target = getTargetDotByPosition(position);
+    if (target)
+    {
+        setTargetDot(target);
+        refreshCanvas();
+    }
 }
 
 export {
+    getTargetDotByPosition,
     selectDot,
     getTargetDot,
     setTargetDot,

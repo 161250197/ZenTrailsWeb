@@ -6,7 +6,10 @@ import {
     regularFirstDotPosition,
     regularFollowDotProperty
 } from '../path/data-format';
-import { getTargetDot } from '../path/target';
+import {
+    getTargetDotByPosition,
+    getTargetDot
+} from '../path/target';
 import {
     getEventPosition,
     isEventUsed,
@@ -24,13 +27,23 @@ function __onMouseMove (e) {
     const position = getEventPosition(e);
     if (pathStarted())
     {
+        // 增加后续节点特效提示
         const lastDot = getTargetDot();
         const followDotProperty = regularFollowDotProperty(position, lastDot);
         drawHelper.drawMouseMoveFollowDot(followDotProperty.position, lastDot);
     } else
     {
-        const regularPosition = regularFirstDotPosition(position);
-        drawHelper.drawMouseMoveFirstDot(regularPosition);
+        const target = getTargetDotByPosition(position);
+        if (target)
+        {
+            // 选择节点特效提示
+            drawHelper.drawMouseMoveSelectDot(target);
+        } else
+        {
+            // 开启路径特效提示
+            const regularPosition = regularFirstDotPosition(position);
+            drawHelper.drawMouseMoveFirstDot(regularPosition);
+        }
     }
 }
 

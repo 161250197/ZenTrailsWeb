@@ -97,6 +97,16 @@ class CanvasDrawHelper {
         __ctx.restore();
     }
     /**
+     * 绘制鼠标移动选择节点效果
+     * @param {{Dot}} dot 
+     */
+    drawMouseMoveSelectDot (dot) {
+        const { __ctx } = this;
+        __ctx.save();
+        this.drawTargetDot(dot, 0.4);
+        __ctx.restore();
+    }
+    /**
      * 绘制鼠标移动后续节点效果
      * @param {{x: number, y: number}} position 
      * @param {{Dot}} lastDot 
@@ -109,7 +119,7 @@ class CanvasDrawHelper {
         const dot = { ...position, color, opacity, lastDot };
         this.__drawLastDotToDotLine(dot);
         this.__drawDotFunc(dot);
-        this.drawTargetDot(dot);
+        this.drawTargetDot(dot, 0.4);
         __ctx.restore();
     }
     /**
@@ -123,18 +133,19 @@ class CanvasDrawHelper {
         const color = defaultColor;
         const dot = { ...position, color, opacity };
         this.__drawDotFunc(dot);
-        this.drawTargetDot(dot);
+        this.drawTargetDot(dot, 0.4);
         __ctx.restore();
     }
     /**
      * 绘制选中的路径节点效果
      * @param {Dot} dot 
+     * @param {?number} opacity 
      */
-    drawTargetDot (dot) {
+    drawTargetDot (dot, opacity) {
         const { __ctx } = this;
         __ctx.save();
         __ctx.lineWidth = 5;
-        __ctx.globalAlpha = 0.6;
+        __ctx.globalAlpha = opacity || 0.6;
         __ctx.strokeStyle = dot.color || defaultColor;
         this.__drawCircle(dot, dotRadius);
         __ctx.lineWidth = 1;
