@@ -71,11 +71,12 @@ function initDotSetting () {
     setElementEventUsed(settingWrapperElement);
 
     const colorSettingElement = __getColorSettingElement();
-    colorSettingElement.addEventListener('change', () => {
+    colorSettingElement.addEventListener('input', (event) => {
+        const color = event.target.value;
         const __targetDot = getTargetDot();
-        __targetDot.color = colorSettingElement.value;
+        __targetDot.color = color;
         refreshCanvas();
-    });
+    }, false);
 
     const directionSettingElement = __getDirectionSettingElement();
     directionSettingElement.addEventListener('click', () => {
