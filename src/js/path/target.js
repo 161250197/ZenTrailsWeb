@@ -95,7 +95,6 @@ function appendFollowDot (position) {
  * @param {CanvasDrawHelper} drawHelper 
  */
 function drawTargetDot (drawHelper) {
-    drawHelper.clearCanvas();
     const target = getTargetDot();
     if (target !== undefined)
     {

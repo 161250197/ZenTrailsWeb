@@ -13,8 +13,11 @@ import { initCanvasElement } from './element';
  * 刷新画布
  */
 function refreshCanvas () {
-    drawPaths(getDownCanvasDrawHelper());
-    drawTargetDot(getUpCanvasDrawHelper());
+    const upCanvasDrawHelper = getUpCanvasDrawHelper();
+    upCanvasDrawHelper.clearCanvas();
+    const downCanvasDrawHelper = getDownCanvasDrawHelper();
+    drawPaths(downCanvasDrawHelper);
+    drawTargetDot(downCanvasDrawHelper);
 }
 
 /**
