@@ -196,6 +196,18 @@ class CanvasDrawHelper {
 
         this.__ctx.clearRect(0, 0, maxSafeInteger, maxSafeInteger);
     }
+    /**
+     * 清空画布
+     */
+    drawWhiteShadow () {
+        const { __ctx } = this;
+        __ctx.save();
+        __ctx.fillStyle = 'white';
+        __ctx.globalAlpha = 0.01;
+        const maxSafeInteger = Number.MAX_SAFE_INTEGER;
+        __ctx.fillRect(0, 0, maxSafeInteger, maxSafeInteger);
+        __ctx.restore();
+    }
 }
 
 /**

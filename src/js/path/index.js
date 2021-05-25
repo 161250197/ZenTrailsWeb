@@ -65,6 +65,7 @@ function resetPaths () {
  * @param {CanvasDrawHelper} drawHelperDots 
  */
 function updateCartoonPath (drawHelperPath, drawHelperDots) {
+    drawHelperPath.drawWhiteShadow();
     __pathArr.forEach(path => {
         path.updateCartoonPath();
         path.drawCartoonPath(drawHelperPath);
