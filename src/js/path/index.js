@@ -2,7 +2,6 @@
 
 // eslint-disable-next-line no-unused-vars
 import { CanvasDrawHelper } from '../canvas/draw-helper';
-import { refreshCanvas } from '../canvas';
 import { Path } from './data-structure';
 import { initDataSaveUpload } from './data-save-upload';
 import {
@@ -23,7 +22,6 @@ function startPath (position) {
     const path = new Path(position);
     __pathArr.push(path);
     setTargetDot(path.firstDot);
-    refreshCanvas();
 }
 
 /**
@@ -47,7 +45,6 @@ function setPathArr (pathArr) {
  */
 function closePresentPath () {
     unsetTargetDot();
-    refreshCanvas();
 }
 
 /**
@@ -115,7 +112,6 @@ function pathStarted () {
  */
 function addFollowDot (position) {
     appendFollowDot(position);
-    refreshCanvas();
 }
 
 export {

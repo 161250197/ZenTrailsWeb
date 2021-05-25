@@ -113,7 +113,6 @@ function initDotSetting () {
     const removeBtnSettingElement = __getRemoveBtnSettingElement();
     removeBtnSettingElement.addEventListener('click', () => {
         removeTargetDot();
-        refreshCanvas();
     });
 }
 

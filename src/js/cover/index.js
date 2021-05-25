@@ -1,6 +1,5 @@
 // 遮罩管理
 
-import { refreshCanvas } from '../canvas';
 import { isPlayingCartoon } from '../cartoon';
 import {
     startPath,
@@ -36,7 +35,6 @@ const {
         } else if (target)
         {
             setTargetDot(target);
-            refreshCanvas();
         }
     }
 
@@ -53,7 +51,6 @@ const {
             if (target)
             {
                 setTargetDot(target);
-                refreshCanvas();
             } else
             {
                 startPath(position);

@@ -11,7 +11,6 @@ import {
     getPathArr,
     setPathArr
 } from '.';
-import { refreshCanvas } from '../canvas';
 import { Path } from './data-structure';
 import { unsetTargetDot } from './target';
 
@@ -122,9 +121,8 @@ const __dataUpload = (function () {
             }
             return __pathArr;
         }());
-        unsetTargetDot();
         setPathArr(pathArr);
-        refreshCanvas();
+        unsetTargetDot();
     };
     return function () {
         inputElement.click();

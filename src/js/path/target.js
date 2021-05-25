@@ -1,6 +1,7 @@
 // 选择目标管理
 
 import { getPathArr } from '.';
+import { refreshCanvas } from '../canvas';
 // eslint-disable-next-line no-unused-vars
 import { CanvasDrawHelper } from '../canvas/draw-helper';
 import {
@@ -44,6 +45,7 @@ function setTargetDot (target) {
         showFollowDotSetting(__target);
     }
     __target.isTarget = true;
+    refreshCanvas();
 }
 
 /**
@@ -75,6 +77,7 @@ function unsetTargetDot () {
     __target.isTarget = false;
     hideDotSetting();
     __target = undefined;
+    refreshCanvas();
 }
 
 /**
