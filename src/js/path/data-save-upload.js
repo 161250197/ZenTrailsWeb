@@ -245,41 +245,13 @@ function hideDataUploadBtnElement () {
     hideElement(__getDataUploadBtnElement());
 }
 
-const {
-    enableDataSave,
-    showDataSaveBtnElement
-} = (function () {
-    let dataSaveEnabled = false;
-    return {
-        enableDataSave: function () {
-            dataSaveEnabled = true;
-        },
-        showDataSaveBtnElement: function () {
-            if (dataSaveEnabled)
-            {
-                showElement(__getDataSaveBtnElement());
-            }
-        }
-    };
-}());
+function showDataSaveBtnElement () {
+    showElement(__getDataSaveBtnElement());
+}
 
-const {
-    enableDataUpload,
-    showDataUploadBtnElement
-} = (function () {
-    let dataUploadEnabled = false;
-    return {
-        enableDataUpload: function () {
-            dataUploadEnabled = true;
-        },
-        showDataUploadBtnElement: function () {
-            if (dataUploadEnabled)
-            {
-                showElement(__getDataUploadBtnElement());
-            }
-        }
-    };
-}());
+function showDataUploadBtnElement () {
+    showElement(__getDataUploadBtnElement());
+}
 
 /**
  * 初始化导出导入数据
@@ -295,8 +267,6 @@ function initDataSaveUpload () {
 }
 
 export {
-    enableDataSave,
-    enableDataUpload,
     hideDataSaveBtnElement,
     showDataSaveBtnElement,
     hideDataUploadBtnElement,

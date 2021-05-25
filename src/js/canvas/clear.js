@@ -25,23 +25,9 @@ function hideClearCanvasBtnElement () {
     hideElement(__getClearElement());
 }
 
-const {
-    enableClearCanvas,
-    showClearCanvasBtnElement
-} = (function () {
-    let dataSaveEnabled = false;
-    return {
-        enableClearCanvas: function () {
-            dataSaveEnabled = true;
-        },
-        showClearCanvasBtnElement: function () {
-            if (dataSaveEnabled)
-            {
-                showElement(__getClearElement());
-            }
-        }
-    };
-}());
+function showClearCanvasBtnElement () {
+    showElement(__getClearElement());
+}
 
 /**
  * 清空画布
@@ -65,6 +51,5 @@ function initClear () {
 export {
     initClear,
     hideClearCanvasBtnElement,
-    enableClearCanvas,
     showClearCanvasBtnElement
 };

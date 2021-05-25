@@ -45,26 +45,15 @@ function __onCoverClick (e) {
     }
 }
 
-const {
-    enableChooseDot,
-    __onCoverLeftClickHandler
-} = (function () {
-    let chooseDotEnabled = false;
-    return {
-        enableChooseDot: function () {
-            chooseDotEnabled = true;
-        },
-        __onCoverLeftClickHandler: function (position) {
-            if (pathStarted())
-            {
-                addFollowDot(position);
-            } else if (chooseDotEnabled)
-            {
-                selectDot(position);
-            }
-        }
-    };
-}());
+function __onCoverLeftClickHandler (position) {
+    if (pathStarted())
+    {
+        addFollowDot(position);
+    } else
+    {
+        selectDot(position);
+    }
+}
 
 function __onCoverAuxClick (e) {
     if (isEventUsed(e) || isPlayingCartoon())
@@ -93,13 +82,6 @@ function __onCoverDblClick (e) {
 }
 
 /**
- * 允许关闭当前路径
- */
-function enableClosePresentPath () {
-    getCoverElement().addEventListener('auxclick', __onCoverAuxClick);
-}
-
-/**
  * 初始化遮罩模块
  */
 function initCover () {
@@ -107,6 +89,7 @@ function initCover () {
     cover.addEventListener('contextmenu', preventDefaultStopPropagation);
     cover.addEventListener('click', __onCoverClick);
     cover.addEventListener('dblclick', __onCoverDblClick);
+    cover.addEventListener('auxclick', __onCoverAuxClick);
 
     initDotSetting();
     initMouseMove();
@@ -114,7 +97,5 @@ function initCover () {
 
 export {
     getCoverElement,
-    enableChooseDot,
-    enableClosePresentPath,
     initCover
 };

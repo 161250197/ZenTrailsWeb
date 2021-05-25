@@ -1,27 +1,17 @@
 // 引导信息
 
 import {
-    enableResetCartoon,
     showResetBtnElement,
     showStartBtnElement
 } from '../cartoon';
-import {
-    enableChooseDot,
-    enableClosePresentPath
-} from '../cover';
-import { enableShowDotSetting } from '../cover/dot-setting';
 import { addPrompt } from '.';
 import { emptyFunc } from '../util/base';
 import {
-    enableDataSave,
-    enableDataUpload,
     showDataSaveBtnElement,
     showDataUploadBtnElement
 } from '../path/data-save-upload';
-import {
-    enableClearCanvas,
-    showClearCanvasBtnElement
-} from '../canvas/clear';
+import { showClearCanvasBtnElement } from '../canvas/clear';
+import { showHelp } from './help';
 
 const __guidePromptArr = {
     loadingFin: '游戏加载完成！',
@@ -44,14 +34,16 @@ const __guidePromptArr = {
 
 const {
     __setGuideFin,
-    __isGuideFin
+    __isGuideFin,
+    __guideNotFin
 } = (function () {
     const guideFinKey = 'ZenTrailsWeb-guideFinKey';
     return {
         __setGuideFin: function () {
             localStorage.setItem(guideFinKey, true);
         },
-        __isGuideFin: () => !!localStorage.getItem(guideFinKey)
+        __isGuideFin: () => !!localStorage.getItem(guideFinKey),
+        __guideNotFin: () => !localStorage.getItem(guideFinKey)
     };
 }());
 
@@ -91,7 +83,6 @@ let setGuideAfterStartPath = function () {
  * 设置引导信息 增加新节点后
  */
 let setGuideAfterAddFollowDot = function () {
-    enableClosePresentPath();
     addPrompt(__guidePromptArr.closePresentPath);
     setGuideAfterAddFollowDot = emptyFunc;
 };
@@ -117,7 +108,6 @@ let setGuideAfterPlayCartoon = function () {
  * 设置引导信息 导出图片后
  */
 let setGuideAfterExportPicture = function () {
-    enableResetCartoon();
     showResetBtnElement();
     addPrompt(__guidePromptArr.resetCartoon);
     setGuideAfterExportPicture = emptyFunc;
@@ -127,7 +117,6 @@ let setGuideAfterExportPicture = function () {
  * 设置引导信息 重置动画后
  */
 let setGuideAfterResetPlayCartoon = function () {
-    enableChooseDot();
     addPrompt(__guidePromptArr.chooseDot);
     setGuideAfterResetPlayCartoon = emptyFunc;
 };
@@ -136,7 +125,6 @@ let setGuideAfterResetPlayCartoon = function () {
  * 设置引导信息 选择节点后
  */
 let setGuideAfterChooseDot = function () {
-    enableShowDotSetting();
     addPrompt(__guidePromptArr.addMoreFollowDotAndChangeDotSetting);
     setGuideAfterChooseDot = emptyFunc;
 };
@@ -145,7 +133,6 @@ let setGuideAfterChooseDot = function () {
  * 设置引导信息 修改节点信息后
  */
 let setGuideAfterChangeDotSetting = function () {
-    enableDataSave();
     showDataSaveBtnElement();
     addPrompt(__guidePromptArr.dataSave);
     setGuideAfterChangeDotSetting = emptyFunc;
@@ -155,7 +142,6 @@ let setGuideAfterChangeDotSetting = function () {
  * 设置引导信息 保存数据后
  */
 let setGuideAfterDataSave = function () {
-    enableDataUpload();
     showDataUploadBtnElement();
     addPrompt(__guidePromptArr.dataUpload);
     setGuideAfterDataSave = emptyFunc;
@@ -165,7 +151,6 @@ let setGuideAfterDataSave = function () {
  * 设置引导信息 导入数据后
  */
 let setGuideAfterDataUpload = function () {
-    enableClearCanvas();
     showClearCanvasBtnElement();
     addPrompt(__guidePromptArr.clearCanvas);
     setGuideAfterDataUpload = emptyFunc;
@@ -183,45 +168,17 @@ function __hidePrompt () {
     addPrompt(__guidePromptArr.emptyPrompt);
 }
 
-function __enableAllFeature () {
-    showStartBtnElement();
-    enableClosePresentPath();
-    enableShowDotSetting();
-    enableResetCartoon();
-    enableChooseDot();
-    enableDataSave();
-    enableDataUpload();
-    showDataSaveBtnElement();
-    showDataUploadBtnElement();
-    enableClearCanvas();
-    showClearCanvasBtnElement();
-}
-
-function __disableAllGuide () {
-    __setGuideAllFinished = emptyFunc;
-    setGuideLoadingFin = emptyFunc;
-    setGuideAfterStartPath = emptyFunc;
-    setGuideAfterAddFollowDot = emptyFunc;
-    setGuideAfterClosePresentPath = emptyFunc;
-    setGuideAfterPlayCartoon = emptyFunc;
-    setGuideAfterExportPicture = emptyFunc;
-    setGuideAfterResetPlayCartoon = emptyFunc;
-    setGuideAfterDataSave = emptyFunc;
-    setGuideAfterDataUpload = emptyFunc;
-    setGuideAfterChooseDot = emptyFunc;
-    setGuideAfterChangeDotSetting = emptyFunc;
-    setGuideAfterClearCanvas = emptyFunc;
-}
-
 /**
  * 初始化引导信息
  */
 function initGuide () {
-    if (__isGuideFin())
+    if (__guideNotFin())
     {
+        showHelp();
+    } else
+    {
+        addPrompt(__guidePromptArr.helpWanted);
         __hidePrompt();
-        __enableAllFeature();
-        __disableAllGuide();
     }
 }
 

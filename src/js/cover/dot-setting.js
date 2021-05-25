@@ -11,7 +11,6 @@ import {
     setElementEventUsed,
     hideElement,
     showElement,
-    emptyFunc,
     removeElementClass,
     addElementClass
 } from '../util/base';
@@ -107,8 +106,7 @@ function initDotSetting () {
 /**
  * 显示首个节点的设置弹窗
  */
-let showFirstDotSetting = emptyFunc;
-function showFirstDotSettingFunc () {
+function showFirstDotSetting () {
     hideElement(__getFollowDotSettingElement());
     showElement(__getFirstDotSettingElement());
     showElement(__getSettingWrapperElement());
@@ -127,8 +125,7 @@ function __updateDirectionSettingElement (targetDot) {
  * 显示后续节点的设置弹窗
  * @param {Dot} targetDot 
  */
-let showFollowDotSetting = emptyFunc;
-function showFollowDotSettingFunc (targetDot) {
+function showFollowDotSetting (targetDot) {
     __getColorSettingElement().value = targetDot.color;
     __updateDirectionSettingElement(targetDot);
     __getVelocitySettingElement().value = targetDot.angleVelocity;
@@ -144,18 +141,9 @@ function hideDotSetting () {
     hideElement(__getSettingWrapperElement());
 }
 
-/**
- * 启用显示节点设置弹窗
- */
-function enableShowDotSetting () {
-    showFollowDotSetting = showFollowDotSettingFunc;
-    showFirstDotSetting = showFirstDotSettingFunc;
-}
-
 export {
     initDotSetting,
     showFirstDotSetting,
     showFollowDotSetting,
-    hideDotSetting,
-    enableShowDotSetting
+    hideDotSetting
 };

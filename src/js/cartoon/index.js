@@ -67,24 +67,9 @@ let __getResetBtnElement = createSingletonFunc(
     func => __getResetBtnElement = func
 );
 
-const {
-    enableResetCartoon,
-    showResetBtnElement
-} = (function () {
-    let resetCartoonEnabled = false;
-    const resetBtnElement = __getResetBtnElement();
-    return {
-        enableResetCartoon: function () {
-            resetCartoonEnabled = true;
-        },
-        showResetBtnElement: function () {
-            if (resetCartoonEnabled)
-            {
-                showElement(resetBtnElement);
-            }
-        }
-    };
-}());
+function showResetBtnElement () {
+    showElement(__getResetBtnElement());
+}
 
 function __startCartoon () {
     hideDataSaveBtnElement();
@@ -163,7 +148,6 @@ function showStartBtnElement () {
 export {
     initCartoon,
     isPlayingCartoon,
-    enableResetCartoon,
     showResetBtnElement,
     showStartBtnElement
 };
