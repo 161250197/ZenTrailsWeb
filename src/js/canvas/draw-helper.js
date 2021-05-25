@@ -208,6 +208,20 @@ class CanvasDrawHelper {
         __ctx.fillRect(0, 0, maxSafeInteger, maxSafeInteger);
         __ctx.restore();
     }
+    /**
+     * 获取图像数据
+     * @returns {ImageData}
+     */
+    getImageData ({ width, height }) {
+        return this.__ctx.getImageData(0, 0, width, height);
+    }
+    /**
+     * 设置图像数据
+     * @param {ImageData} imageData 
+     */
+    putImageData (imageData) {
+        this.__ctx.putImageData(imageData, 0, 0);
+    }
 }
 
 /**

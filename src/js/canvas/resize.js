@@ -1,12 +1,18 @@
 // 缩放
 
 import { debounce } from '../util/base';
-import { updateCanvasSize } from './element';
-import { refreshCanvas } from '.';
+import {
+    getCanvasWrapperSize,
+    updateCanvasSize
+} from './element';
+import { getDownCanvasDrawHelper } from './draw-helper';
 
 const __onResize = function () {
+    const wrapperSize = getCanvasWrapperSize();
+    const drawHelper = getDownCanvasDrawHelper();
+    const imageData = drawHelper.getImageData(wrapperSize);
     updateCanvasSize();
-    refreshCanvas();
+    drawHelper.putImageData(imageData);
 };
 
 function initResize () {
