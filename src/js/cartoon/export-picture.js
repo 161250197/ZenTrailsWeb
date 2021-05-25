@@ -1,7 +1,6 @@
 // 导出图片
 
 import { getDownCanvasElement } from '../canvas/element';
-import { setGuideAfterExportPicture } from '../prompt/guide';
 import {
     createSingletonFunc,
     downloadFile,
@@ -35,7 +34,6 @@ function __exportPicture () {
     const downCanvas = getDownCanvasElement();
     const dataUrl = downCanvas.toDataURL('image/png');
     downloadFile('ZenTrailsWeb.png', dataUrl);
-    setGuideAfterExportPicture();
 }
 
 /**

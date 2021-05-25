@@ -8,7 +8,6 @@ import {
     showFirstDotSetting,
     showFollowDotSetting
 } from '../cover/dot-setting';
-import { setGuideAfterChooseDot } from '../prompt/guide';
 import {
     // eslint-disable-next-line no-unused-vars
     Dot,
@@ -112,8 +111,6 @@ function selectDot (position) {
     }
     if (selectedDots.length)
     {
-        setGuideAfterChooseDot();
-
         // TODO 多个重叠点时的优先级处理
         const selectedDot = selectedDots[0];
         setTargetDot(selectedDot);

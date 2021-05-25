@@ -4,11 +4,6 @@
 import { CanvasDrawHelper } from '../canvas/draw-helper';
 import { refreshCanvas } from '../canvas';
 import { Path } from './data-structure';
-import {
-    setGuideAfterAddFollowDot,
-    setGuideAfterClosePresentPath,
-    setGuideAfterStartPath
-} from '../prompt/guide';
 import { initDataSaveUpload } from './data-save-upload';
 import {
     appendFollowDot,
@@ -29,8 +24,6 @@ function startPath (position) {
     __pathArr.push(path);
     setTargetDot(path.firstDot);
     refreshCanvas();
-
-    setGuideAfterStartPath();
 }
 
 /**
@@ -55,8 +48,6 @@ function setPathArr (pathArr) {
 function closePresentPath () {
     unsetTargetDot();
     refreshCanvas();
-
-    setGuideAfterClosePresentPath();
 }
 
 /**
@@ -124,8 +115,6 @@ function pathStarted () {
 function addFollowDot (position) {
     appendFollowDot(position);
     refreshCanvas();
-
-    setGuideAfterAddFollowDot();
 }
 
 export {

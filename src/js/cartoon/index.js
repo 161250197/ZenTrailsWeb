@@ -18,10 +18,6 @@ import {
 } from '../util/base';
 import { refreshCanvas } from '../canvas';
 import {
-    setGuideAfterPlayCartoon,
-    setGuideAfterResetPlayCartoon
-} from '../prompt/guide';
-import {
     hideExportPictureElement,
     initExportPicture,
     showExportPictureElement
@@ -67,7 +63,7 @@ let __getResetBtnElement = createSingletonFunc(
     func => __getResetBtnElement = func
 );
 
-function showResetBtnElement () {
+function __showResetBtnElement () {
     showElement(__getResetBtnElement());
 }
 
@@ -86,9 +82,8 @@ function __startCartoon () {
     const drawHelperDots = getUpCanvasDrawHelper();
     __updateCartoonPathFunc = updateCartoonPath.bind(this, drawHelperPath, drawHelperDots);
 
-    setGuideAfterPlayCartoon();
     showExportPictureElement();
-    showResetBtnElement();
+    __showResetBtnElement();
 }
 
 function __resetCartoon () {
@@ -101,7 +96,6 @@ function __resetCartoon () {
     resetPaths();
     refreshCanvas();
 
-    setGuideAfterResetPlayCartoon();
     showDataSaveBtnElement();
     showDataUploadBtnElement();
     showElement(__getStartBtnElement());
@@ -138,16 +132,7 @@ function initCartoon () {
     initExportPicture();
 }
 
-/**
- * 显示开始播放动画节点
- */
-function showStartBtnElement () {
-    showElement(__getStartBtnElement());
-}
-
 export {
     initCartoon,
-    isPlayingCartoon,
-    showResetBtnElement,
-    showStartBtnElement
+    isPlayingCartoon
 };

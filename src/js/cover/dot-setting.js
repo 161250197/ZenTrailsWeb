@@ -5,7 +5,6 @@ import {
     getTargetDot,
     removeTargetDot
 } from '../path/target';
-import { setGuideAfterChangeDotSetting } from '../prompt/guide';
 import {
     createSingletonFunc,
     setElementEventUsed,
@@ -76,7 +75,6 @@ function initDotSetting () {
         const __targetDot = getTargetDot();
         __targetDot.color = colorSettingElement.value;
         refreshCanvas();
-        setGuideAfterChangeDotSetting();
     });
 
     const directionSettingElement = __getDirectionSettingElement();
@@ -85,20 +83,17 @@ function initDotSetting () {
         __targetDot.isAntiClockwise = !__targetDot.isAntiClockwise;
         __updateDirectionSettingElement(__targetDot);
         refreshCanvas();
-        setGuideAfterChangeDotSetting();
     });
 
     const velocitySettingElement = __getVelocitySettingElement();
     velocitySettingElement.addEventListener('input', () => {
         const __targetDot = getTargetDot();
         __targetDot.angleVelocity = velocitySettingElement.value;
-        setGuideAfterChangeDotSetting();
     });
 
     const removeBtnSettingElement = __getRemoveBtnSettingElement();
     removeBtnSettingElement.addEventListener('click', () => {
         removeTargetDot();
-        setGuideAfterChangeDotSetting();
         refreshCanvas();
     });
 }

@@ -8,10 +8,6 @@ import {
     downloadFile
 } from '../util/base';
 import {
-    setGuideAfterDataUpload,
-    setGuideAfterDataSave
-} from '../prompt/guide';
-import {
     getPathArr,
     setPathArr
 } from '.';
@@ -127,7 +123,6 @@ const __dataUpload = (function () {
         unsetTargetDot();
         setPathArr(pathArr);
         refreshCanvas();
-        setGuideAfterDataUpload();
     };
     return function () {
         inputElement.click();
@@ -220,7 +215,6 @@ function __dataSave () {
         ].join('\n');
     }());
     downloadFile('data.ZenTrailsWeb', __encodeDataStr(dataStr));
-    setGuideAfterDataSave();
 }
 
 function __decodeFileContent (content) {
@@ -245,10 +239,16 @@ function hideDataUploadBtnElement () {
     hideElement(__getDataUploadBtnElement());
 }
 
+/**
+ * 显示数据导出节点
+ */
 function showDataSaveBtnElement () {
     showElement(__getDataSaveBtnElement());
 }
 
+/**
+ * 显示数据导入节点
+ */
 function showDataUploadBtnElement () {
     showElement(__getDataUploadBtnElement());
 }

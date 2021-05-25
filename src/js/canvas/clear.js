@@ -2,7 +2,6 @@
 
 import { setPathArr } from '../path';
 import { unsetTargetDot } from '../path/target';
-import { setGuideAfterClearCanvas } from '../prompt/guide';
 import {
     createSingletonFunc,
     hideElement,
@@ -25,6 +24,9 @@ function hideClearCanvasBtnElement () {
     hideElement(__getClearElement());
 }
 
+/**
+ * 显示清空画布节点
+ */
 function showClearCanvasBtnElement () {
     showElement(__getClearElement());
 }
@@ -36,7 +38,6 @@ function __clearCanvas () {
     setPathArr([]);
     unsetTargetDot();
     clearAllCanvas();
-    setGuideAfterClearCanvas();
 }
 
 /**
