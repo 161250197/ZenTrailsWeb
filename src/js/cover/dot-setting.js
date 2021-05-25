@@ -29,6 +29,13 @@ let __getColorSettingElement = createSingletonFunc(
     func => __getColorSettingElement = func
 );
 
+let __getOpacitySettingElement = createSingletonFunc(
+    function () {
+        return document.querySelector('#setting-wrapper .opacity');
+    },
+    func => __getOpacitySettingElement = func
+);
+
 let __getDirectionSettingElement = createSingletonFunc(
     function () {
         return document.querySelector('#setting-wrapper .direction');
@@ -80,6 +87,14 @@ function initDotSetting () {
         refreshCanvas();
     }, false);
 
+    const opacitySettingElement = __getOpacitySettingElement();
+    opacitySettingElement.addEventListener('input', (event) => {
+        const opacity = event.target.value;
+        const __targetDot = getTargetDot();
+        __targetDot.opacity = opacity / 100;
+        refreshCanvas();
+    });
+
     const directionSettingElement = __getDirectionSettingElement();
     directionSettingElement.addEventListener('click', () => {
         const __targetDot = getTargetDot();
@@ -125,6 +140,7 @@ function __updateDirectionSettingElement (targetDot) {
  */
 function showFollowDotSetting (targetDot) {
     __getColorSettingElement().value = targetDot.color;
+    __getOpacitySettingElement().value = targetDot.opacity * 100;
     __updateDirectionSettingElement(targetDot);
     __getVelocitySettingElement().value = targetDot.angleVelocity;
     hideElement(__getFirstDotSettingElement());

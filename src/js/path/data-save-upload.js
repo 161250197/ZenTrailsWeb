@@ -83,16 +83,17 @@ const __dataUpload = (function () {
                 const idToFollowDataArr = followIdDotStr
                     .split(';')
                     .map(str => {
-                        const [id, xValue, yValue, angleVelocityValue, isAntiClockwiseValue, color] = str.split(' ');
+                        const [id, xValue, yValue, angleVelocityValue, isAntiClockwiseValue, color, opacityValue] = str.split(' ');
                         const x = Number(xValue);
                         const y = Number(yValue);
                         const angleVelocity = Number(angleVelocityValue);
                         const isAntiClockwise = !!isAntiClockwiseValue;
-                        return { id, x, y, angleVelocity, isAntiClockwise, color };
+                        const opacity = Number(opacityValue);
+                        return { id, x, y, angleVelocity, isAntiClockwise, color, opacity };
                     });
-                for (const { id, x, y, angleVelocity, isAntiClockwise, color } of idToFollowDataArr)
+                for (const { id, x, y, angleVelocity, isAntiClockwise, color, opacity } of idToFollowDataArr)
                 {
-                    map[id] = { x, y, angleVelocity, isAntiClockwise, color };
+                    map[id] = { x, y, angleVelocity, isAntiClockwise, color, opacity };
                 }
                 return map;
             }());
@@ -107,11 +108,12 @@ const __dataUpload = (function () {
                     {
                         for (const followId of followIds)
                         {
-                            const { x, y, angleVelocity, isAntiClockwise, color } = idToFollowDotDataMap[followId];
+                            const { x, y, angleVelocity, isAntiClockwise, color, opacity } = idToFollowDotDataMap[followId];
                             const followDot = dot.appendDot({ x, y });
                             followDot.angleVelocity = angleVelocity;
                             followDot.isAntiClockwise = isAntiClockwise;
                             followDot.color = color;
+                            followDot.opacity = opacity;
                             newIdDotArr.push({ id: followId, dot: followDot });
                         }
                     }
@@ -196,15 +198,27 @@ function __dataSave () {
             return getFirstIdDotArr()
                 .map(({ id, dot }) => {
                     const { x, y } = dot;
-                    return `${ id } ${ x } ${ y }`;
+                    return [
+                        id,
+                        x,
+                        y
+                    ].join(' ');
                 })
                 .join(';');
         }());
         const followIdDotStr = (function () {
             return getFollowIdDotArr()
                 .map(({ id, dot }) => {
-                    const { x, y, angleVelocity, isAntiClockwise, color } = dot;
-                    return `${ id } ${ x } ${ y } ${ angleVelocity } ${ isAntiClockwise ? '1' : '' } ${ color }`;
+                    const { x, y, angleVelocity, isAntiClockwise, color, opacity } = dot;
+                    return [
+                        id,
+                        x,
+                        y,
+                        angleVelocity,
+                        isAntiClockwise ? '1' : '',
+                        color,
+                        opacity
+                    ].join(' ');
                 })
                 .join(';');
         }());

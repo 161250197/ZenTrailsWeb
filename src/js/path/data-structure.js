@@ -141,6 +141,7 @@ class Dot {
         this.y = y;
         this.followDots = [];
         this.isTarget = false;
+        this.opacity = 1;
     }
     /**
      * 追加节点

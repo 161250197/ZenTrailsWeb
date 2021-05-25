@@ -35,8 +35,8 @@ class CanvasDrawHelper {
         const { __ctx } = this;
         __ctx.beginPath();
         __ctx.arc(x, y, radius, startRadian, endRadian, isAntiClockwise);
-        this.__ctx.stroke();
-        this.__ctx.closePath();
+        __ctx.stroke();
+        __ctx.closePath();
     }
     __createDotRadialGradient ({ x, y, color = defaultColor }) {
         const radius = dotRadius;
@@ -61,7 +61,8 @@ class CanvasDrawHelper {
         const { __ctx } = this;
         __ctx.save();
         __ctx.fillStyle = this.__createDotRadialGradient(dot);
-        const { x, y } = dot;
+        const { x, y, opacity } = dot;
+        __ctx.globalAlpha = opacity;
         __ctx.fillRect(x - dotRadius, y - dotRadius, 2 * dotRadius, 2 * dotRadius);
         __ctx.restore();
     }
@@ -103,9 +104,9 @@ class CanvasDrawHelper {
     drawMouseMoveFollowDot (position, lastDot) {
         const { __ctx } = this;
         __ctx.save();
-        __ctx.globalAlpha = 0.6;
+        const opacity = 0.6;
         const color = getLastColor();
-        const dot = { ...position, color, lastDot };
+        const dot = { ...position, color, opacity, lastDot };
         this.__drawLastDotToDotLine(dot);
         this.__drawDotFunc(dot);
         this.drawTargetDot(dot);
@@ -118,9 +119,9 @@ class CanvasDrawHelper {
     drawMouseMoveFirstDot (position) {
         const { __ctx } = this;
         __ctx.save();
-        __ctx.globalAlpha = 0.6;
+        const opacity = 0.6;
         const color = defaultColor;
-        const dot = { ...position, color };
+        const dot = { ...position, color, opacity };
         this.__drawDotFunc(dot);
         this.drawTargetDot(dot);
         __ctx.restore();
@@ -165,7 +166,9 @@ class CanvasDrawHelper {
     drawCartoonPath (dot, lastPosition) {
         const { __ctx } = this;
         __ctx.save();
-        __ctx.strokeStyle = dot.color;
+        const { color, opacity } = dot;
+        __ctx.strokeStyle = color;
+        __ctx.globalAlpha = opacity;
         this.__drawLine(dot, lastPosition);
         __ctx.restore();
     }
