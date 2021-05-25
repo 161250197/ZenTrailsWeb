@@ -10,12 +10,17 @@ import {
 import { getTargetDot } from '../path/target';
 import {
     getEventPosition,
+    isEventUsed,
     throttle
 } from '../util/base';
 
 function __onMouseMove (e) {
     const drawHelper = getUpCanvasDrawHelper();
     drawHelper.clearCanvas();
+    if (isEventUsed(e))
+    {
+        return;
+    }
     const position = getEventPosition(e);
     if (pathStarted())
     {

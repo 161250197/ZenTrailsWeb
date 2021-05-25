@@ -20,6 +20,7 @@ function setElementEventUsed (element) {
     element.addEventListener('click', setEventUsed);
     element.addEventListener('auxclick', setEventUsed);
     element.addEventListener('dblclick', setEventUsed);
+    element.addEventListener('mousemove', setEventUsed);
 }
 
 /**
