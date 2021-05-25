@@ -82,11 +82,11 @@ function unsetTargetDot () {
 }
 
 /**
- * @param {{x: number, y: number}} location 
+ * @param {{x: number, y: number}} position 
  */
-function appendFollowDot (location) {
+function appendFollowDot (position) {
     const target = getTargetDot();
-    const newTarget = target.appendDot(location);
+    const newTarget = target.appendDot(position);
     setTargetDot(newTarget);
 }
 

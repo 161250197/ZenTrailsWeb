@@ -22,10 +22,10 @@ let __pathArr = [];
 
 /**
  * 开启新路径
- * @param {{x: number, y: number}} location 
+ * @param {{x: number, y: number}} position 
  */
-function startPath (location) {
-    const path = new Path(location);
+function startPath (position) {
+    const path = new Path(position);
     __pathArr.push(path);
     setTargetDot(path.firstDot);
     refreshCanvas();
@@ -118,10 +118,10 @@ function pathStarted () {
 
 /**
  * 添加后续节点
- * @param {{x: number, y: number}} location 
+ * @param {{x: number, y: number}} position 
  */
-function addFollowDot (location) {
-    appendFollowDot(location);
+function addFollowDot (position) {
+    appendFollowDot(position);
     refreshCanvas();
 
     setGuideAfterAddFollowDot();

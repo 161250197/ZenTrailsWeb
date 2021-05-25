@@ -5,10 +5,9 @@ import { CanvasDrawHelper } from '../canvas/draw-helper';
 import { removePath } from '.';
 import {
     calPosition,
-    calPointDistance,
-    calPointLineAngle,
     isInCircle
 } from '../util/math';
+import { regularFollowDotProperty } from './data-format';
 
 const {
     dotRadius,
@@ -143,11 +142,12 @@ class Dot {
     }
     /**
      * 追加节点
-     * @param {{x: number, y: number}} location 
+     * @param {{x: number, y: number}} position 
      * @returns {FollowDot}
      */
-    appendDot (location) {
-        const __followDot = new FollowDot(location, this);
+    appendDot (position) {
+        const followDotProperty = regularFollowDotProperty(position, this);
+        const __followDot = new FollowDot(followDotProperty, this);
         this.followDots.push(__followDot);
         return __followDot;
     }
@@ -160,11 +160,6 @@ class Dot {
     }
 }
 
-function __roundPositionNumber (num) {
-    const grid = 10;
-    return Math.round(num / grid) * grid;
-}
-
 /** 首个节点数据结构 */
 class FirstDot extends Dot {
     /**
@@ -173,8 +168,6 @@ class FirstDot extends Dot {
      */
     constructor (position, path) {
         super(position);
-        this.x = __roundPositionNumber(this.x);
-        this.y = __roundPositionNumber(this.y);
         this.path = path;
     }
     /**
@@ -186,46 +179,21 @@ class FirstDot extends Dot {
     }
 }
 
-function __roundDistanceNumber (num) {
-    const grid = 10;
-    return Math.ceil(num / grid) * grid;
-}
-
-function __roundAngleNumber (num, radius) {
-    const radiusArr = [50, 100, 200];
-    const gridArr = [30, 20, 10, 5];
-    let index = 0;
-    while (index < radiusArr.length && radiusArr[index] < radius)
-    {
-        index++;
-    }
-    const grid = gridArr[index];
-    return Math.round(num / grid) * grid;
-}
-
 class FollowDot extends Dot {
     /**
-     * @param {{x: number, y: number}} position 
+     * @param {{position: {x: number, y: number}, radius: number, angle: number}} param0 
      * @param {Dot} lastDot 
      */
-    constructor (position, lastDot) {
+    constructor ({ position, radius, angle }, lastDot) {
         super(position);
-        const radius = calPointDistance(lastDot, position);
-        this.radius = __roundDistanceNumber(radius);
-        const angle = calPointLineAngle(lastDot, position);
-        this.angle = __roundAngleNumber(angle, radius);
+        this.radius = radius;
+        this.angle = angle;
         this.angleVelocity = 10;
         this.isAntiClockwise = false;
         this.color = defaultColor;
         this.lastDot = lastDot;
-        const { x, y } = this.__calDurationState(0);
-        this.x = x;
-        this.y = y;
-        this.__initialState = {
-            x,
-            y,
-            angle: this.angle
-        };
+        const { x, y } = position;
+        this.__initialState = { x, y, angle };
     }
     /**
      * 重置节点
