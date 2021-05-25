@@ -50,11 +50,20 @@ const {
     };
 }());
 
+function __addCoverMouseOutListener () {
+    const coverElement = getCoverElement();
+    const drawHelper = getUpCanvasDrawHelper();
+    coverElement.addEventListener('mouseout', function () {
+        drawHelper.clearCanvas();
+    });
+}
+
 /**
  * 初始化鼠标移动
  */
 function initMouseMove () {
     addCoverMouseMoveListener();
+    __addCoverMouseOutListener();
 }
 
 export {
