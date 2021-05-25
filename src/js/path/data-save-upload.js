@@ -17,6 +17,7 @@ import {
 } from '.';
 import { refreshCanvas } from '../canvas';
 import { Path } from './data-structure';
+import { unsetTargetDot } from './target';
 
 let __getDataUploadBtnElement = createSingletonFunc(
     function () {
@@ -123,6 +124,7 @@ const __dataUpload = (function () {
             }
             return __pathArr;
         }());
+        unsetTargetDot();
         setPathArr(pathArr);
         refreshCanvas();
         setGuideAfterDataUpload();
