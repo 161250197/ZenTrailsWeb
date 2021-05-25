@@ -104,9 +104,10 @@ function initDotSetting () {
     });
 
     const velocitySettingElement = __getVelocitySettingElement();
-    velocitySettingElement.addEventListener('input', () => {
+    velocitySettingElement.addEventListener('input', (event) => {
+        const angleVelocity = event.target.value;
         const __targetDot = getTargetDot();
-        __targetDot.angleVelocity = velocitySettingElement.value;
+        __targetDot.angleVelocity = angleVelocity;
     });
 
     const removeBtnSettingElement = __getRemoveBtnSettingElement();
