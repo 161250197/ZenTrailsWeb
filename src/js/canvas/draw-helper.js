@@ -63,7 +63,6 @@ class CanvasDrawHelper {
         const { x, y } = dot;
         __ctx.fillRect(x - dotRadius, y - dotRadius, 2 * dotRadius, 2 * dotRadius);
         __ctx.restore();
-        __ctx.restore();
     }
     __drawLastDotToDotLine (dot) {
         const { __ctx } = this;
