@@ -11,11 +11,9 @@ import {
     regularFirstDotPosition,
     regularFollowDotProperty
 } from './data-format';
+import { getLastColor } from '../canvas/color';
 
-const {
-    dotRadius,
-    defaultColor
-} = require('../config.json');
+const { dotRadius } = require('../config.json');
 
 /** 路径数据结构 */
 class Path {
@@ -194,7 +192,7 @@ class FollowDot extends Dot {
         this.angle = angle;
         this.angleVelocity = 10;
         this.isAntiClockwise = false;
-        this.color = defaultColor;
+        this.color = getLastColor();
         this.lastDot = lastDot;
         const { x, y } = position;
         this.__initialState = { x, y, angle };

@@ -1,6 +1,7 @@
 // 点的设置
 
 import { refreshCanvas } from '../canvas';
+import { setLastColor } from '../canvas/color';
 import {
     getTargetDot,
     removeTargetDot
@@ -75,6 +76,7 @@ function initDotSetting () {
         const color = event.target.value;
         const __targetDot = getTargetDot();
         __targetDot.color = color;
+        setLastColor(color);
         refreshCanvas();
     }, false);
 
