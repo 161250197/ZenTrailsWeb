@@ -54,6 +54,7 @@ function setPathArr (pathArr) {
  */
 function closePresentPath () {
     unsetTargetDot();
+    refreshCanvas();
 
     setGuideAfterClosePresentPath();
 }
