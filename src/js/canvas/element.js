@@ -2,7 +2,6 @@
 
 import {
     createSingletonFunc,
-    debounce,
     setElementStyle
 } from '../util/base';
 
@@ -48,7 +47,10 @@ function getCanvasWrapperSize () {
     };
 }
 
-function __updateCanvasSize () {
+/**
+ * 刷新画布尺寸
+ */
+function updateCanvasSize () {
     const { width, height } = getCanvasWrapperSize();
     [
         getDownCanvasElement(),
@@ -65,20 +67,15 @@ function __updateCanvasSize () {
     });
 }
 
-function addResizeEventListener () {
-    const debouncedOnResize = debounce(this, __updateCanvasSize);
-    window.addEventListener('resize', debouncedOnResize);
-}
-
 /**
  * 初始化画布管理
  */
 function initCanvasElement () {
-    setTimeout(__updateCanvasSize);
-    addResizeEventListener();
+    setTimeout(updateCanvasSize);
 }
 
 export {
+    updateCanvasSize,
     initCanvasElement,
     getDownCanvasElement,
     getUpCanvasElement,

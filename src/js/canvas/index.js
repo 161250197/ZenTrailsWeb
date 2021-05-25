@@ -8,6 +8,7 @@ import {
     getDownCanvasDrawHelper
 } from './draw-helper';
 import { initCanvasElement } from './element';
+import { initResize } from './resize';
 
 /**
  * 刷新画布
@@ -25,6 +26,7 @@ function refreshCanvas () {
 function initCanvas () {
     initCanvasElement();
     initClear();
+    initResize();
 }
 
 export {
