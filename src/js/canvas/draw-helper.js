@@ -96,6 +96,22 @@ class CanvasDrawHelper {
         __ctx.restore();
     }
     /**
+     * 绘制鼠标移动后续节点效果
+     * @param {{x: number, y: number}} position 
+     */
+    drawMouseMoveFollowDot (position) {
+        // TODO 效果优化
+        this.__drawCircle(position, 5);
+    }
+    /**
+     * 绘制鼠标移动首个节点效果
+     * @param {{x: number, y: number}} position 
+     */
+    drawMouseMoveFirstDot (position) {
+        // TODO 效果优化
+        this.__drawCircle(position, 5);
+    }
+    /**
      * 绘制选中的路径节点效果
      * @param {Dot} dot 
      */

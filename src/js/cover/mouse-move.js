@@ -1,11 +1,32 @@
 // 鼠标移动
 
 import { getCoverElement } from '.';
-import { throttle } from '../util/base';
+import { getUpCanvasDrawHelper } from '../canvas/draw-helper';
+import { pathStarted } from '../path';
+import {
+    regularFirstDotPosition,
+    regularFollowDotProperty
+} from '../path/data-format';
+import { getTargetDot } from '../path/target';
+import {
+    getEventPosition,
+    throttle
+} from '../util/base';
 
-function __onMouseMove () {
-    // TODO
-    console.log('__onMouseMove');
+function __onMouseMove (e) {
+    const drawHelper = getUpCanvasDrawHelper();
+    drawHelper.clearCanvas();
+    const position = getEventPosition(e);
+    if (pathStarted())
+    {
+        const lastDot = getTargetDot();
+        const followDotProperty = regularFollowDotProperty(position, lastDot);
+        drawHelper.drawMouseMoveFollowDot(followDotProperty.position);
+    } else
+    {
+        const regularPosition = regularFirstDotPosition(position);
+        drawHelper.drawMouseMoveFirstDot(regularPosition);
+    }
 }
 
 const {
