@@ -34,7 +34,6 @@ const __guidePromptArr = {
 
 const {
     __setGuideFin,
-    __isGuideFin,
     __guideNotFin
 } = (function () {
     const guideFinKey = 'ZenTrailsWeb-guideFinKey';
@@ -42,7 +41,6 @@ const {
         __setGuideFin: function () {
             localStorage.setItem(guideFinKey, true);
         },
-        __isGuideFin: () => !!localStorage.getItem(guideFinKey),
         __guideNotFin: () => !localStorage.getItem(guideFinKey)
     };
 }());
@@ -53,22 +51,6 @@ let __setGuideAllFinished = function () {
     __hidePrompt();
     __setGuideFin();
     __setGuideAllFinished = emptyFunc;
-};
-
-/**
- * 设置引导信息 加载完成
- */
-let setGuideLoadingFin = function () {
-    addPrompt(__guidePromptArr.loadingFin);
-    if (__isGuideFin())
-    {
-        addPrompt(__guidePromptArr.guideFin);
-        addPrompt(__guidePromptArr.helpWanted);
-    } else
-    {
-        addPrompt(__guidePromptArr.beginNewPath);
-    }
-    setGuideLoadingFin = emptyFunc;
 };
 
 /**
@@ -164,8 +146,18 @@ let setGuideAfterClearCanvas = function () {
     setGuideAfterClearCanvas = emptyFunc;
 };
 
+/**
+ * 设置引导信息 关闭帮助后
+ */
+let setGuideAfterCloseHelp = function () {
+    addPrompt('← 需要帮忙可以点击这里查看帮助信息');
+    __hidePrompt();
+    __setGuideFin();
+    setGuideAfterCloseHelp = emptyFunc;
+};
+
 function __hidePrompt () {
-    addPrompt(__guidePromptArr.emptyPrompt);
+    addPrompt('');
 }
 
 /**
@@ -177,14 +169,13 @@ function initGuide () {
         showHelp();
     } else
     {
-        addPrompt(__guidePromptArr.helpWanted);
-        __hidePrompt();
+        setGuideAfterCloseHelp();
     }
 }
 
 export {
     initGuide,
-    setGuideLoadingFin,
+    setGuideAfterCloseHelp,
     setGuideAfterStartPath,
     setGuideAfterAddFollowDot,
     setGuideAfterClosePresentPath,

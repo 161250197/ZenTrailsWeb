@@ -6,6 +6,7 @@ import {
     setElementEventUsed,
     showElement
 } from '../util/base';
+import { setGuideAfterCloseHelp } from './guide';
 
 const __createHelpPromtsUlElementStr = function () {
     const helpPrompts = [
@@ -83,6 +84,7 @@ let __getHelpUlElement = createSingletonFunc(
 
 function __hideHelp () {
     hideElement(__getHelpElement());
+    setGuideAfterCloseHelp();
 }
 
 /**

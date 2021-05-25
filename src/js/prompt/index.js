@@ -6,10 +6,7 @@ import {
     removeElementClass,
     setElementEventUsed
 } from '../util/base';
-import {
-    initGuide,
-    setGuideLoadingFin
-} from './guide';
+import { initGuide } from './guide';
 import {
     initHelp,
     showHelp
@@ -74,7 +71,6 @@ function initPrompt () {
     const promptIconWrapperElement = __getPromptIconWrapperElement();
     setElementEventUsed(promptIconWrapperElement);
     promptIconWrapperElement.addEventListener('click', showHelp);
-    setGuideLoadingFin();
     initHelp();
     initGuide();
 }
