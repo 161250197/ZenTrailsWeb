@@ -11,7 +11,8 @@ import { selectDot } from '../path/target';
 import {
     preventDefaultStopPropagation,
     isEventUsed,
-    createSingletonFunc
+    createSingletonFunc,
+    getEventPosition
 } from '../util/base';
 import { initDotSetting } from './dot-setting';
 import { initMouseMove } from './mouse-move';
@@ -27,14 +28,6 @@ let getCoverElement = createSingletonFunc(
     func => getCoverElement = func
 );
 
-function __getPosition (e) {
-    const { clientX, clientY } =
-        e.touches && e.touches[0] ?
-            e.touches[0] :
-            e;
-    return { x: clientX, y: clientY };
-}
-
 let __onCoverLeftClickHandlerTimeoutId;
 
 function __onCoverClick (e) {
@@ -46,7 +39,7 @@ function __onCoverClick (e) {
     if (isLeftBtnClick)
     {
         clearTimeout(__onCoverLeftClickHandlerTimeoutId);
-        const position = __getPosition(e);
+        const position = getEventPosition(e);
         const CLICK_TIMEOUT = 200;
         __onCoverLeftClickHandlerTimeoutId = setTimeout(() => __onCoverLeftClickHandler(position), CLICK_TIMEOUT);
     }
@@ -94,7 +87,7 @@ function __onCoverDblClick (e) {
     if (isLeftBtnClick)
     {
         clearTimeout(__onCoverLeftClickHandlerTimeoutId);
-        const position = __getPosition(e);
+        const position = getEventPosition(e);
         startPath(position);
     }
 }

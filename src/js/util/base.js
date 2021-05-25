@@ -163,7 +163,21 @@ function throttle (that, func, time) {
     };
 }
 
+/**
+ * 获取事件位置
+ * @param {MouseEvent|TouchEvent} e 
+ * @returns {{x: number, y: number}}
+ */
+function getEventPosition (e) {
+    const { clientX, clientY } =
+        e.touches && e.touches[0] ?
+            e.touches[0] :
+            e;
+    return { x: clientX, y: clientY };
+}
+
 export {
+    getEventPosition,
     debounce,
     throttle,
     downloadFile,
