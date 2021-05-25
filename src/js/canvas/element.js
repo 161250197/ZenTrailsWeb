@@ -1,4 +1,4 @@
-// 画布-节点
+// 画布节点
 
 import {
     createSingletonFunc,

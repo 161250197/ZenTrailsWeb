@@ -11,22 +11,11 @@ import { selectDot } from '../path/target';
 import {
     preventDefaultStopPropagation,
     isEventUsed,
-    createSingletonFunc,
     getEventPosition
 } from '../util/base';
 import { initDotSetting } from './dot-setting';
+import { getCoverElement } from './element';
 import { initMouseMove } from './mouse-move';
-
-/**
- * 获取遮罩节点
- * @returns {HTMLElement}
- */
-let getCoverElement = createSingletonFunc(
-    function () {
-        return document.getElementById('cover');
-    },
-    func => getCoverElement = func
-);
 
 let __onCoverLeftClickHandlerTimeoutId;
 
@@ -96,6 +85,5 @@ function initCover () {
 }
 
 export {
-    getCoverElement,
     initCover
 };

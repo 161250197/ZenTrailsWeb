@@ -1,6 +1,5 @@
 // 鼠标移动
 
-import { getCoverElement } from '.';
 import { getUpCanvasDrawHelper } from '../canvas/draw-helper';
 import { pathStarted } from '../path';
 import {
@@ -13,6 +12,7 @@ import {
     isEventUsed,
     throttle
 } from '../util/base';
+import { getCoverElement } from './element';
 
 function __onMouseMove (e) {
     const drawHelper = getUpCanvasDrawHelper();
