@@ -35,6 +35,10 @@ import {
     hideClearCanvasBtnElement,
     showClearCanvasBtnElement
 } from '../canvas/clear';
+import {
+    removeCoverMouseMoveListener,
+    addCoverMouseMoveListener
+} from '../cover/mouse-move';
 
 let __updateCartoonHandle;
 let __updateCartoonPathFunc;
@@ -86,6 +90,7 @@ function __startCartoon () {
     hideDataUploadBtnElement();
     hideElement(__getStartBtnElement());
     hideClearCanvasBtnElement();
+    removeCoverMouseMoveListener();
 
     closePresentPath();
     setIsPlayingCartoon(true);
@@ -104,6 +109,7 @@ function __startCartoon () {
 function __resetCartoon () {
     hideExportPictureElement();
     hideElement(__getResetBtnElement());
+    addCoverMouseMoveListener();
 
     setIsPlayingCartoon(false);
     cancelAnimationFrame(__updateCartoonHandle);
