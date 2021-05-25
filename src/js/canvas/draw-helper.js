@@ -177,16 +177,18 @@ class CanvasDrawHelper {
      * @param {{x: number, y: number}} dot 
      */
     startPath ({ x, y }) {
-        this.__ctx.beginPath();
-        this.__ctx.moveTo(x, y);
+        const { __ctx } = this;
+        __ctx.beginPath();
+        __ctx.moveTo(x, y);
     }
     /**
      * 连接新的路径点
      * @param {{x: number, y: number}} dot 
      */
     concatDot ({ x, y }) {
-        this.__ctx.lineTo(x, y);
-        this.__ctx.stroke();
+        const { __ctx } = this;
+        __ctx.lineTo(x, y);
+        __ctx.stroke();
     }
     /**
      * 结束路径
