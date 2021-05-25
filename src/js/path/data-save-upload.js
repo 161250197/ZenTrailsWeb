@@ -43,6 +43,7 @@ const __dataUpload = (function () {
         }
         const file = inputElement.files[0];
         reader.readAsText(file);
+        inputElement.value = null;
     });
 
     const reader = new FileReader();
