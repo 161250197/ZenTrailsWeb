@@ -4,6 +4,7 @@
 import { Dot, FirstDot, FollowDot } from '../path/data-structure';
 import { createSingletonFunc } from '../util/base';
 import { angleToRadian } from '../util/math';
+import { getLastColor } from './color';
 import {
     getDownCanvasElement,
     getUpCanvasElement
@@ -47,7 +48,7 @@ class CanvasDrawHelper {
         gradient.addColorStop(0.9, 'transparent');
         return gradient;
     }
-    __createDotLinearGradient ({ x, y, color = defaultColor, lastDot }) {
+    __createDotLinearGradient ({ x, y, color, lastDot }) {
         const lastColor = lastDot.color || defaultColor;
         const gradient = this.__ctx.createLinearGradient(lastDot.x, lastDot.y, x, y);
         gradient.addColorStop(0, lastColor);
@@ -103,7 +104,8 @@ class CanvasDrawHelper {
         const { __ctx } = this;
         __ctx.save();
         __ctx.globalAlpha = 0.6;
-        const dot = { ...position, lastDot };
+        const color = getLastColor();
+        const dot = { ...position, color, lastDot };
         this.__drawLastDotToDotLine(dot);
         this.__drawDotFunc(dot);
         this.drawTargetDot(dot);
@@ -117,7 +119,8 @@ class CanvasDrawHelper {
         const { __ctx } = this;
         __ctx.save();
         __ctx.globalAlpha = 0.6;
-        const dot = { ...position };
+        const color = defaultColor;
+        const dot = { ...position, color };
         this.__drawDotFunc(dot);
         this.drawTargetDot(dot);
         __ctx.restore();
@@ -131,7 +134,7 @@ class CanvasDrawHelper {
         __ctx.save();
         __ctx.lineWidth = 5;
         __ctx.globalAlpha = 0.6;
-        __ctx.strokeStyle = defaultColor;
+        __ctx.strokeStyle = dot.color || defaultColor;
         this.__drawCircle(dot, dotRadius);
         __ctx.lineWidth = 1;
         __ctx.strokeStyle = 'white';
