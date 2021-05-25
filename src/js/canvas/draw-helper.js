@@ -47,7 +47,7 @@ class CanvasDrawHelper {
         gradient.addColorStop(0.9, 'transparent');
         return gradient;
     }
-    __createDotLinearGradient ({ x, y, color, lastDot }) {
+    __createDotLinearGradient ({ x, y, color = defaultColor, lastDot }) {
         const lastColor = lastDot.color || defaultColor;
         const gradient = this.__ctx.createLinearGradient(lastDot.x, lastDot.y, x, y);
         gradient.addColorStop(0, lastColor);
@@ -97,10 +97,17 @@ class CanvasDrawHelper {
     /**
      * 绘制鼠标移动后续节点效果
      * @param {{x: number, y: number}} position 
+     * @param {{Dot}} lastDot 
      */
-    drawMouseMoveFollowDot (position) {
-        // TODO 效果优化
-        this.__drawCircle(position, 5);
+    drawMouseMoveFollowDot (position, lastDot) {
+        const { __ctx } = this;
+        __ctx.save();
+        __ctx.globalAlpha = 0.6;
+        const dot = { ...position, lastDot };
+        this.__drawLastDotToDotLine(dot);
+        this.__drawDotFunc(dot);
+        this.drawTargetDot(dot);
+        __ctx.restore();
     }
     /**
      * 绘制鼠标移动首个节点效果
@@ -110,8 +117,9 @@ class CanvasDrawHelper {
         const { __ctx } = this;
         __ctx.save();
         __ctx.globalAlpha = 0.6;
-        this.__drawDotFunc(position);
-        this.drawTargetDot(position);
+        const dot = { ...position };
+        this.__drawDotFunc(dot);
+        this.drawTargetDot(dot);
         __ctx.restore();
     }
     /**

@@ -26,7 +26,7 @@ function __onMouseMove (e) {
     {
         const lastDot = getTargetDot();
         const followDotProperty = regularFollowDotProperty(position, lastDot);
-        drawHelper.drawMouseMoveFollowDot(followDotProperty.position);
+        drawHelper.drawMouseMoveFollowDot(followDotProperty.position, lastDot);
     } else
     {
         const regularPosition = regularFirstDotPosition(position);
