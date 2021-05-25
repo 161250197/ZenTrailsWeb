@@ -193,7 +193,16 @@ let getDownCanvasDrawHelper = createSingletonFunc(
     func => getDownCanvasDrawHelper = func
 );
 
+/**
+ * 清空所有画布
+ */
+function clearAllCanvas () {
+    getUpCanvasDrawHelper().clearCanvas();
+    getDownCanvasDrawHelper().clearCanvas();
+}
+
 export {
+    clearAllCanvas,
     dotRadius,
     defaultColor,
     CanvasDrawHelper,

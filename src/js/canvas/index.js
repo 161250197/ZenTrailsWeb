@@ -4,8 +4,8 @@ import { drawPaths } from '../path';
 import { drawTargetDot } from '../path/target';
 import { initClear } from './clear';
 import {
-    getDownCanvasDrawHelper,
-    getUpCanvasDrawHelper
+    clearAllCanvas,
+    getDownCanvasDrawHelper
 } from './draw-helper';
 import { initCanvasElement } from './element';
 
@@ -13,11 +13,10 @@ import { initCanvasElement } from './element';
  * 刷新画布
  */
 function refreshCanvas () {
-    const upCanvasDrawHelper = getUpCanvasDrawHelper();
-    upCanvasDrawHelper.clearCanvas();
-    const downCanvasDrawHelper = getDownCanvasDrawHelper();
-    drawPaths(downCanvasDrawHelper);
-    drawTargetDot(downCanvasDrawHelper);
+    clearAllCanvas();
+    const drawHelper = getDownCanvasDrawHelper();
+    drawPaths(drawHelper);
+    drawTargetDot(drawHelper);
 }
 
 /**

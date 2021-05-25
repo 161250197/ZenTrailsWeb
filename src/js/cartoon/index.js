@@ -6,6 +6,7 @@ import {
     updateCartoonPath
 } from '../path';
 import {
+    clearAllCanvas,
     getDownCanvasDrawHelper,
     getUpCanvasDrawHelper
 } from '../canvas/draw-helper';
@@ -95,10 +96,9 @@ function __startCartoon () {
     closePresentPath();
     setIsPlayingCartoon(true);
     __setUpdateCartoonHandle();
+    clearAllCanvas();
     const drawHelperPath = getDownCanvasDrawHelper();
     const drawHelperDots = getUpCanvasDrawHelper();
-    drawHelperPath.clearCanvas();
-    drawHelperDots.clearCanvas();
     __updateCartoonPathFunc = updateCartoonPath.bind(this, drawHelperPath, drawHelperDots);
 
     setGuideAfterPlayCartoon();

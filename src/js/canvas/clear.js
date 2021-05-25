@@ -1,6 +1,5 @@
 // 清空画布
 
-import { refreshCanvas } from '.';
 import { setPathArr } from '../path';
 import { unsetTargetDot } from '../path/target';
 import { setGuideAfterClearCanvas } from '../prompt/guide';
@@ -10,6 +9,7 @@ import {
     setElementEventUsed,
     showElement
 } from '../util/base';
+import { clearAllCanvas } from './draw-helper';
 
 let __getClearElement = createSingletonFunc(
     function () {
@@ -49,7 +49,7 @@ const {
 function __clearCanvas () {
     setPathArr([]);
     unsetTargetDot();
-    refreshCanvas();
+    clearAllCanvas();
     setGuideAfterClearCanvas();
 }
 
