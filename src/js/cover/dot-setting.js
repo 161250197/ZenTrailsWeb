@@ -100,6 +100,7 @@ function initDotSetting () {
     removeBtnSettingElement.addEventListener('click', () => {
         removeTargetDot();
         setGuideAfterChangeDotSetting();
+        refreshCanvas();
     });
 }
 
