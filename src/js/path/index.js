@@ -85,6 +85,7 @@ function updateCartoonPath (drawHelperPath, drawHelperDots) {
  * @param {CanvasDrawHelper} drawHelper 
  */
 function drawPaths (drawHelper) {
+    drawHelper.clearCanvas();
     __pathArr.forEach(path => {
         path.drawPathDots(drawHelper);
     });
