@@ -15,6 +15,7 @@ const port = 9000;
 module.exports = {
     entry: './src/js/index.js',
     output: {
+        publicPath: '/ZenTrailsWeb/',
         filename: '[name].bundle.js',
         path: outputPath
     },
