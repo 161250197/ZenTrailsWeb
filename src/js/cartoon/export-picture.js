@@ -1,6 +1,6 @@
 // 导出图片
 
-import { getDownCanvasElement } from '../canvas/element';
+import { getExportCanvasElement } from '../canvas/element';
 import {
     createSingletonFunc,
     downloadFile,
@@ -31,8 +31,8 @@ function hideExportPictureElement () {
 }
 
 function __exportPicture () {
-    const downCanvas = getDownCanvasElement();
-    const dataUrl = downCanvas.toDataURL('image/png');
+    const canvas = getExportCanvasElement();
+    const dataUrl = canvas.toDataURL('image/png');
     downloadFile('ZenTrailsWeb.png', dataUrl);
 }
 

@@ -6,6 +6,7 @@ import { createSingletonFunc } from '../util/base';
 import { angleToRadian } from '../util/math';
 import { getLastColor } from './color';
 import {
+    getExportCanvasElement,
     getDownCanvasElement,
     getUpCanvasElement
 } from './element';
@@ -244,6 +245,17 @@ class CanvasDrawHelper {
 }
 
 /**
+ * 获取导出画布节点绘制工具
+ * @returns {CanvasDrawHelper}
+ */
+let getExportCanvasDrawHelper = createSingletonFunc(
+    function () {
+        return new CanvasDrawHelper(getExportCanvasElement());
+    },
+    func => getExportCanvasDrawHelper = func
+);
+
+/**
  * 获取上层画布节点绘制工具
  * @returns {CanvasDrawHelper}
  */
@@ -269,6 +281,7 @@ let getDownCanvasDrawHelper = createSingletonFunc(
  * 清空所有画布
  */
 function clearAllCanvas () {
+    getExportCanvasDrawHelper().clearCanvas();
     getUpCanvasDrawHelper().clearCanvas();
     getDownCanvasDrawHelper().clearCanvas();
 }
@@ -278,6 +291,7 @@ export {
     dotRadius,
     defaultColor,
     CanvasDrawHelper,
+    getExportCanvasDrawHelper,
     getUpCanvasDrawHelper,
     getDownCanvasDrawHelper
 };

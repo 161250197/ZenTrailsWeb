@@ -13,6 +13,17 @@ let __getCanvasWrapperElement = createSingletonFunc(
 );
 
 /**
+ * 获取导出画布节点
+ * @returns {HTMLCanvasElement}
+ */
+let getExportCanvasElement = createSingletonFunc(
+    function () {
+        return document.getElementById('export-canvas');
+    },
+    func => getExportCanvasElement = func
+);
+
+/**
  * 获取上层画布节点
  * @returns {HTMLCanvasElement}
  */
@@ -53,6 +64,7 @@ function getCanvasWrapperSize () {
 function updateCanvasSize () {
     const { width, height } = getCanvasWrapperSize();
     [
+        getExportCanvasElement(),
         getDownCanvasElement(),
         getUpCanvasElement()
     ].forEach(canvas => {
@@ -77,6 +89,7 @@ function initCanvasElement () {
 export {
     updateCanvasSize,
     initCanvasElement,
+    getExportCanvasElement,
     getDownCanvasElement,
     getUpCanvasElement,
     getCanvasWrapperSize

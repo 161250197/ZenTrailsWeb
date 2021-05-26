@@ -1,7 +1,10 @@
 // 路径管理
 
-// eslint-disable-next-line no-unused-vars
-import { CanvasDrawHelper } from '../canvas/draw-helper';
+import {
+    // eslint-disable-next-line no-unused-vars
+    CanvasDrawHelper,
+    getExportCanvasDrawHelper
+} from '../canvas/draw-helper';
 import { Path } from './data-structure';
 import { initDataSaveUpload } from './data-save-upload';
 import {
@@ -63,9 +66,12 @@ function resetPaths () {
  */
 function updateCartoonPath (drawHelperPath, drawHelperDots) {
     drawHelperPath.drawWhiteShadow();
+    const drawHelperExport = getExportCanvasDrawHelper();
     __pathArr.forEach(path => {
         path.updateCartoonPath();
         path.drawCartoonPath(drawHelperPath);
+        // 同样绘制一份用于导出
+        path.drawCartoonPath(drawHelperExport);
     });
     drawHelperDots.clearCanvas();
     drawPaths(drawHelperDots);
