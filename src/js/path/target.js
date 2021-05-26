@@ -72,6 +72,7 @@ function removeTargetDot () {
 function unsetTargetDot () {
     if (__target === undefined)
     {
+        refreshCanvas();
         return;
     }
     __target.isTarget = false;
