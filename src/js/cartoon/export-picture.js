@@ -1,6 +1,10 @@
 // 导出图片
 
-import { getExportCanvasElement } from '../canvas/element';
+import { getExportCanvasDrawHelper } from '../canvas/draw-helper';
+import {
+    getCanvasWrapperSize,
+    getExportCanvasElement
+} from '../canvas/element';
 import {
     createSingletonFunc,
     downloadFile,
@@ -31,9 +35,14 @@ function hideExportPictureElement () {
 }
 
 function __exportPicture () {
+    const wrapperSize = getCanvasWrapperSize();
+    const drawHelper = getExportCanvasDrawHelper();
+    const imageData = drawHelper.getImageData(wrapperSize);
+    drawHelper.drawWhiteShadow();
     const canvas = getExportCanvasElement();
     const dataUrl = canvas.toDataURL('image/png');
     downloadFile('ZenTrailsWeb.png', dataUrl);
+    drawHelper.putImageData(imageData);
 }
 
 /**
