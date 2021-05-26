@@ -37,7 +37,7 @@ function regularFollowDotProperty (position, lastDot) {
     }
     function __roundAngleNumber (num, radius) {
         const radiusArr = [50, 100, 200];
-        const gridArr = [30, 20, 10, 5];
+        const gridArr = [30, 15, 10, 5];
         let index = 0;
         while (index < radiusArr.length && radiusArr[index] < radius)
         {
