@@ -32,6 +32,7 @@ const __refreshPrompt = (function () {
     const promptContentElement = __getPromptContentElement();
     const transparentClassName = 'transparent';
     const transitionTime = 500;
+    const refreshTime = 1000;
     return () => {
         if (__prompts.length === 0)
         {
@@ -45,7 +46,7 @@ const __refreshPrompt = (function () {
                 __prompts.shift();
                 if (__prompts.length)
                 {
-                    setTimeout(__refreshPrompt, transitionTime * 2);
+                    setTimeout(__refreshPrompt, refreshTime);
                 }
             }, transitionTime);
         }, transitionTime);
