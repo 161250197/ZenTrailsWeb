@@ -15,7 +15,6 @@ const port = 9000;
 const config = {
     entry: './src/js/index.js',
     output: {
-        publicPath: '/ZenTrailsWeb/',
         filename: '[name].bundle.js',
         path: outputPath
     },
@@ -70,6 +69,10 @@ module.exports = (env, argv) => {
     if (argv.mode === 'development')
     {
         config.devtool = 'inline-source-map';
+    }
+    if (argv.mode === 'production')
+    {
+        config.output.publicPath = '/ZenTrailsWeb/';
     }
     return config;
 };
