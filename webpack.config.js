@@ -12,7 +12,7 @@ const outputPath = path.resolve(__dirname, 'dist');
 
 const port = 9000;
 
-module.exports = {
+const config = {
     entry: './src/js/index.js',
     output: {
         publicPath: '/ZenTrailsWeb/',
@@ -27,9 +27,9 @@ module.exports = {
         compress: true,
         port
     },
-    devtool: 'inline-source-map',
     optimization: {
         splitChunks: {
+            usedExports: true,
             chunks: 'all'
         },
         minimizer: [
@@ -64,4 +64,12 @@ module.exports = {
             }
         ]
     }
+};
+
+module.exports = (env, argv) => {
+    if (argv.mode === 'development')
+    {
+        config.devtool = 'inline-source-map';
+    }
+    return config;
 };
