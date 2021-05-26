@@ -40,7 +40,7 @@ function initGuide () {
         showHelp();
     } else
     {
-        setGuideAfterCloseHelp();
+        setTimeout(setGuideAfterCloseHelp);
     }
 }
 

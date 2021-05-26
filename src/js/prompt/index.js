@@ -66,6 +66,13 @@ function addPrompt (prompt) {
 }
 
 /**
+ * 设置引导信息 加载完成
+ */
+function setPromptLoadFin () {
+    addPrompt('加载完成');
+}
+
+/**
  * 初始化提示信息模块
  */
 function initPrompt () {
@@ -77,6 +84,7 @@ function initPrompt () {
 }
 
 export {
+    setPromptLoadFin,
     addPrompt,
     initPrompt
 };
